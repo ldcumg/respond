@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #171717;
+    --foreground: #ffffff;
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: "";
+  }
+}
+
+@layer components {}
+
+@layer utilities {}
