@@ -1,18 +1,25 @@
-import React from 'react'
-import SettingPrivacy from './components/SettingPrivacy'
-import { createClient } from '@/utils/supabase/server';
+import React from "react";
+import SettingPrivacy from "./components/SettingPrivacy";
+import { createClient } from "@/utils/supabase/server";
+import { Setting } from "@/types/setting";
 
 const page = async () => {
   const supabase = createClient();
-  const data = await supabase.from("setting").select();
+  const { data: setting, error: isSettingError } = await supabase
+    .from("setting")
+    .select()
+    .eq("user_id", "588a4dea-b95a-4836-b6bc-10dbafa4a81f");
 
-  console.log('data', data);
-  console.log('"asdfasdfasdf"', "asdfasdfasdf");
+  if (isSettingError) {
+    return <></>;
+  }
+
+  console.log("data", setting);
   return (
     <div>
-      <SettingPrivacy data={data}></SettingPrivacy>
+      <SettingPrivacy setting={setting}></SettingPrivacy>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
