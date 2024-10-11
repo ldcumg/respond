@@ -17,9 +17,9 @@ interface FormData {
 }
 
 const SignUp: React.FC = () => {
-    const router = useRouter();
-    
-    const [formData, setFormData] = useState<FormData>({
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     nickname: "",
     email: "",
@@ -28,8 +28,7 @@ const SignUp: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);  
-
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,63 +97,63 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-96 rounded-3xl bg-white p-8 border-4 border-black shadow-md">
+      <div className="w-96 rounded-3xl border-4 border-black bg-white p-8 shadow-md">
         <h2 className="mb-6 text-center text-2xl font-black tracking-wide">회원가입</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-    <div className="flex flex-col gap-4">
-    <input
-            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.name ? "border-red-500" : "border-gray-300"}`}
-            type="text"
-            name="name"
-            placeholder="이름을 입력해주세요."
-            value={formData.name}
-            onChange={handleChange}
-          />
-          {isSubmitted && errors.name && <p className="text-red-500">{errors.name}</p>}
+          <div className="flex flex-col gap-4">
+            <input
+              className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.name ? "border-red-500" : "border-gray-300"}`}
+              type="text"
+              name="name"
+              placeholder="이름을 입력해주세요."
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {isSubmitted && errors.name && <p className="text-red-500">{errors.name}</p>}
 
-          <input
-            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.nickname ? "border-red-500" : "border-gray-300"}`}
-            type="text"
-            name="nickname"
-            placeholder="닉네임을 입력해주세요."
-            value={formData.nickname}
-            onChange={handleChange}
-          />
-          {isSubmitted && errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
+            <input
+              className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.nickname ? "border-red-500" : "border-gray-300"}`}
+              type="text"
+              name="nickname"
+              placeholder="닉네임을 입력해주세요."
+              value={formData.nickname}
+              onChange={handleChange}
+            />
+            {isSubmitted && errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
 
-          <input
-            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.email ? "border-red-500" : "border-gray-300"}`}
-            type="email"
-            name="email"
-            placeholder="이메일을 입력해주세요."
-            value={formData.email}
-            onChange={handleChange}
-          />
-          {isSubmitted && errors.email && <p className="text-red-500">{errors.email}</p>}
+            <input
+              className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.email ? "border-red-500" : "border-gray-300"}`}
+              type="email"
+              name="email"
+              placeholder="이메일을 입력해주세요."
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {isSubmitted && errors.email && <p className="text-red-500">{errors.email}</p>}
 
-          <input
-            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.password ? "border-red-500" : "border-gray-300"}`}
-            type="password"
-            name="password"
-            placeholder="비밀번호는 8글자 이상 입력해주세요."
-            value={formData.password}
-            onChange={handleChange}
-          />
-          {isSubmitted && errors.password && <p className="text-red-500">{errors.password}</p>}
+            <input
+              className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.password ? "border-red-500" : "border-gray-300"}`}
+              type="password"
+              name="password"
+              placeholder="비밀번호는 8글자 이상 입력해주세요."
+              value={formData.password}
+              onChange={handleChange}
+            />
+            {isSubmitted && errors.password && <p className="text-red-500">{errors.password}</p>}
 
-          <input
-            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
-            type="password"
-            name="confirmPassword"
-            placeholder="비밀번호 확인"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-          {isSubmitted && errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
+            <input
+              className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
+              type="password"
+              name="confirmPassword"
+              placeholder="비밀번호 확인"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+            {isSubmitted && errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
 
-          <button type="submit" className="w-full rounded bg-black border-4 border-black p-2 text-white hover:invert">
-            회원가입
-          </button>
+            <button type="submit" className="w-full rounded border-4 border-black bg-black p-2 text-white hover:invert">
+              회원가입
+            </button>
           </div>
         </form>
       </div>
