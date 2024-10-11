@@ -4,21 +4,32 @@ import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useSettingPrivacy } from "../hooks/useSettingPrivacy";
+import { Setting } from "@/types/setting";
 
-const SettingPrivacy = ({ data }: any) => {
-  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled } = useSettingPrivacy();
+type Props = {
+  setting: Setting;
+};
 
-  console.log("data", data);
+const SettingPrivacy = ({ setting }: Props) => {
+  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, handlePatchPrivacy } =
+    useSettingPrivacy(setting);
+
+  console.log("privacySelected", privacySelected);
+  console.log("isButtonEnabled", isButtonEnabled);
 
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
       <div className="flex justify-between">
         <h2>공개 범위</h2>
-        {!isButtonEnabled && <button className="bg-red-400">저장</button>}
-        {isButtonEnabled && <button className="bg-slate-200">저장</button>}
+        {isButtonEnabled && (
+          <button className="bg-slate-200" onClick={() => handlePatchPrivacy(privacySelected)}>
+            저장
+          </button>
+        )}
+        {!isButtonEnabled && <button className="cursor-auto bg-red-400">저장</button>}
       </div>
 
-      <RadioGroup defaultValue={privacySelected} className="flex" onValueChange={handlePrivacySelectedChange}>
+      <RadioGroup defaultValue={setting.privacy_type} className="flex" onValueChange={handlePrivacySelectedChange}>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="public" id="public" />
           <Label htmlFor="public">모두</Label>
