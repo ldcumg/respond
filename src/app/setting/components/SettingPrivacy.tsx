@@ -18,6 +18,10 @@ const SettingPrivacy = ({data}:any) => {
       {!isButtonEnabled && <button className='bg-red-400'>저장</button>}
       {isButtonEnabled && <button className='bg-slate-200'>저장</button>}
 
+
+
+
+
       
     </div>
 
