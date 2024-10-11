@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.451.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",
@@ -52,6 +53,12 @@
     "typescript-eslint": "^8.8.1"
   },
   "dependenciesMeta": {
+    "eslint-plugin-prettier@5.2.1": {
+      "unplugged": true
+    },
+    "prettier@3.3.3": {
+      "unplugged": true
+    },
     "prettier-plugin-tailwindcss@0.6.8": {
       "unplugged": true
     }
