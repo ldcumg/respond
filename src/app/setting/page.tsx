@@ -20,21 +20,12 @@ const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 // }
 
 const page = () => {
-  const { data: setting, isPending: isSettingPending } = useQuery<Setting>({
+  const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(testUserId)
-    // initialData: {
-    //   id: 0,
-    //   user_id: "",
-    //   theme_name: "",
-    //   show_list: [],
-    //   tab_list: [],
-    //   privacy_type: "public",
-    //   created_at: new Date()
-    // }
   });
 
-  if (isSettingPending) {
+  if (!setting) {
     return <></>;
   }
 

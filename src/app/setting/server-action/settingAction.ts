@@ -10,8 +10,6 @@ const getSetting = async (userId: string) => {
     .eq("user_id", userId)
     .returns<Setting[]>();
 
-  console.log("getSetting => setting:", setting[0]);
-
   if (isSettingError) {
     throw new Error("setting 못가져옴");
   }

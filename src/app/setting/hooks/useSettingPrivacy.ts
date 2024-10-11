@@ -1,6 +1,8 @@
 import { PrivacyType, Setting } from "@/types/setting";
 import { useEffect, useState } from "react";
 import { patchPrivacy } from "../server-action/settingAction";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import queryKey from "@/queries/queryKey";
 
 const userId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
@@ -20,14 +22,5 @@ export const useSettingPrivacy = (setting: Setting) => {
     }
   }, [privacySelected]);
 
-  const handlePatchPrivacy = (privacyType: PrivacyType) => {
-    try {
-      patchPrivacy({ userId, privacyType });
-      handlePrivacySelectedChange(privacyType);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange, handlePatchPrivacy };
+  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange };
 };

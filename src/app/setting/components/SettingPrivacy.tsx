@@ -5,14 +5,17 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useSettingPrivacy } from "../hooks/useSettingPrivacy";
 import { Setting } from "@/types/setting";
+import { usePatchPrivacy } from "../hooks/settingMutates";
 
 type Props = {
   setting: Setting;
 };
 
+const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
+
 const SettingPrivacy = ({ setting }: Props) => {
-  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, handlePatchPrivacy } =
-    useSettingPrivacy(setting);
+  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled } = useSettingPrivacy(setting);
+  const mutatePatchPrivacy = usePatchPrivacy();
 
   console.log("privacySelected", privacySelected);
   console.log("isButtonEnabled", isButtonEnabled);
@@ -22,7 +25,9 @@ const SettingPrivacy = ({ setting }: Props) => {
       <div className="flex justify-between">
         <h2>공개 범위</h2>
         {isButtonEnabled && (
-          <button className="bg-slate-200" onClick={() => handlePatchPrivacy(privacySelected)}>
+          <button
+            className="bg-slate-200"
+            onClick={() => mutatePatchPrivacy({ userId: testUserId, privacyType: privacySelected })}>
             저장
           </button>
         )}

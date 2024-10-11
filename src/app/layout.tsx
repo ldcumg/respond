@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import Providers from "@/components/providers/RQProvider";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
