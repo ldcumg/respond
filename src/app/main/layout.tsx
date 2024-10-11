@@ -3,9 +3,7 @@ type Props = Readonly<{
 }>;
 
 const layout = ({ children }: Props) => {
-  return (
-    <>{children}</>
-  )
-}
+  return <>{children}</>;
+};
 
-export default layout
+export default layout;
