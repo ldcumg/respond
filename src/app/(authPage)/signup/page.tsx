@@ -1,6 +1,7 @@
 "use client";
 
-import { supabase } from "@/lib/supabaseClient";
+import browserClient from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const NAME_REGEX = /^[가-힣a-zA-Z]{2,20}$/;
@@ -16,7 +17,9 @@ interface FormData {
 }
 
 const SignUp: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+    const router = useRouter();
+    
+    const [formData, setFormData] = useState<FormData>({
     name: "",
     nickname: "",
     email: "",
@@ -25,7 +28,8 @@ const SignUp: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);  
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,7 +70,7 @@ const SignUp: React.FC = () => {
 
     if (validateForm()) {
       try {
-        const { error } = await supabase.auth.signUp({
+        const { error } = await browserClient.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
@@ -83,8 +87,9 @@ const SignUp: React.FC = () => {
           return;
         }
 
-        alert("회원가입 완료! 메인 페이지로 이동합니다.");
+        alert("회원가입 완료! 로그인 페이지로 이동합니다.");
         setFormData({ name: "", nickname: "", email: "", password: "", confirmPassword: "" });
+        router.push("/login");
       } catch (error) {
         console.error("회원가입 오류:", error);
       }
@@ -93,11 +98,12 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-96 rounded-lg bg-white p-8 shadow-md">
-        <h2 className="mb-6 text-center text-2xl">회원가입</h2>
+      <div className="w-96 rounded-3xl bg-white p-8 border-4 border-black shadow-md">
+        <h2 className="mb-6 text-center text-2xl font-black tracking-wide">회원가입</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            className={`w-full rounded border p-2 ${isSubmitted && errors.name ? "border-red-500" : "border-gray-300"}`}
+    <div className="flex flex-col gap-4">
+    <input
+            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.name ? "border-red-500" : "border-gray-300"}`}
             type="text"
             name="name"
             placeholder="이름을 입력해주세요."
@@ -107,7 +113,7 @@ const SignUp: React.FC = () => {
           {isSubmitted && errors.name && <p className="text-red-500">{errors.name}</p>}
 
           <input
-            className={`w-full rounded border p-2 ${isSubmitted && errors.nickname ? "border-red-500" : "border-gray-300"}`}
+            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.nickname ? "border-red-500" : "border-gray-300"}`}
             type="text"
             name="nickname"
             placeholder="닉네임을 입력해주세요."
@@ -117,7 +123,7 @@ const SignUp: React.FC = () => {
           {isSubmitted && errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
 
           <input
-            className={`w-full rounded border p-2 ${isSubmitted && errors.email ? "border-red-500" : "border-gray-300"}`}
+            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.email ? "border-red-500" : "border-gray-300"}`}
             type="email"
             name="email"
             placeholder="이메일을 입력해주세요."
@@ -127,7 +133,7 @@ const SignUp: React.FC = () => {
           {isSubmitted && errors.email && <p className="text-red-500">{errors.email}</p>}
 
           <input
-            className={`w-full rounded border p-2 ${isSubmitted && errors.password ? "border-red-500" : "border-gray-300"}`}
+            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.password ? "border-red-500" : "border-gray-300"}`}
             type="password"
             name="password"
             placeholder="비밀번호는 8글자 이상 입력해주세요."
@@ -137,7 +143,7 @@ const SignUp: React.FC = () => {
           {isSubmitted && errors.password && <p className="text-red-500">{errors.password}</p>}
 
           <input
-            className={`w-full rounded border p-2 ${isSubmitted && errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
+            className={`w-full rounded border p-2 hover:bg-slate-50 ${isSubmitted && errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
             type="password"
             name="confirmPassword"
             placeholder="비밀번호 확인"
@@ -146,9 +152,10 @@ const SignUp: React.FC = () => {
           />
           {isSubmitted && errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
 
-          <button type="submit" className="w-full rounded bg-blue-500 p-2 text-white hover:bg-blue-600">
+          <button type="submit" className="w-full rounded bg-black border-4 border-black p-2 text-white hover:invert">
             회원가입
           </button>
+          </div>
         </form>
       </div>
     </div>
