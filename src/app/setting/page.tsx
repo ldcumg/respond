@@ -1,10 +1,16 @@
 import React from 'react'
-import SettingTabList from './components/SettingTabList'
+import SettingPrivacy from './components/SettingPrivacy'
+import { createClient } from '@/utils/supabase/server';
 
-const page = () => {
+const page = async () => {
+  const supabase = createClient();
+  const data = await supabase.from("setting").select();
+
+  console.log('data', data);
+  console.log('"asdfasdfasdf"', "asdfasdfasdf");
   return (
     <div>
-      <SettingTabList></SettingTabList>
+      <SettingPrivacy data={data}></SettingPrivacy>
     </div>
   )
 }
