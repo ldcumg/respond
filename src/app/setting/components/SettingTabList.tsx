@@ -1,13 +1,7 @@
-import React from 'react'
-
+import React from "react";
 
 const SettingTabList = () => {
-  
-  return (
-    <>ㅇ</>
+  return <>ㅇ</>;
+};
 
-
-  )
-}
-
-export default SettingTabList
+export default SettingTabList;

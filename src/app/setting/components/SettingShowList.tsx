@@ -1,10 +1,7 @@
-import React from 'react'
-
+import React from "react";
 
 const SettingShowList = () => {
-  return (
-<></>
-  )
-}
+  return <></>;
+};
 
-export default SettingShowList
+export default SettingShowList;
