@@ -1,5 +1,6 @@
 "use client";
 
+import PlaylistAll from "@/components/playlist/PlaylistAll";
 import React, { useEffect, useState } from "react";
 
 
@@ -56,7 +57,7 @@ const Playlist = () => {
 
 
   return (
-    <div>page</div>
+    <div><PlaylistAll/></div>
   )
 }
 
