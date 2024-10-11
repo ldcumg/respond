@@ -3,62 +3,60 @@
 import PlaylistAll from "@/components/playlist/PlaylistAll";
 import React, { useEffect, useState } from "react";
 
-
 const Playlist = () => {
-    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-    const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+  const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+  const [playList, setPlayList] = useState([]);
 
-    useEffect(()=>{
-        const fetchSpotifyData = async () => {
-            try {
-                const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                      grant_type: 'client_credentials',
-                      client_id: clientId,
-                      client_secret: clientSecret,
-                    }),
-                  });
+  useEffect(() => {
+    const fetchSpotifyData = async () => {
+      try {
+        const tokenRes = await fetch("https://accounts.spotify.com/api/token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: new URLSearchParams({
+            grant_type: "client_credentials",
+            client_id: clientId,
+            client_secret: clientSecret
+          })
+        });
 
-                if(!tokenRes.ok){
-                    throw new Error("토큰 가져오기 실패");
-                }
-        
-                const { access_token } = await tokenRes.json(); // 토큰 추출해서access_token 변수애 저장
-        
-                // Spotify API에 데이터 요청
-                const spotifyRes = await fetch('https://api.spotify.com/v1/playlists/37i9dQZEVXbJZGli0rRP3r', {
-                    headers: { 
-                      Authorization: `Bearer ${access_token}`, 
-                    },
-                  });
-        
-                  if (spotifyRes.ok) {
-                    console.log('스포티파이 데이터 패치 성공')
-                  }
-                  if (!spotifyRes.ok) {
-                    throw new Error('스포티파이 데이터 패치 실패');
-                  }
-        
-                  const data = await spotifyRes.json();
-                  console.log('data', data)
-                  return data;
-       
-            } catch (error) {
-                 throw error; 
-            }
+        if (!tokenRes.ok) {
+          throw new Error("토큰 가져오기 실패");
         }
-        fetchSpotifyData()
-        
-    },[clientId, clientSecret])
 
+        const { access_token } = await tokenRes.json(); // 토큰 추출해서access_token 변수애 저장
+
+        // Spotify API에 데이터 요청
+        const spotifyRes = await fetch("https://api.spotify.com/v1/playlists/37i9dQZEVXbJZGli0rRP3r", {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        });
+
+        if (!spotifyRes.ok) {
+          throw new Error("스포티파이 데이터 패치 실패");
+        }
+
+        const data = await spotifyRes.json();
+        // console.log("data", data);
+        // console.log("data.tracks.items", data.tracks.items);
+        setPlayList(data.tracks.items);
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    };
+    fetchSpotifyData();
+  }, [clientId, clientSecret]);
 
   return (
-    <div><PlaylistAll/></div>
-  )
-}
+    <div>
+      <PlaylistAll playlist={playList} />
+    </div>
+  );
+};
 
-export default Playlist
+export default Playlist;
