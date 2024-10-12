@@ -10,10 +10,12 @@ export const useSettingPrivacy = (setting: Setting) => {
   const [privacySelected, setPrivacySelected] = useState<PrivacyType>(setting.privacy_type);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
+  /** radio 버튼 클릭 핸들러 함수 */
   const handlePrivacySelectedChange = (value: PrivacyType): void => {
     setPrivacySelected(value);
   };
 
+  /** 기존 설정값과 같을 경우 저장 버튼 비활성화 */
   useEffect(() => {
     if (privacySelected === setting.privacy_type) {
       setIsButtonEnabled(false);
@@ -22,6 +24,7 @@ export const useSettingPrivacy = (setting: Setting) => {
     }
   }, [privacySelected]);
 
+  /** 저장 버튼 클릭 시 DB 업데이트  */
   const handlePatchPrivacy = () => {
     const queryClient = useQueryClient();
     const { mutate } = useMutation({

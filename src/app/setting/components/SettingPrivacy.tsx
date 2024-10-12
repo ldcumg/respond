@@ -5,7 +5,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useSettingPrivacy } from "../hooks/useSettingPrivacy";
 import { Setting } from "@/types/setting";
-import { usePatchPrivacy } from "../hooks/settingMutates";
 
 type Props = {
   setting: Setting;
@@ -16,11 +15,7 @@ const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 const SettingPrivacy = ({ setting }: Props) => {
   const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, handlePatchPrivacy } =
     useSettingPrivacy(setting);
-  // TODO: Mutate 되면 버튼 조건도 바뀌어야함 -> isButtonEnabled
   const mutatePatchPrivacy = handlePatchPrivacy();
-
-  console.log("privacySelected", privacySelected);
-  console.log("isButtonEnabled", isButtonEnabled);
 
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
@@ -29,7 +24,6 @@ const SettingPrivacy = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            // onClick={() => mutatePatchPrivacy({ userId: testUserId, privacyType: privacySelected })}>
             onClick={() => mutatePatchPrivacy({ userId: testUserId, privacyType: privacySelected })}>
             저장
           </button>

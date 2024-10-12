@@ -6,6 +6,7 @@ import { getSetting } from "./server-action/settingAction";
 import { useQuery } from "@tanstack/react-query";
 import { Setting } from "@/types/setting";
 import queryKey from "@/queries/queryKey";
+import SettingShowList from "./components/SettingShowList";
 
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
@@ -32,6 +33,7 @@ const page = () => {
   return (
     <div>
       <SettingPrivacy setting={setting}></SettingPrivacy>
+      <SettingShowList setting={setting}></SettingShowList>
     </div>
   );
 };
