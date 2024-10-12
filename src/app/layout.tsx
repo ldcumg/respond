@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 type Props = Readonly<{
   children: React.ReactNode;
 }>;
+
 const RootLayout = ({ children }: Props) => {
   return (
     <html lang="ko">
