@@ -22,5 +22,20 @@ export const useSettingPrivacy = (setting: Setting) => {
     }
   }, [privacySelected]);
 
-  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange };
+  const handlePatchPrivacy = () => {
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+      mutationFn: patchPrivacy,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: queryKey.setting.setting });
+      },
+      onMutate: () => {
+        setIsButtonEnabled(false);
+      }
+    });
+
+    return mutate;
+  };
+
+  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange, handlePatchPrivacy };
 };
