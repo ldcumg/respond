@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import GlobalsUserInfo from "@/components/globalslayout/GlobalsUserInfo";
+import GlobalsNav from "@/components/globalslayout/GlobalsNav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,7 +14,17 @@ type Props = Readonly<{
 const RootLayout = ({ children }: Props) => {
   return (
     <html lang="ko">
-      <body> {children}</body>
+      <body>
+        <div className="flex gap-[20px] max-w-[1920px] w-[90%] mx-auto py-[100px] h-[100vh]">
+          <aside className="borderline w-[20%]">
+            <GlobalsUserInfo />
+          </aside>
+          <section className="flex w-[80%]">
+            <main className="borderline w-[90%] overflow-hidden">{children}</main>
+            <GlobalsNav/>
+          </section>
+        </div>
+      </body>
     </html>
   );
 };
