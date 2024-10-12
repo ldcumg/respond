@@ -5,16 +5,16 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 
 // 분리?
-const zodSchema = z
+const postSchema = z
   .object({
-    content: z.string({ message: "내용을 입력해주세요." }).min(1, { message: "공백" })
+    content: z.string({ message: "입력" }).min(1, { message: "내용을 입력해주세요." })
   })
-  .refine((val) => val.content.trim().length > 0);
+  .refine(({ content }) => content.trim().length > 0);
 
 const TempPage = () => {
   const { register, handleSubmit, formState } = useForm({
     mode: "onSubmit",
-    resolver: zodResolver(zodSchema)
+    resolver: zodResolver(postSchema)
   });
   const validateError = formState.errors.content;
 
