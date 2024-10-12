@@ -7,6 +7,7 @@ const Playlist = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [playList, setPlayList] = useState([]);
+  const [isShowModal, setIsShowModal] = useState(false); //디폴트 안보이게
 
   useEffect(() => {
     const fetchSpotifyData = async () => {
@@ -52,9 +53,32 @@ const Playlist = () => {
     fetchSpotifyData();
   }, [clientId, clientSecret]);
 
+  /** 노래추가리스트 팝업창 이벤트 */
+  const handleShowModal = () => {
+    setIsShowModal(true);
+  };
+
   return (
-    <div>
-      <PlaylistAll playlist={playList} />
+    <div className="relative h-full w-full">
+      <div className="item-center flex justify-between">
+        <h1 className="pageTitle">플레이리스트</h1>
+        <button
+          onClick={handleShowModal}
+          className={`duration-3000 h-[50px] w-[50px] transform rounded-full border-[4px] border-black text-[30px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff] ${isShowModal ? "rotate-45 bg-[#000] text-[#fff]" : "rotate-0 bg-[#fff] text-[#000]"}`}>
+          +
+        </button>
+      </div>
+      {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} />}
+      {/* 임시 */}
+      <div className="grid grid-cols-3 gap-4">
+        {playList.map((list) => (
+          <div key={list.track.id}>
+            <img src={list.track.album.images[0].url} alt={list.track.name} className="border-[4px] border-black" />
+            <div>{list.track.name}</div>
+            <div>{list.track.artists[0].name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

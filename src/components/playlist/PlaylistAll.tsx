@@ -13,11 +13,12 @@ const browserClient = createClient(supabaseUrl, supabaseKey);
 type SpotifyListProps = {
   track: SpotifyTrack;
 };
-type SpotifyList = {
+type PlaylistAllProps = {
   playlist: SpotifyListProps[];
+  setIsShowModal: (value: boolean) => void;
 };
 
-const PlaylistAll = ({ playlist }: SpotifyList) => {
+const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
   // console.log("playlist", playlist);
   const [search, setSearch] = useState<string>("");
   // console.log("search", search);
@@ -39,8 +40,14 @@ const PlaylistAll = ({ playlist }: SpotifyList) => {
   //검색어 따른 필터링리스트
   const filterPlaylist = playlist.filter((list) => list.track.name.toLowerCase().includes(search.toLowerCase()));
 
+  //팝업창 닫기이벤트
+  const handleCloseModal = () => setIsShowModal(false);
+
   return (
-    <div className="borderline flex h-[600px] w-full max-w-[500px] flex-col gap-[5px] overflow-scroll">
+    <div className="borderline absolute left-1/2 top-1/2 flex h-[600px] w-full max-w-[500px] -translate-x-1/2 -translate-y-1/2 flex-col gap-[5px] overflow-scroll">
+      <button onClick={handleCloseModal} className="absolute right-[15px] top-[10px]">
+        닫기
+      </button>
       <PlaylistSearch setSearch={setSearch} />
       <div className="flex flex-col gap-[10px] border-[1px] border-[#DBDBDB] bg-[#FAFAFA] p-[20px]">
         {filterPlaylist.length === 0 ? (
