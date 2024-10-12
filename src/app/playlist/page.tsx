@@ -2,12 +2,14 @@
 
 import PlaylistAll from "@/components/playlist/PlaylistAll";
 import React, { useEffect, useState } from "react";
+import browserClient from "@/utils/supabase/client";
 
 const Playlist = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [playList, setPlayList] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false); //디폴트 안보이게
+  const [myPlayList,setMyPlayList] = useState([])
 
   useEffect(() => {
     const fetchSpotifyData = async () => {
@@ -53,14 +55,28 @@ const Playlist = () => {
     fetchSpotifyData();
   }, [clientId, clientSecret]);
 
+  useEffect(()=>{
+    const fetchPlayList = async () =>{
+      const { data: loginUserId } = await browserClient.auth.getUser();
+      const userId = loginUserId.user.id;
+      const { data:play,error} = await browserClient.from('playlist').select('*').eq('user_id', userId);
+      if(error) console.error('playlist 가져오기 오류:', error.message)
+      else{
+        console.log('playlist 데이터:', play);
+        setMyPlayList(play);
+      }
+    };
+    fetchPlayList();
+  },[clientId, clientSecret])
+
   /** 노래추가리스트 팝업창 이벤트 */
   const handleShowModal = () => {
     setIsShowModal(true);
   };
 
   return (
-    <div className="relative h-full w-full">
-      <div className="item-center flex justify-between">
+    <div className="relative h-full w-full overflow-scroll">
+      <div className="item-center flex justify-between sticky top-0 bg-white">
         <h1 className="pageTitle">플레이리스트</h1>
         <button
           onClick={handleShowModal}
@@ -69,13 +85,13 @@ const Playlist = () => {
         </button>
       </div>
       {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} />}
-      {/* 임시 */}
-      <div className="grid grid-cols-3 gap-4">
-        {playList.map((list) => (
-          <div key={list.track.id}>
-            <img src={list.track.album.images[0].url} alt={list.track.name} className="border-[4px] border-black" />
-            <div>{list.track.name}</div>
-            <div>{list.track.artists[0].name}</div>
+      {/* 임시 -분리예정*/}
+      <div className="grid grid-cols-3 gap-4 mt-[40px]">
+        {myPlayList.map((list) => (
+          <div key={list.track_id} className="flex flex-col gap-[10px] items-center">
+            <img src={list.album_image} alt={list.track_name} className="border-[4px] border-black" /> 
+            <h2 className="text-[20px] font-[900]">{list.track_name}</h2>
+            <p>{list.artist_name}</p>
           </div>
         ))}
       </div>

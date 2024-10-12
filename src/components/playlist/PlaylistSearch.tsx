@@ -6,7 +6,7 @@ const PlaylistSearch = ({ setSearch }) => {
       <input
         className="w-[90%] px-[20px] py-[10px] focus:outline-none"
         type="text"
-        placeholder="노래제목을 검색하세요."
+        placeholder="제목 또는 가수명을 검색하세요."
         onChange={(e) => setSearch(e.target.value)}
       />
       <i>icon</i>
