@@ -37,5 +37,7 @@ next-env.d.ts
 
 # yarn
 .yarn/*
-!.yarn/sdks
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
 .pnp.*
