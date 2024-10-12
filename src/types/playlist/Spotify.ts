@@ -1,30 +1,28 @@
+// export type SpotifyData = {
+//   track: SpotifyTrack[];
+// };
+
 export type SpotifyTrack = {
-  album: SpotifyAlbum[];
-  artists: SpotifyArtist[];
+  album: SpotifyAlbum;
+  artists: SpotifyArtist;
   id: string;
   name: string;
+  uri: string;
 };
 
 export type SpotifyAlbum = {
-  album_type: string;
-  artists: SpotifyArtist[];
-  available_markets: string[];
-  href: string;
+  // artists: SpotifyArtist[];
   id: string;
   images: SpotifyAlbumImage[];
   name: string;
-  release_date: string;
-  release_date_precision: string;
   total_tracks: number;
-  type: "album";
 };
 
 export type SpotifyArtist = {
-  href: string;
-  id: string;
-  name: string;
-  type: "artist";
-  uri: string;
+  0: {
+    id: string;
+    name: string;
+  };
 };
 
 export type SpotifyAlbumImage = {
