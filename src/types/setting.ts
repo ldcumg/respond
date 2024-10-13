@@ -2,7 +2,7 @@ export type Setting = {
   id: number;
   user_id: string;
   theme_name: string;
-  show_list: SHOW_LIST[];
+  show_list: ShowList[];
   tab_list: string[];
   privacy_type: PrivacyType;
   created_at: Date;
@@ -24,3 +24,10 @@ export enum SHOW_LIST {
   schedule = "schedule",
   chat = "chat"
 }
+
+export const showListKr = {
+  [SHOW_LIST.board]: "게시판",
+  [SHOW_LIST.playlist]: "플레이리스트",
+  [SHOW_LIST.schedule]: "스케줄",
+  [SHOW_LIST.chat]: "채팅"
+};

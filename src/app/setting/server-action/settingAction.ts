@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { PrivacyType, Setting } from "@/types/setting";
+import { PrivacyType, Setting, ShowList } from "@/types/setting";
 const supabase = createClient();
 
 const getSetting = async (userId: string) => {
@@ -11,7 +11,7 @@ const getSetting = async (userId: string) => {
     .returns<Setting[]>();
 
   if (isSettingError) {
-    throw new Error("setting 못가져옴");
+    throw new Error("setting select Error");
   }
 
   return setting[0];
@@ -25,4 +25,12 @@ const patchPrivacy = async ({ userId, privacyType }: { userId: string; privacyTy
   }
 };
 
-export { getSetting, patchPrivacy };
+const patchShowList = async ({ userId, showList }: { userId: string; showList: ShowList[] }) => {
+  const { error } = await supabase.from("setting").update({ show_list: showList }).eq("user_id", userId);
+
+  if (error) {
+    throw new Error("show_list update Error");
+  }
+};
+
+export { getSetting, patchPrivacy, patchShowList };
