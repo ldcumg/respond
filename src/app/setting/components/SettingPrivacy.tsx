@@ -13,9 +13,9 @@ type Props = {
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
 const SettingPrivacy = ({ setting }: Props) => {
-  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, handlePatchPrivacy } =
+  const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, usePrivacyTypeMutate } =
     useSettingPrivacy(setting);
-  const mutatePatchPrivacy = handlePatchPrivacy();
+  const privacyTypeMutate = usePrivacyTypeMutate();
 
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
@@ -24,7 +24,7 @@ const SettingPrivacy = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => mutatePatchPrivacy({ userId: testUserId, privacyType: privacySelected })}>
+            onClick={() => privacyTypeMutate({ userId: testUserId, privacyType: privacySelected })}>
             저장
           </button>
         )}

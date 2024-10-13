@@ -5,22 +5,25 @@ import { patchShowList } from "../server-action/settingAction";
 import queryKey from "@/queries/queryKey";
 
 export const useSettingShowList = (setting: Setting) => {
-  const [showList, setShowList] = useState<ShowList[]>(setting.show_list);
+  const [showListCheckList, setShowListCheckList] = useState<ShowList[]>(setting.show_list);
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   /** 체크시 이전 값 비교해서 state에 담거나, 제거 */
   const handleCheckboxChange = (id: ShowList) => {
-    setShowList((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
+    setShowListCheckList((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   };
 
   /** DB에 저장되어 있는 값과 같을 경우 저장 버튼 비활성화 (다르면 활성화) */
   useEffect(() => {
-    if (setting.show_list.length === showList.length && setting.show_list.every((item) => showList.includes(item))) {
+    if (
+      setting.show_list.length === showListCheckList.length &&
+      setting.show_list.every((item) => showListCheckList.includes(item))
+    ) {
       setIsButtonEnabled(false);
     } else {
       setIsButtonEnabled(true);
     }
-  }, [showList]);
+  }, [showListCheckList]);
 
   /** 저장 버튼 클릭 시 DB 업데이트  */
   const useShowListMutate = () => {
@@ -38,5 +41,5 @@ export const useSettingShowList = (setting: Setting) => {
     return mutate;
   };
 
-  return { showList, handleCheckboxChange, isButtonEnabled, useShowListMutate };
+  return { showListCheckList, handleCheckboxChange, isButtonEnabled, useShowListMutate };
 };

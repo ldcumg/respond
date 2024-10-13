@@ -29,7 +29,7 @@ const showListCheckItems = [
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
 const SettingShowList = ({ setting }: Props) => {
-  const { showList, handleCheckboxChange, isButtonEnabled, useShowListMutate } = useSettingShowList(setting);
+  const { showListCheckList, handleCheckboxChange, isButtonEnabled, useShowListMutate } = useSettingShowList(setting);
   const showListMutate = useShowListMutate();
 
   return (
@@ -37,7 +37,9 @@ const SettingShowList = ({ setting }: Props) => {
       <div className="flex justify-between">
         <h2>공개 범위</h2>
         {isButtonEnabled && (
-          <button className="bg-slate-200" onClick={() => showListMutate({ userId: testUserId, showList })}>
+          <button
+            className="bg-slate-200"
+            onClick={() => showListMutate({ userId: testUserId, showList: showListCheckList })}>
             저장
           </button>
         )}
@@ -46,7 +48,7 @@ const SettingShowList = ({ setting }: Props) => {
       <div className="items-top flex space-x-2">
         {showListCheckItems.map((item) => (
           <div key={item.id} onClick={() => handleCheckboxChange(item.id)}>
-            <Checkbox id={item.id} checked={showList.includes(item.id)} />
+            <Checkbox id={item.id} checked={showListCheckList.includes(item.id)} />
             <label htmlFor={item.label}>{item.label}</label>
           </div>
         ))}

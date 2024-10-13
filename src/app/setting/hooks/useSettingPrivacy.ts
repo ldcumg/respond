@@ -25,7 +25,7 @@ export const useSettingPrivacy = (setting: Setting) => {
   }, [privacySelected]);
 
   /** 저장 버튼 클릭 시 DB 업데이트  */
-  const handlePatchPrivacy = () => {
+  const usePrivacyTypeMutate = () => {
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
       mutationFn: patchPrivacy,
@@ -40,5 +40,5 @@ export const useSettingPrivacy = (setting: Setting) => {
     return mutate;
   };
 
-  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange, handlePatchPrivacy };
+  return { privacySelected, isButtonEnabled, handlePrivacySelectedChange, usePrivacyTypeMutate };
 };
