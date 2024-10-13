@@ -3,13 +3,18 @@
 import PlaylistAll from "@/components/playlist/PlaylistAll";
 import React, { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
+import MyPlayList from "@/components/playlist/MyPlayList";
+import MyPlayListEdit from "@/components/playlist/MyPlayListEdit";
+import PlayListModalBtn from "@/components/playlist/PlayListModalBtn";
 
 const Playlist = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [playList, setPlayList] = useState([]);
-  const [isShowModal, setIsShowModal] = useState(false); //디폴트 안보이게
-  const [myPlayList,setMyPlayList] = useState([])
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
+  const [isMainPlay, setIsMainPlay] = useState<boolean>(false);
+  const [myPlayList, setMyPlayList] = useState([]);
 
   useEffect(() => {
     const fetchSpotifyData = async () => {
@@ -55,46 +60,36 @@ const Playlist = () => {
     fetchSpotifyData();
   }, [clientId, clientSecret]);
 
-  useEffect(()=>{
-    const fetchPlayList = async () =>{
+  useEffect(() => {
+    const fetchPlayList = async () => {
       const { data: loginUserId } = await browserClient.auth.getUser();
-      const userId = loginUserId.user.id;
-      const { data:play,error} = await browserClient.from('playlist').select('*').eq('user_id', userId);
-      if(error) console.error('playlist 가져오기 오류:', error.message)
-      else{
-        console.log('playlist 데이터:', play);
+      const userId = loginUserId?.user?.id;
+      const { data: play, error } = await browserClient.from("playlist").select("*").eq("user_id", userId);
+      if (error) console.error("playlist 가져오기 오류:", error.message);
+      else {
+        // console.log("playlist 데이터:", play);
         setMyPlayList(play);
       }
     };
     fetchPlayList();
-  },[clientId, clientSecret])
-
-  /** 노래추가리스트 팝업창 이벤트 */
-  const handleShowModal = () => {
-    setIsShowModal(true);
-  };
+  }, [clientId, clientSecret]);
 
   return (
     <div className="relative h-full w-full overflow-scroll">
-      <div className="item-center flex justify-between sticky top-0 bg-white">
+      <div className="item-center sticky top-0 flex justify-between bg-white">
         <h1 className="pageTitle">플레이리스트</h1>
-        <button
-          onClick={handleShowModal}
-          className={`duration-3000 h-[50px] w-[50px] transform rounded-full border-[4px] border-black text-[30px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff] ${isShowModal ? "rotate-45 bg-[#000] text-[#fff]" : "rotate-0 bg-[#fff] text-[#000]"}`}>
-          +
-        </button>
+        <div className="flex items-center gap-[10px]">
+          <PlayListModalBtn setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
+          <MyPlayListEdit setIsShowEdit={setIsShowEdit} isShowEdit={isShowEdit} />
+        </div>
       </div>
-      {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} />}
-      {/* 임시 -분리예정*/}
-      <div className="grid grid-cols-3 gap-4 mt-[40px]">
-        {myPlayList.map((list) => (
-          <div key={list.track_id} className="flex flex-col gap-[10px] items-center">
-            <img src={list.album_image} alt={list.track_name} className="border-[4px] border-black" /> 
-            <h2 className="text-[20px] font-[900]">{list.track_name}</h2>
-            <p>{list.artist_name}</p>
-          </div>
-        ))}
-      </div>
+      {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} myPlayList={myPlayList} />}
+      <MyPlayList
+        myPlayList={myPlayList}
+        isShowEdit={isShowEdit}
+        setIsMainPlay={setIsMainPlay}
+        isMainPlay={isMainPlay}
+      />
     </div>
   );
 };

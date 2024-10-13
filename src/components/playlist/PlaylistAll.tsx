@@ -11,34 +11,41 @@ type SpotifyListProps = {
 };
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];
-  setIsShowModal: (value: boolean) => void;
+  myPlayList: SpotifyListProps[];
+  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
-  // console.log("playlist", playlist);
+const PlaylistAll = ({ playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
-  // console.log("search", search);
+  console.log("ddd");
+  // console.log("myPlayList", myPlayList);
+  /** 플레이리스트 추가이벤트 */
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    try {
-      // 현재 로그인된 사용자 user_id
-      const { data: user } = await browserClient.auth.getUser();
-      if (!user) {
-        console.error("로그인한 유저가 없습니다.");
-        return;
+    if (!myPlayList.some((list) => list.track_id === track.id)) {
+      try {
+        const { data: user } = await browserClient.auth.getUser();
+        if (!user) {
+          console.error("로그인한 유저가 없습니다.");
+          return;
+        }
+
+        const { data, error } = await browserClient.from("playlist").insert({
+          track_id: track.id,
+          track_name: track.name,
+          artist_name: track.artists[0].name,
+          user_id: user?.user?.id,
+          album_image: track.album.images[0]?.url
+        });
+        if (error) console.error("추가중 오류 발생:", error);
+        else {
+          console.log("트랙 추가", data);
+          alert("트랙 추가 완료"); //토스트로 추후 변경
+        }
+      } catch (error) {
+        console.error("그 외 에러:", error);
       }
-      console.log("user", user);
-      console.log("user.id", user.user.id);
-      const { data, error } = await browserClient.from("playlist").insert({
-        track_id: track.id,
-        track_name: track.name,
-        artist_name: track.artists[0].name,
-        user_id: user.user.id,
-        album_image: track.album.images[0]?.url
-      });
-      if (error) console.error("추가중 오류 발생:", error);
-      else console.log("트랙 추가", data);
-    } catch (error) {
-      console.error("그 외 에러:", error);
+    } else {
+      alert("이 트랙은 이미 플레이리스트에 있습니다.");
     }
   };
 
@@ -50,7 +57,9 @@ const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
   );
 
   //팝업창 닫기이벤트
-  const handleCloseModal = () => setIsShowModal(false);
+  const handleCloseModal = () => {
+    setIsShowModal((prevState: boolean) => !prevState);
+  };
 
   return (
     <div className="relative">
@@ -66,15 +75,15 @@ const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
             <span className="text-[13px] text-[#5C5C5C]">{`"${search}"에 대한 노래를 찾을 수 없습니다.`}</span>
           ) : (
             (search ? filterPlaylist : playlist).map((list: SpotifyListProps) => (
-              <div key={list.track.id} className="flex">
+              <div key={list.track.id} className="flex items-center gap-[10px]">
                 <Image src={list.track.album.images[0].url} alt={list.track.name} width="100" height="100" />
                 <div className="flex-1">
                   <div>{list.track.name}</div>
                   <div>{list.track.artists[0].name}</div>
-                  <button className="btn" onClick={() => handleAddPlayList(list.track)}>
-                    +
-                  </button>
                 </div>
+                <button className="btn h-[40px]" onClick={() => handleAddPlayList(list.track)}>
+                  +
+                </button>
               </div>
             ))
           )}
