@@ -18,10 +18,10 @@ type PlaylistAllProps = {
 const PlaylistAll = ({ playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
   console.log("ddd");
-  // console.log("myPlayList", myPlayList);
+  console.log("myPlayList", myPlayList);
   /** 플레이리스트 추가이벤트 */
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    if (!myPlayList.some((list) => list.track_id === track.id)) {
+    if (!myPlayList.some((list) => list.track.id === track.id)) {
       try {
         const { data: user } = await browserClient.auth.getUser();
         if (!user) {

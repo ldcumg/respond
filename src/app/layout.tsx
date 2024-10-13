@@ -15,13 +15,13 @@ const RootLayout = ({ children }: Props) => {
   return (
     <html lang="ko">
       <body>
-        <div className="flex gap-[20px] max-w-[1920px] w-[90%] mx-auto py-[100px] h-[100vh]">
-          <aside className="borderline w-[20%]">
+        <div className="mx-auto flex h-[100vh] w-[90%] max-w-[1920px] gap-[20px] py-[100px]">
+          <aside className="borderline w-[20%] !p-[20px]">
             <GlobalsUserInfo />
           </aside>
           <section className="flex w-[80%]">
             <main className="borderline w-[90%] overflow-hidden">{children}</main>
-            <GlobalsNav/>
+            <GlobalsNav />
           </section>
         </div>
       </body>

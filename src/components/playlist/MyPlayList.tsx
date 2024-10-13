@@ -14,14 +14,15 @@ type SpotifyListProps = {
 };
 type MyPlaylistAllProps = {
   myPlayList: SpotifyListProps[];
+  setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
-  setIsMainPlay: React.Dispatch<React.SetStateAction<boolean>>;
-  isMainPlay: boolean;
+  //   setIsMainPlay: React.Dispatch<React.SetStateAction<boolean>>;
+  //   isMainPlay: boolean;
 };
 
-const MyPlayList = ({ myPlayList, isShowEdit, setIsMainPlay, isMainPlay }: MyPlaylistAllProps) => {
-  const [mainTrackId, setMainTrackId] = useState<string | null>(null);
-  const [mainTrack, setMainTrack] = useState({});
+const MyPlayList = ({ myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProps) => {
+  const [mainTrack, setMainTrack] = useState();
+  console.log("mainTrack", mainTrack);
 
   /** 삭제이벤트 */
   const handleDeletePlayList = async (trackId: string) => {
@@ -50,30 +51,49 @@ const MyPlayList = ({ myPlayList, isShowEdit, setIsMainPlay, isMainPlay }: MyPla
     try {
       const { data: loginUserId } = await browserClient.auth.getUser();
       const userId = loginUserId?.user?.id;
-      //메인지정한 트랙 업데이트 - 지정한거 true / 그외 false
-      const updatedTracks = myPlayList.map((track) =>
-        track.id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
-      );
-      //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
-      const { data, error } = await browserClient
+
+      const { error: resetError } = await browserClient
         .from("playlist")
-        .update({ is_main: isMainPlay })
+        .update({ is_main: false })
+        .eq("user_id", userId); // 지정된 id를 제외하고 업데이트
+
+      if (resetError) {
+        console.error("메인지정중 리셋과정에서 오류 발생:", resetError);
+        return;
+      }
+      //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
+      const { data, error: updateError } = await browserClient
+        .from("playlist")
+        .update({ is_main: true })
         .eq("track_id", trackId)
         .eq("user_id", userId);
-      if (error) console.error("메인지정중 오류 발생:", error);
+      if (updateError) console.error("메인지정중 오류 발생:", updateError);
       else {
         console.log("메인 지정", data);
         alert("메인 지정 완료"); //토스트로 추후 변경
-        setIsMainPlay(true);
-        setMainTrackId(trackId);
-        setMainTrack(updatedTracks);
+        // setIsMainPlay(true);
+        // setMainTrack(updatedTracks);
+        //메인지정한 트랙 업데이트 - 지정한거 true / 그외 false
+        const updatedTracks = myPlayList.map((track) =>
+          track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
+        );
+        // console.log("updatedTracks", updatedTracks);
+        setMyPlayList(updatedTracks);
       }
     } catch (error) {
       console.error("그 외 에러:", error);
     }
   };
 
-  //   console.log("myPlayList", myPlayList);
+  /** 메인노래 저장 */
+  const filterMainTrack = myPlayList.filter((list) => list.is_main === true);
+  console.log("filterMainTrack", filterMainTrack);
+  if (filterMainTrack.length > 0) {
+    // setMainTrack(filterMainTrack);
+    console.log("sss");
+  }
+  console.log("myPlayList", myPlayList);
+
   return (
     <div>
       {myPlayList.length > 0 ? (
@@ -87,7 +107,7 @@ const MyPlayList = ({ myPlayList, isShowEdit, setIsMainPlay, isMainPlay }: MyPla
               <p>{list.artist_name}</p>
               {isShowEdit && (
                 <div className="flex gap-[5px]">
-                  {mainTrackId === list.track_id && isMainPlay ? (
+                  {list.is_main === true ? (
                     <button className="btn !bg-black !text-white" onClick={() => handleMainPlay(list.track_id)}>
                       메인노래
                     </button>

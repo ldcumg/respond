@@ -13,7 +13,7 @@ const Playlist = () => {
   const [playList, setPlayList] = useState([]);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
-  const [isMainPlay, setIsMainPlay] = useState<boolean>(false);
+  // const [isMainPlay, setIsMainPlay] = useState<boolean>(false);
   const [myPlayList, setMyPlayList] = useState([]);
 
   useEffect(() => {
@@ -86,9 +86,10 @@ const Playlist = () => {
       {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} myPlayList={myPlayList} />}
       <MyPlayList
         myPlayList={myPlayList}
+        setMyPlayList={setMyPlayList}
         isShowEdit={isShowEdit}
-        setIsMainPlay={setIsMainPlay}
-        isMainPlay={isMainPlay}
+        // setIsMainPlay={setIsMainPlay}
+        // isMainPlay={isMainPlay}
       />
     </div>
   );
