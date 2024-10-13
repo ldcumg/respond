@@ -18,3 +18,15 @@ body {
     text-wrap: balance;
   }
 }
+.navBtn {
+  @apply cursor-pointer rounded-[8px] rounded-tl-[0px] rounded-bl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+}
+.btn {
+  @apply cursor-pointer rounded-lg bg-blue-500 px-4 py-1 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-blue-500 focus:ring-opacity-75;
+}
+.borderline {
+  @apply rounded-[22px] border-[4px] border-black bg-[#fff] px-[40px] py-[40px];
+}
+.pageTitle {
+  @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+}
