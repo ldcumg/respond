@@ -35,7 +35,7 @@ const SettingShowList = ({ setting }: Props) => {
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
       <div className="flex justify-between">
-        <h2>공개 범위</h2>
+        <h2>미리보기 목록</h2>
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
