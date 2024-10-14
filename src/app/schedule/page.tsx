@@ -63,6 +63,7 @@ export default function Schedule() {
       <div className="flex justify-between">
         {/* 완료 목록 */}
         <div className="w-1/3 border p-4">
+          <h2 className="text-xl font-semibold">완료</h2>
           <ul>
             {todos.완료.map((todo, index) => (
               <li key={index}>{todo}</li>
