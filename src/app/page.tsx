@@ -67,7 +67,6 @@ const HomePage = () => {
 
   console.log("activeTab", activeTab);
   const ActiveComponent = tabListExtends[activeTab].component;
-  // setActiveTab(setting.show_list[0]);
 
   const handleTabChange = (show: ShowList) => {
     setActiveTab(show);
