@@ -1,6 +1,6 @@
 import { getPlaylist } from "@/app/setting/server-action/playlistAction";
 import queryKey from "@/queries/queryKey";
-import { useAuthStore } from "@/store/useUserInfoStore";
+import { useAuthStore, useUserInfoStore } from "@/store/useUserInfoStore";
 import { PlayList } from "@/types/playlist/playlist";
 import browserClient from "@/utils/supabase/client";
 import { getLoginUserId } from "@/utils/supabase/user";
@@ -11,12 +11,8 @@ const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 // const attendeeUserId = "방문자 userid";
 
 const PlaylistPrev = () => {
-  const { data: userId } = useQuery<string | undefined>({
-    queryKey: queryKey.auth.loginUser,
-    queryFn: () => getLoginUserId()
-  });
-  // const { isLoggedIn } = useAuthStore();
-  const auth = useAuthStore();
+  // 접속한 유저의 id로 요청하면 안되고, useParams의 id로 요청해얗마
+  const { id: userId } = useUserInfoStore();
 
   const { data: playlist } = useQuery<PlayList[]>({
     queryKey: queryKey.playlist(hostUserId),

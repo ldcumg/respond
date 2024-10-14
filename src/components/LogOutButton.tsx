@@ -6,7 +6,7 @@ import { useLoggedIn } from "../hooks/useLoggedIn";
 import React from "react";
 
 const LogOutButton = () => {
-  const isLoggedIn = useLoggedIn(); // 훅을 사용하여 로그인 상태 가져오기
+  const { isLoggedIn } = useLoggedIn(); // 훅을 사용하여 로그인 상태 가져오기
   const router = useRouter();
 
   const handleLogout = async () => {
