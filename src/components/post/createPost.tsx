@@ -27,10 +27,8 @@ const CreatePost = ({ setIsPosting }: Props) => {
 
   const onSubmit = async (value: FieldValues) => {
     const { title, content } = value;
-    const  error  = await createPost({ user_id, nickname, title, content });
-    console.log(error)
-    return
-      
+    const { error } = await createPost({ user_id, nickname, title, content });
+
     if (error) {
       console.error(error);
       alert("게시물 작성을 실패했습니다.");
@@ -38,7 +36,7 @@ const CreatePost = ({ setIsPosting }: Props) => {
     }
     alert("게시물을 작성했습니다.");
     setIsPosting(false);
-    return
+    return;
   };
 
   return (
