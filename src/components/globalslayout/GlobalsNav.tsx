@@ -8,8 +8,8 @@ import Link from "next/link";
 import React from "react";
 
 const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-const attendeeUserId = "방문자 userid";
-// const attendeeUserId = hostUserId;
+// const attendeeUserId = "방문자 userid";
+const attendeeUserId = hostUserId;
 
 const tabListExtends = {
   [TAB_LIST.board]: {
@@ -47,8 +47,17 @@ const GlobalsNav = () => {
     queryFn: () => getSetting(hostUserId)
   });
 
+  /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
-    return <></>;
+    return (
+      <nav>
+        <ul className="flex flex-col gap-[10px] pt-[50px]">
+          <Link href={"/"}>
+            <li className="navBtn">홈</li>
+          </Link>
+        </ul>
+      </nav>
+    );
   }
 
   const tabList = getTabList(setting.tab_list, hostUserId, attendeeUserId);
@@ -60,11 +69,11 @@ const GlobalsNav = () => {
           <li className="navBtn">홈</li>
         </Link>
         {tabList.map((tab) => (
-          <Link href={tabListExtends[tab].href}>
+          <Link key={tab} href={tabListExtends[tab].href}>
             <li className="navBtn">{tabListExtends[tab].name}</li>
           </Link>
         ))}
-        {/* TODO: host userId와 접속자 userId가 같을 경우 내 설정 보여야함 일단 주석처리*/}
+        {/* TODO: host userId와 접속자 userId가 같을 경우 만 내 설정 보여야함 일단 주석처리*/}
         {/* {hostUserId === attendeeUserId && (
           <Link href={"/setting"}>
             <li className="navBtn">내 설정</li>
