@@ -1,5 +1,5 @@
 "use client";
-
+// SSR로 변경 예정
 import CreatePost from "@/components/post/createPost";
 import PostList from "@/components/post/postList";
 import { useState } from "react";

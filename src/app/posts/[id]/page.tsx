@@ -1,13 +1,12 @@
-"use client";
-
 type Props = {
   params: {
     id: string;
   };
 };
 
-const PostDetailPage = (props): Props => {
-  // console.log("props", props);
+const PostDetailPage = ({ params }: Props) => {
+  const { id } = params;
+  console.log("id", id);
   return <div>PostDetailPage</div>;
 };
 
