@@ -7,18 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Setting } from "@/types/setting";
 import queryKey from "@/queries/queryKey";
 import SettingShowList from "./components/SettingShowList";
+import SettingTabList from "./components/SettingTabList";
 
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-
-// initialData:{
-//   id:0,
-//   user_id:"",
-//   theme_name:"",
-//   show_list:[],
-//   tab_list:[],
-//   privacy_type: "public",
-//   created_at:null,
-// }
 
 const page = () => {
   const { data: setting } = useQuery<Setting>({
@@ -34,6 +25,7 @@ const page = () => {
     <div>
       <SettingPrivacy setting={setting}></SettingPrivacy>
       <SettingShowList setting={setting}></SettingShowList>
+      <SettingTabList setting={setting}></SettingTabList>
     </div>
   );
 };
