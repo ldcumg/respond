@@ -95,4 +95,16 @@
   .pageTitle {
     @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
   }
+
+@keyframes play {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.play {
+  animation: play 4s linear infinite;
+}
 }
