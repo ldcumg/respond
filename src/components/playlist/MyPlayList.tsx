@@ -16,14 +16,9 @@ type MyPlaylistAllProps = {
   myPlayList: SpotifyListProps[];
   setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
-  //   setIsMainPlay: React.Dispatch<React.SetStateAction<boolean>>;
-  //   isMainPlay: boolean;
 };
 
 const MyPlayList = ({ myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProps) => {
-  const [mainTrack, setMainTrack] = useState();
-  console.log("mainTrack", mainTrack);
-
   /** 삭제이벤트 */
   const handleDeletePlayList = async (trackId: string) => {
     try {
@@ -71,28 +66,16 @@ const MyPlayList = ({ myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProp
       else {
         console.log("메인 지정", data);
         alert("메인 지정 완료"); //토스트로 추후 변경
-        // setIsMainPlay(true);
-        // setMainTrack(updatedTracks);
         //메인지정한 트랙 업데이트 - 지정한거 true / 그외 false
         const updatedTracks = myPlayList.map((track) =>
           track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
         );
-        // console.log("updatedTracks", updatedTracks);
         setMyPlayList(updatedTracks);
       }
     } catch (error) {
       console.error("그 외 에러:", error);
     }
   };
-
-  /** 메인노래 저장 */
-  const filterMainTrack = myPlayList.filter((list) => list.is_main === true);
-  console.log("filterMainTrack", filterMainTrack);
-  if (filterMainTrack.length > 0) {
-    // setMainTrack(filterMainTrack);
-    console.log("sss");
-  }
-  console.log("myPlayList", myPlayList);
 
   return (
     <div>

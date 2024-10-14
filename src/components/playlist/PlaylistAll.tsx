@@ -17,18 +17,22 @@ type PlaylistAllProps = {
 
 const PlaylistAll = ({ playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
-  console.log("ddd");
   console.log("myPlayList", myPlayList);
   /** 플레이리스트 추가이벤트 */
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    if (!myPlayList.some((list) => list.track.id === track.id)) {
+    console.log("track", track);
+    if (!myPlayList.some((list) => list.track?.id === track.id)) {
       try {
-        const { data: user } = await browserClient.auth.getUser();
+        const { data: user, error: authError } = await browserClient.auth.getUser();
+        if (authError) {
+          console.error("사용자 인증 오류:", authError);
+          return;
+        }
         if (!user) {
           console.error("로그인한 유저가 없습니다.");
           return;
         }
-
+        console.log("user", user);
         const { data, error } = await browserClient.from("playlist").insert({
           track_id: track.id,
           track_name: track.name,
@@ -36,16 +40,16 @@ const PlaylistAll = ({ playlist, setIsShowModal, myPlayList }: PlaylistAllProps)
           user_id: user?.user?.id,
           album_image: track.album.images[0]?.url
         });
-        if (error) console.error("추가중 오류 발생:", error);
-        else {
-          console.log("트랙 추가", data);
-          alert("트랙 추가 완료"); //토스트로 추후 변경
+        if (error) {
+          console.error("추가중 오류 발생:", error);
+        } else {
+          alert("플레이리스트에 추가되었습니다"); //토스트로 추후 변경
         }
       } catch (error) {
         console.error("그 외 에러:", error);
       }
     } else {
-      alert("이 트랙은 이미 플레이리스트에 있습니다.");
+      alert("이미 플레이리스트에 존재하는 트랙입니다.");
     }
   };
 

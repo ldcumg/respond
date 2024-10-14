@@ -13,7 +13,6 @@ const Playlist = () => {
   const [playList, setPlayList] = useState([]);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
-  // const [isMainPlay, setIsMainPlay] = useState<boolean>(false);
   const [myPlayList, setMyPlayList] = useState([]);
 
   useEffect(() => {
@@ -26,8 +25,8 @@ const Playlist = () => {
           },
           body: new URLSearchParams({
             grant_type: "client_credentials",
-            client_id: clientId,
-            client_secret: clientSecret
+            client_id: clientId ?? "",
+            client_secret: clientSecret ?? ""
           })
         });
 
@@ -67,7 +66,6 @@ const Playlist = () => {
       const { data: play, error } = await browserClient.from("playlist").select("*").eq("user_id", userId);
       if (error) console.error("playlist 가져오기 오류:", error.message);
       else {
-        // console.log("playlist 데이터:", play);
         setMyPlayList(play);
       }
     };
@@ -84,13 +82,7 @@ const Playlist = () => {
         </div>
       </div>
       {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} myPlayList={myPlayList} />}
-      <MyPlayList
-        myPlayList={myPlayList}
-        setMyPlayList={setMyPlayList}
-        isShowEdit={isShowEdit}
-        // setIsMainPlay={setIsMainPlay}
-        // isMainPlay={isMainPlay}
-      />
+      <MyPlayList myPlayList={myPlayList} setMyPlayList={setMyPlayList} isShowEdit={isShowEdit} />
     </div>
   );
 };
