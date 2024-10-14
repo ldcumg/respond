@@ -1,18 +1,5 @@
-// import { create } from "zustand";
-
-// interface AuthState {
-//   isLoggedIn: boolean;
-//   setIsLoggedIn: (loggedIn: boolean) => void;
-// }
-
-// export const useAuthStore = create<AuthState>((set) => ({
-//   isLoggedIn: false,
-//   setIsLoggedIn: (loggedIn) => {
-//     set({ isLoggedIn: loggedIn });
-//   }
-// }));
 import { create } from "zustand";
-import browserClient from "@/utils/supabase/client"; // Supabase 클라이언트 가져오기
+import browserClient from "../utils/supabase/client";
 
 // 인증 상태 관리
 interface AuthState {

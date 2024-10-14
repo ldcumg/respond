@@ -36,11 +36,10 @@ export const updateSession = async (request: NextRequest) => {
     await supabase.auth.getUser();
 
     return response;
-  } catch (error) {
+  } catch {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
-    console.error("Supabase 클라이언트 생성 오류:", error);
     return NextResponse.next({
       request: {
         headers: request.headers

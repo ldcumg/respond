@@ -1,8 +1,9 @@
 "use client";
 
-import browserClient from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import browserClient from "../../../utils/supabase/client";
+import React from "react";
 
 const NAME_REGEX = /^[가-힣a-zA-Z]{2,20}$/;
 const EMAIL_REGEX = /\S+@\S+\.\S+/;

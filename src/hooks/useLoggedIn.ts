@@ -1,6 +1,6 @@
-import { useAuthStore, useUserInfoStore } from "@/store/useUserInfoStore";
 import { useEffect } from "react";
-import browserClient from "@/utils/supabase/client"; // Supabase 클라이언트 가져오기
+import browserClient from "../utils/supabase/client";
+import { useAuthStore, useUserInfoStore } from "../store/useUserInfoStore";
 
 export const useLoggedIn = () => {
   const { setIsLoggedIn } = useAuthStore();
