@@ -9,7 +9,7 @@ const Playlist = () => {
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [playList, setPlayList] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false); //디폴트 안보이게
-  const [myPlayList,setMyPlayList] = useState([])
+  const [myPlayList, setMyPlayList] = useState([]);
 
   useEffect(() => {
     const fetchSpotifyData = async () => {
@@ -55,19 +55,19 @@ const Playlist = () => {
     fetchSpotifyData();
   }, [clientId, clientSecret]);
 
-  useEffect(()=>{
-    const fetchPlayList = async () =>{
+  useEffect(() => {
+    const fetchPlayList = async () => {
       const { data: loginUserId } = await browserClient.auth.getUser();
       const userId = loginUserId.user.id;
-      const { data:play,error} = await browserClient.from('playlist').select('*').eq('user_id', userId);
-      if(error) console.error('playlist 가져오기 오류:', error.message)
-      else{
-        console.log('playlist 데이터:', play);
+      const { data: play, error } = await browserClient.from("playlist").select("*").eq("user_id", userId);
+      if (error) console.error("playlist 가져오기 오류:", error.message);
+      else {
+        console.log("playlist 데이터:", play);
         setMyPlayList(play);
       }
     };
     fetchPlayList();
-  },[clientId, clientSecret])
+  }, [clientId, clientSecret]);
 
   /** 노래추가리스트 팝업창 이벤트 */
   const handleShowModal = () => {
@@ -76,7 +76,7 @@ const Playlist = () => {
 
   return (
     <div className="relative h-full w-full overflow-scroll">
-      <div className="item-center flex justify-between sticky top-0 bg-white">
+      <div className="item-center sticky top-0 flex justify-between bg-white">
         <h1 className="pageTitle">플레이리스트</h1>
         <button
           onClick={handleShowModal}
@@ -86,10 +86,10 @@ const Playlist = () => {
       </div>
       {isShowModal && <PlaylistAll playlist={playList} setIsShowModal={setIsShowModal} />}
       {/* 임시 -분리예정*/}
-      <div className="grid grid-cols-3 gap-4 mt-[40px]">
+      <div className="mt-[40px] grid grid-cols-3 gap-4">
         {myPlayList.map((list) => (
-          <div key={list.track_id} className="flex flex-col gap-[10px] items-center">
-            <img src={list.album_image} alt={list.track_name} className="border-[4px] border-black" /> 
+          <div key={list.track_id} className="flex flex-col items-center gap-[10px]">
+            <img src={list.album_image} alt={list.track_name} className="border-[4px] border-black" />
             <h2 className="text-[20px] font-[900]">{list.track_name}</h2>
             <p>{list.artist_name}</p>
           </div>

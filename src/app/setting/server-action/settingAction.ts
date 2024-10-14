@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { PrivacyType, Setting, ShowList } from "@/types/setting";
+import { PrivacyType, Setting, ShowList, TabList } from "@/types/setting";
 const supabase = createClient();
 
 const getSetting = async (userId: string) => {
@@ -33,4 +33,12 @@ const patchShowList = async ({ userId, showList }: { userId: string; showList: S
   }
 };
 
-export { getSetting, patchPrivacy, patchShowList };
+const patchTabList = async ({ userId, tabList }: { userId: string; tabList: TabList[] }) => {
+  const { error } = await supabase.from("setting").update({ tab_list: tabList }).eq("user_id", userId);
+
+  if (error) {
+    throw new Error("tab_list update Error");
+  }
+};
+
+export { getSetting, patchPrivacy, patchShowList, patchTabList };

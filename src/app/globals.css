@@ -77,7 +77,11 @@
 /* 하나의 속성에 대해 스타일 */
 @layer utilities {
   .navBtn {
-    @apply cursor-pointer rounded-[8px] rounded-tl-[0px] rounded-bl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-tl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+  }
+
+  .tabBtn {
+    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
   }
 
   .btn {
