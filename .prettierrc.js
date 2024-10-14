@@ -4,7 +4,6 @@ module.exports = {
   useTabs: false,
   semi: true,
   singleQuote: false,
-  bracketSpacing: true,
   trailingComma: "none",
   jsxBracketSameLine: true,
   plugins: [require.resolve("prettier-plugin-tailwindcss")]
