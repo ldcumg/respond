@@ -64,9 +64,11 @@
   }
 }
 
-@layer components {}
+@layer components {
+}
 
-@layer utilities {}
+@layer utilities {
+}
 
 @layer base {
   * {

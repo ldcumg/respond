@@ -10,8 +10,8 @@ interface AuthState {
 
 // 사용자 정보 관리
 interface UserInfo {
-  email: string | null | undefined; // 이메일은 문자열 또는 null
-  nickname: string | null | undefined; // 닉네임은 문자열 또는 null
+  email: string | null | undefined;
+  nickname: string | null | undefined;
   setUser: (userInfo: { email: string | null | undefined; nickname: string | null | undefined }) => void; // 사용자 정보 설정
 }
 
