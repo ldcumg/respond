@@ -10,6 +10,7 @@ import SettingShowList from "./components/SettingShowList";
 import SettingTabList from "./components/SettingTabList";
 import browserClient from "@/utils/supabase/client";
 import { useLoggedIn } from "@/hooks/useLoggedIn";
+import { useUserInfoStore } from "@/store/useUserInfoStore";
 
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
@@ -23,8 +24,7 @@ const page = () => {
   //     return userId;
   //   }
   // });
-  const { userInfo } = useLoggedIn();
-  console.log("userInfo", userInfo);
+  const { id: userId } = useUserInfoStore();
 
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,

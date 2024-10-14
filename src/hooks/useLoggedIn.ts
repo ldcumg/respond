@@ -7,7 +7,6 @@ export const useLoggedIn = () => {
   const { setIsLoggedIn } = useAuthStore();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { setUser } = useUserInfoStore();
-  const [userInfo, setUserInfo] = useState<User>();
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -24,7 +23,6 @@ export const useLoggedIn = () => {
 
         // Zustand useUserInfoStore에 저장
         setUser({ id, email, nickname });
-        setUserInfo(userInfo);
 
         console.log("userInfo", userInfo);
 
@@ -41,7 +39,5 @@ export const useLoggedIn = () => {
     checkLoginStatus();
   }, [isLoggedIn, setIsLoggedIn, setUser]); // 의존성 배열에 setIsLoggedIn과 setUser 추가
 
-  console.log("userInfo", userInfo);
-
-  return { isLoggedIn, userInfo };
+  return isLoggedIn;
 };
