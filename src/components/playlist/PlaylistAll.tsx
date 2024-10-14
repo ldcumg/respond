@@ -5,52 +5,82 @@ import Image from "next/image";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
 import browserClient from "@/utils/supabase/client";
 import PlaylistSearch from "./PlaylistSearch";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type SpotifyListProps = {
   track: SpotifyTrack;
 };
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];
-  setIsShowModal: (value: boolean) => void;
+  myPlayList: SpotifyListProps[];
+  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
-  // console.log("playlist", playlist);
+/** supabase 플레이리스트 추가 */
+//1.뮤테이션 재료만들고
+const addTrackPlayList = async (track: SpotifyTrack) => {
+  const { data: user, error: authError } = await browserClient.auth.getUser();
+  if (authError) {
+    console.error("사용자 인증 오류:", authError);
+    return;
+  }
+  if (!user) {
+    console.error("로그인한 유저가 없습니다.");
+    return;
+  }
+  const { data, error } = await browserClient.from("playlist").insert({
+    track_id: track.id,
+    track_name: track.name,
+    artist_name: track.artists[0].name,
+    user_id: user?.user?.id,
+    album_image: track.album.images[0]?.url
+  });
+  if (error) {
+    console.error("추가중 오류 발생:", error);
+  }
+  return data;
+};
+
+//TODO : 플레이리스트 추가시 중복된거 고쳐야함
+//2.뮤테이션 만들고
+const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
-  // console.log("search", search);
+  const queryClient = useQueryClient();
+  console.log("myPlayList", myPlayList);
+
+  const addPlayListMutation = useMutation({
+    mutationFn: addTrackPlayList,
+    onSuccess: () => {
+      alert("플레이리스트에 추가되었습니다");
+      queryClient.invalidateQueries(["myPlayList"]);
+    },
+    onError: (error: Error) => {
+      console.log("error.message", error.message);
+    }
+  });
+
+  /** 플레이리스트 추가이벤트 */
+  //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    try {
-      // 현재 로그인된 사용자 user_id
-      const { data: user } = await browserClient.auth.getUser();
-      if (!user) {
-        console.error("로그인한 유저가 없습니다.");
-        return;
-      }
-      console.log("user", user);
-      console.log("user.id", user.user.id);
-      const { data, error } = await browserClient.from("playlist").insert({
-        track_id: track.id,
-        track_name: track.name,
-        artist_name: track.artists[0].name,
-        user_id: user.user.id,
-        album_image: track.album.images[0]?.url
-      });
-      if (error) console.error("추가중 오류 발생:", error);
-      else console.log("트랙 추가", data);
-    } catch (error) {
-      console.error("그 외 에러:", error);
+    console.log("track", track);
+    if (!myPlayList.some((list) => list.track?.id === track.id)) {
+      addPlayListMutation.mutate(track);
+    } else {
+      alert("이미 플레이리스트에 존재하는 트랙입니다.");
     }
   };
 
   //검색어 따른 필터링리스트(제목,가수이름)
-  const filterPlaylist = playlist.filter(
+  const filterPlaylist = spotifyList.filter(
     (list) =>
       list.track.name.toLowerCase().includes(search.toLowerCase()) ||
       list.track.artists[0].name.toLowerCase().includes(search.toLowerCase())
   );
 
   //팝업창 닫기이벤트
-  const handleCloseModal = () => setIsShowModal(false);
+  const handleCloseModal = () => {
+    setIsShowModal((prevState: boolean) => !prevState);
+  };
 
   return (
     <div className="relative">
@@ -65,16 +95,16 @@ const PlaylistAll = ({ playlist, setIsShowModal }: PlaylistAllProps) => {
           {filterPlaylist.length === 0 ? (
             <span className="text-[13px] text-[#5C5C5C]">{`"${search}"에 대한 노래를 찾을 수 없습니다.`}</span>
           ) : (
-            (search ? filterPlaylist : playlist).map((list: SpotifyListProps) => (
-              <div key={list.track.id} className="flex">
+            (search ? filterPlaylist : spotifyList).map((list: SpotifyListProps) => (
+              <div key={list.track.id} className="flex items-center gap-[10px]">
                 <Image src={list.track.album.images[0].url} alt={list.track.name} width="100" height="100" />
                 <div className="flex-1">
                   <div>{list.track.name}</div>
                   <div>{list.track.artists[0].name}</div>
-                  <button className="btn" onClick={() => handleAddPlayList(list.track)}>
-                    +
-                  </button>
                 </div>
+                <button className="btn h-[40px]" onClick={() => handleAddPlayList(list.track)}>
+                  +
+                </button>
               </div>
             ))
           )}
