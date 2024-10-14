@@ -1,7 +1,8 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
 import browserClient from "@/utils/supabase/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type SpotifyListProps = {
   track: SpotifyTrack;
@@ -14,29 +15,41 @@ type MyPlaylistAllProps = {
   myPlayList: SpotifyListProps[];
   setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
+  myPlayListData: SpotifyListProps[];
 };
 
-const MyPlayList = ({ myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProps) => {
-  /** 삭제이벤트 */
-  const handleDeletePlayList = async (trackId: string) => {
-    try {
-      const { data: loginUserId } = await browserClient.auth.getUser();
-      const userId = loginUserId?.user?.id;
+const deleteTrackPlayList = async (trackId: string) => {
+  const { data: loginUserId } = await browserClient.auth.getUser();
+  const userId = loginUserId?.user?.id;
 
-      //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
-      const { data, error } = await browserClient
-        .from("playlist")
-        .delete()
-        .eq("track_id", trackId)
-        .eq("user_id", userId);
-      if (error) console.error("삭제중 오류 발생:", error);
-      else {
-        console.log("트랙 삭제", data);
-        alert("트랙 삭제 완료"); //토스트로 추후 변경
-      }
-    } catch (error) {
-      console.error("그 외 에러:", error);
+  //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
+  const { data, error } = await browserClient.from("playlist").delete().eq("track_id", trackId).eq("user_id", userId);
+  if (error) console.error("삭제중 오류 발생:", error);
+  else {
+    console.log("트랙 삭제", data);
+  }
+};
+
+const MyPlayList = ({ myPlayListData, myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProps) => {
+  const [targetId, setTargetId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  /** 삭제이벤트 */
+  //2.삭제뮤테이션 만들기
+  const deletePlayListmutation = useMutation({
+    mutationFn: deleteTrackPlayList,
+    onSuccess: () => {
+      confirm("내 플레이리스트에서 삭제하시겠습니까?");
+      queryClient.invalidateQueries(["myPlayList"]);
+    },
+    onError: (error: Error) => {
+      console.log("error.message", error.message);
     }
+  });
+
+  //3.삭제뮤테이션 실행
+  const handleDeletePlayList = async (trackId: string) => {
+    deletePlayListmutation.mutate(trackId);
   };
 
   /** 메인노래 지정 이벤트 */
@@ -48,38 +61,40 @@ const MyPlayList = ({ myPlayList, setMyPlayList, isShowEdit }: MyPlaylistAllProp
       const { error: resetError } = await browserClient
         .from("playlist")
         .update({ is_main: false })
-        .eq("user_id", userId); // 지정된 id를 제외하고 업데이트
+        .eq("user_id", userId);
 
       if (resetError) {
         console.error("메인지정중 리셋과정에서 오류 발생:", resetError);
         return;
       }
-      //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
+
       const { data, error: updateError } = await browserClient
         .from("playlist")
         .update({ is_main: true })
         .eq("track_id", trackId)
         .eq("user_id", userId);
-      if (updateError) console.error("메인지정중 오류 발생:", updateError);
-      else {
-        console.log("메인 지정", data);
-        alert("메인 지정 완료"); //토스트로 추후 변경
-        //메인지정한 트랙 업데이트 - 지정한거 true / 그외 false
+      console.log("data", data);
+      if (updateError) {
+        console.error("메인지정중 오류 발생:", updateError);
+      } else {
+        confirm("메인노래로 지정하시겠습니까?");
         const updatedTracks = myPlayList.map((track) =>
           track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
         );
-        setMyPlayList(updatedTracks);
+        // setMyPlayList(updatedTracks); // 상태 업데이트
       }
     } catch (error) {
-      console.error("그 외 에러:", error);
+      console.log("error", error);
     }
   };
 
+  //   console.log("!!myPlayListData", myPlayListData);
+
   return (
     <div>
-      {myPlayList.length > 0 ? (
+      {myPlayListData.length > 0 ? (
         <div className="mt-[40px] grid grid-cols-3 gap-4">
-          {myPlayList.map((list) => (
+          {myPlayListData.map((list) => (
             <div key={list.track_id} className="flex cursor-pointer flex-col items-center gap-[5px]">
               <img src={list.album_image} alt={list.track_name} className="border-[4px] border-black" />
               <h2 className="mx-h-[40px] mt-[8px] line-clamp-2 h-full text-[18px] font-[900] leading-[1.1]">

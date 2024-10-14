@@ -39,7 +39,7 @@ const Player = () => {
         }
 
         const { access_token } = await tokenRes.json(); // 토큰 추출해서access_token 변수애 저장
-        console.log("access_token", access_token);
+        // console.log("access_token", access_token);
 
         setAccessToken(access_token);
       } catch (error) {
