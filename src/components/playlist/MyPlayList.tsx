@@ -1,9 +1,7 @@
 "use client";
 
-// import React, { useEffect, useState } from "react";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
 import browserClient from "@/utils/supabase/client";
-import React, { useState } from "react";
 
 type SpotifyListProps = {
   track: SpotifyTrack;

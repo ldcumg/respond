@@ -48,8 +48,7 @@ const Playlist = () => {
         }
 
         const data = await spotifyRes.json();
-        // console.log("data", data);
-        // console.log("data.tracks.items", data.tracks.items);
+
         setPlayList(data.tracks.items);
         return data;
       } catch (error) {

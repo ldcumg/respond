@@ -14,7 +14,7 @@ type PlaylistAllProps = {
   myPlayList: SpotifyListProps[];
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+//TODO : 플레이리스트 추가시 중복된거 고쳐야함
 const PlaylistAll = ({ playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
   console.log("myPlayList", myPlayList);
