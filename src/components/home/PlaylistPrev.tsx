@@ -1,7 +1,9 @@
 import { getPlaylist } from "@/app/setting/server-action/playlistAction";
 import queryKey from "@/queries/queryKey";
+import { useAuthStore } from "@/store/useUserInfoStore";
 import { PlayList } from "@/types/playlist/playlist";
 import browserClient from "@/utils/supabase/client";
+import { getLoginUserId } from "@/utils/supabase/user";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -11,13 +13,10 @@ const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 const PlaylistPrev = () => {
   const { data: userId } = useQuery<string | undefined>({
     queryKey: queryKey.auth.loginUser,
-    queryFn: async () => {
-      const { data: loginUserId } = await browserClient.auth.getUser();
-      const userId = loginUserId?.user?.id;
-
-      return userId;
-    }
+    queryFn: () => getLoginUserId()
   });
+  // const { isLoggedIn } = useAuthStore();
+  const auth = useAuthStore();
 
   const { data: playlist } = useQuery<PlayList[]>({
     queryKey: queryKey.playlist(hostUserId),
