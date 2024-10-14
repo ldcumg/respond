@@ -77,7 +77,11 @@ const MyPlayList = ({ myPlayListData, myPlayList, setMyPlayList, isShowEdit }: M
       if (updateError) {
         console.error("메인지정중 오류 발생:", updateError);
       } else {
-        confirm("메인노래로 지정하시겠습니까?");
+        if (confirm("정말로 삭제하시겠습니까?")) {
+          console.log("항목이 삭제되었습니다.");
+        } else {
+          console.log("삭제가 취소되었습니다.");
+        }
         const updatedTracks = myPlayList.map((track) =>
           track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
         );
