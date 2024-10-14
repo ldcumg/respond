@@ -1,12 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies();
+export const createClient = () => {
+  const cookieStore = cookies();
 
-const serverClient = createServerClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  {
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -21,12 +19,16 @@ const serverClient = createServerClient(
         }
       }
     }
-  }
-);
+  });
+};
+
+const serverClient = createClient();
 
 export default serverClient;
 
 export const getIsLogin = async () => {
+  const serverClient = createClient();
+
   const {
     data: { session }
   } = await serverClient.auth.getSession();

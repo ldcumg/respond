@@ -1,32 +1,35 @@
 "use server";
 
-import serverClient from "@/utils/supabase/server";
+import { ModifyPost, NewPost } from "@/types/post";
+import { createClient } from "@/utils/supabase/server";
 
-type Post = {
-  user_id: string;
-  content: string;
+const supabase = createClient();
+
+const postsBoard = "board";
+
+export const createPost = async (newPost: NewPost) => {
+  return await supabase.from(postsBoard).insert(newPost);
 };
 
-export const createPost = async (post: Post) => {
-  const { data, error } = await serverClient.from("board").insert(post).select();
-  console.log("error", error);
-  console.log("data", data);
-
+export const getMyPosts = async (user_id: string) => {
+  const { data, error } = await supabase.from(postsBoard).select().eq("user_id", user_id);
+  if (error) throw new Error("게시물을 불러오는 데 실패했습니다.");
   return data;
 };
 
-type ModifyPost = {
-  postId: number;
-  content: string;
-};
-
 export const modifyPost = async ({ postId, content }: ModifyPost) => {
-  const { data, error } = await serverClient.from("board").update({ content }).eq("id", postId).select();
+  const { data, error } = await supabase.from(postsBoard).update({ content }).eq("id", postId);
   console.log("error", error);
   console.log("data", data);
 };
 
 export const deletePost = async () => {
-  const { error } = await serverClient.from("board").delete().eq("some_column", "someValue");
+  const { error } = await supabase.from(postsBoard).delete().eq("some_column", "someValue");
   console.log("error", error);
+};
+
+export const getPosts = async () => {
+  const { data, error } = await supabase.from(postsBoard).select().eq("writer", "Estonia");
+  if (error) throw new Error("게시물을 불러오는 데 실패했습니다.");
+  return data;
 };

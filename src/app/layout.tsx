@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/style/globals.css";
+import "./globals.css";
 import Providers from "@/components/providers/RQProvider";
 import { Suspense } from "react";
 import GlobalsUserInfo from "@/components/globalslayout/GlobalsUserInfo";
