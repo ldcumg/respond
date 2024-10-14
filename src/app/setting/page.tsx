@@ -8,22 +8,11 @@ import { Setting } from "@/types/setting";
 import queryKey from "@/queries/queryKey";
 import SettingShowList from "./components/SettingShowList";
 import SettingTabList from "./components/SettingTabList";
-import browserClient from "@/utils/supabase/client";
-import { useLoggedIn } from "@/hooks/useLoggedIn";
 import { useUserInfoStore } from "@/store/useUserInfoStore";
 
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
 const page = () => {
-  // const { data: userId } = useQuery<string | undefined>({
-  //   queryKey: queryKey.auth.loginUser,
-  //   queryFn: async () => {
-  //     const { data: loginUserId } = await browserClient.auth.getUser();
-  //     const userId = loginUserId?.user?.id;
-
-  //     return userId;
-  //   }
-  // });
   const { id: userId } = useUserInfoStore();
 
   const { data: setting } = useQuery<Setting>({
@@ -31,6 +20,8 @@ const page = () => {
     queryFn: () => getSetting(testUserId),
     enabled: !!userId
   });
+
+  //TODO: 조건 하나 더 추가 해야함 (params랑 로그인 userId 다른 다른 페이지로)
 
   if (!setting) {
     return <></>;
