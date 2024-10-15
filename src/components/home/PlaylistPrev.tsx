@@ -1,9 +1,7 @@
-import { getPlaylist } from "@/app/setting/server-action/playlistAction";
+import { getPlaylist } from "@/app/[userId]/setting/server-action/playlistAction";
 import queryKey from "@/queries/queryKey";
-import { useAuthStore, useUserInfoStore } from "@/store/useUserInfoStore";
+import {  useUserInfoStore } from "@/store/useUserInfoStore";
 import { PlayList } from "@/types/playlist/playlist";
-import browserClient from "@/utils/supabase/client";
-import { getLoginUserId } from "@/utils/supabase/user";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
