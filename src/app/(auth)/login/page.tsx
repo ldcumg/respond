@@ -13,7 +13,7 @@ const Login = () => {
   const { setIsLoggedIn } = useAuthStore();
   const router = useRouter();
 
-  console.log(setIsLoggedIn);
+  // console.log(setIsLoggedIn);
 
   useEffect(() => {
     const sessionCookie = async () => {

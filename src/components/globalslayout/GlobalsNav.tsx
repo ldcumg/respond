@@ -53,15 +53,12 @@ const GlobalsNav = ({ params }: Props) => {
   //   queryFn: () => getLoginUserId()
   // });
 
-  const {hostUserId, loginUserId} = useGetUserIds();
-  
+  const { hostUserId, loginUserId } = useGetUserIds();
+
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
   });
-
-
-  
 
   /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
@@ -76,16 +73,15 @@ const GlobalsNav = ({ params }: Props) => {
     );
   }
 
-  if(!loginUserId){
-    return <></>
+  if (!loginUserId) {
+    return <></>;
   }
 
-  console.log('loginUserId', loginUserId);
-  console.log('hostUserId === loginUserId', hostUserId === loginUserId);
+  // console.log("loginUserId", loginUserId);
+  // console.log("hostUserId === loginUserId", hostUserId === loginUserId);
 
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
   const NAV_BASE_URL = `/${hostUserId}`;
-
 
   return (
     <nav>
