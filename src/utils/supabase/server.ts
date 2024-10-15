@@ -21,7 +21,3 @@ export const createClient = () => {
     }
   });
 };
-
-const serverClient = createClient();
-
-export default serverClient;

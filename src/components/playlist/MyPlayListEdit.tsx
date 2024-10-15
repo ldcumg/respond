@@ -1,4 +1,5 @@
 import React from "react";
+import { SquarePen } from "lucide-react";
 
 type PlaylistEditProps = {
   setIsShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,8 +15,8 @@ const MyPlayListEdit = ({ setIsShowEdit, isShowEdit }: PlaylistEditProps) => {
   return (
     <button
       onClick={handleShowEditBtn}
-      className={`duration-3000 h-[50px] w-[50px] transform rounded-full border-[4px] border-black text-[14px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff] ${isShowEdit ? "bg-[#000] text-[#fff]" : "bg-[#fff] text-[#000]"}`}>
-      {isShowEdit ? <p>편집중</p> : <p>편집</p>}
+      className={`duration-3000 flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px] transition-transform ease-in-out ${isShowEdit ? "bg-[#000] text-[#fff]" : "bg-[#fff] text-[#000]"}`}>
+      {isShowEdit ? <SquarePen color="white" /> : <SquarePen color="black" />}
     </button>
   );
 };
