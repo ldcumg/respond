@@ -25,13 +25,3 @@ export const createClient = () => {
 const serverClient = createClient();
 
 export default serverClient;
-
-export const getIsLogin = async () => {
-  const serverClient = createClient();
-
-  const {
-    data: { session }
-  } = await serverClient.auth.getSession();
-
-  return !!session;
-};
