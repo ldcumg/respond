@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import browserClient from "../utils/supabase/client";
+import { AllUsersInfoStore } from "@/types/userInfo";
 
 // 인증 상태 관리
 interface AuthState {
@@ -10,9 +11,9 @@ interface AuthState {
 
 // 사용자 정보 관리
 interface UserInfo {
-  email: string | null | undefined;
-  nickname: string | null | undefined;
-  setUser: (userInfo: { email: string | null | undefined; nickname: string | null | undefined }) => void; // 사용자 정보 설정
+  email: string | null; // 이메일은 문자열
+  nickname: string | null; // 닉네임은 문자열
+  setUser: (userInfo: { email: string | null; nickname: string | null }) => void; // 사용자 정보 설정
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -37,5 +38,14 @@ export const useUserInfoStore = create<UserInfo>()((set) => ({
     set(() => ({
       email: userInfo.email,
       nickname: userInfo.nickname
+    }))
+}));
+
+/** 모든 유저들의 정보 */
+export const useAllUsersStore = create<AllUsersInfoStore>()((set) => ({
+  allUsers: [],
+  setAllUsers: (allUsers) =>
+    set(() => ({
+      allUsers
     }))
 }));
