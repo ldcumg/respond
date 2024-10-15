@@ -106,3 +106,8 @@
     animation: play 4s linear infinite;
   }
 }
+@layer utilities {
+  .border-3 {
+    border-width: 3px;
+  }
+}
