@@ -1,4 +1,5 @@
 "use client";
+import { Search } from "lucide-react";
 
 type PlaylistSearchProps = {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
@@ -17,7 +18,7 @@ const PlaylistSearch = ({ setSearch }: PlaylistSearchProps) => {
         placeholder="제목 또는 가수명을 검색하세요."
         onChange={(e) => setSearch(e.target.value)}
       />
-      <i>icon</i>
+      <Search />
     </div>
   );
 };
