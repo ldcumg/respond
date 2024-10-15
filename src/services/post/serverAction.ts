@@ -3,34 +3,32 @@
 import { ModifyPost, NewPost } from "@/types/post";
 import { createClient } from "@/utils/supabase/server";
 
-const supabase = createClient();
-
 const postsBoard = "board";
 
+/** supabase board 테이블에 게시물 추가 */
 export const createPost = async (newPost: NewPost) => {
+  const supabase = createClient();
   return await supabase.from(postsBoard).insert(newPost);
 };
 
-export const getMyPosts = async (user_id: string) => {
-  const { data, error } = await supabase.from(postsBoard).select().eq("user_id", user_id);
+/** 해당 유저의 게시물 모두 불러오기 */
+export const getPosts = async (userId: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase.from(postsBoard).select().eq("user_id", userId);
   if (error) throw new Error("게시물을 불러오는 데 실패했습니다.");
-  return data;
+  return { data };
 };
 
-export const getPostDetail = async ({ postId }: { postId?: number }) => {
-  // const column = postId ?? "*";
-  const { data, error } = await supabase.from(postsBoard).select().eq("id", postId);
-  if (error) throw new Error("게시물을 불러오는 데 실패했습니다.");
-  return data;
-};
-
+/** 게시물 수정 */
 export const modifyPost = async ({ id, content }: ModifyPost) => {
+  const supabase = createClient();
   const { data, error } = await supabase.from(postsBoard).update({ content }).eq("id", id);
   console.log("error", error);
   console.log("data", data);
 };
 
-export const deletePost = async () => {
-  const { error } = await supabase.from(postsBoard).delete().eq("some_column", "someValue");
-  console.log("error", error);
+/** 게시물 삭제 */
+export const deletePost = async (postId: string) => {
+  const supabase = createClient();
+  return await supabase.from(postsBoard).delete().eq("id", postId);
 };
