@@ -13,6 +13,8 @@ import HomeSkelton from "./setting/components/HomeSkelton";
 import React from "react";
 import LogOutButton from "@/components/LogOutButton";
 import { useAuthStore } from "@/store/useUserInfoStore";
+import { useGetUserIds } from "./setting/hooks/useGetUserIds";
+import usePrivacyState from "./setting/hooks/usePrivacyState";
 
 const tabListExtends = {
   [SHOW_LIST.board]: {
@@ -41,27 +43,32 @@ const tabListExtends = {
   }
 } as const;
 
-const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-const attendeeUserId = "방문자 userid";
+// const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
+// const attendeeUserId = "방문자 userid";
 
-function getTabList(showList: ShowList[], hostUserId: string, attendeeUserId: string) {
-  if (hostUserId === attendeeUserId) {
+function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
+  if (hostUserId === loginUserId) {
+    console.log("showList", showList);
     return Object.keys(tabListExtends) as ShowList[];
   }
+
+  console.log("showList", showList);
   return showList;
 }
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
+  const { hostUserId, loginUserId } = useGetUserIds();
 
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
-    queryFn: () => getSetting(hostUserId)
+    queryFn: () => getSetting(hostUserId),
+    staleTime: 0 * 1000
   });
 
   // TODO: ActiveComponent 지정하는 더 좋은 방법 ?
-  // const [activeTab, setActiveTab] = useState<ShowList>(SHOW_LIST.board);
   const [activeTab, setActiveTab] = useState<ShowList | undefined>(setting?.show_list[0]);
+  const privacyState = usePrivacyState(setting);
 
   useEffect(() => {
     setActiveTab(setting?.show_list[0]);
@@ -71,15 +78,20 @@ const HomePage = () => {
     return <HomeSkelton />;
   }
 
+  if (!hostUserId || !loginUserId) {
+    return <></>;
+  }
+
   const ActiveComponent = tabListExtends[activeTab].component;
 
   const handleTabChange = (show: ShowList) => {
     setActiveTab(show);
   };
 
-  const showList = getTabList(setting.show_list, hostUserId, attendeeUserId);
+  const showList = getTabList(setting.show_list, hostUserId, loginUserId);
   return (
     <div className="h-full pb-10">
+      {privacyState.toString()}
       <LogOutButton isLoggedIn={isLoggedIn} />
       <nav className="">
         <ul className="flex gap-[10px] pl-[50px]">
