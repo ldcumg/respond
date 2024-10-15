@@ -14,8 +14,6 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [volume, setVolume] = useState(0.1); // 초기 볼륨
 
-  console.log("accessToken", accessToken);
-
   const handlePlayPreview = async () => {
     try {
       const res = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
