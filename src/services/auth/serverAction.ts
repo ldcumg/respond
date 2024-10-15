@@ -11,3 +11,11 @@ export const getUserInfo = async () => {
 
   return user;
 };
+
+export const getIsLogin = async () => {
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  return !!session;
+};

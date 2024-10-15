@@ -1,12 +1,12 @@
 type Props = {
   params: {
-    id: string;
+    postId: string;
   };
 };
 
 const PostDetailPage = ({ params }: Props) => {
-  const { id } = params;
-  console.log("id", id);
+  const { postId } = params;
+  console.log("postId", postId);
   return <div>PostDetailPage</div>;
 };
 

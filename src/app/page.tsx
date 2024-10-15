@@ -1,4 +1,5 @@
 "use client";
+
 import queryKey from "@/queries/queryKey";
 import { Setting, SHOW_LIST, TabList as ShowList } from "@/types/setting";
 import { useQuery } from "@tanstack/react-query";
