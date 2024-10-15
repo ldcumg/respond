@@ -1,15 +1,14 @@
 "use client";
 
-import { getSetting } from "@/app/setting/server-action/settingAction";
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
+import { getSetting } from "@/app/[userId]/setting/server-action/settingAction";
 import queryKey from "@/queries/queryKey";
 import { Setting, TAB_LIST, TabList } from "@/types/setting";
+import { getLoginUserId } from "@/utils/supabase/user";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React from "react";
-
-const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-// const attendeeUserId = "방문자 userid";
-const attendeeUserId = hostUserId;
 
 const tabListExtends = {
   [TAB_LIST.board]: {
@@ -41,11 +40,28 @@ function getTabList(tabList: TabList[], hostUserId: string, attendeeUserId: stri
   return tabList;
 }
 
-const GlobalsNav = () => {
+type Props = {
+  params: {
+    userId: string;
+  };
+};
+
+const GlobalsNav = ({ params }: Props) => {
+  // const {userId:hostUserId} = useParams<{ userId:string; }>();
+  // const { data: loginUserId } = useQuery<string | undefined>({
+  //   queryKey: queryKey.auth.loginUser,
+  //   queryFn: () => getLoginUserId()
+  // });
+
+  const {hostUserId, loginUserId} = useGetUserIds();
+  
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
   });
+
+
+  
 
   /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
@@ -60,28 +76,34 @@ const GlobalsNav = () => {
     );
   }
 
-  const tabList = getTabList(setting.tab_list, hostUserId, attendeeUserId);
+  if(!loginUserId){
+    return <></>
+  }
+
+  console.log('loginUserId', loginUserId);
+  console.log('hostUserId === loginUserId', hostUserId === loginUserId);
+
+  const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
+  const NAV_BASE_URL = `/${hostUserId}`;
+
 
   return (
     <nav>
       <ul className="flex flex-col gap-[10px] pt-[50px]">
-        <Link href={"/"}>
+        <Link href={NAV_BASE_URL}>
           <li className="navBtn">홈</li>
         </Link>
         {tabList.map((tab) => (
-          <Link key={tab} href={tabListExtends[tab].href}>
+          <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
             <li className="navBtn">{tabListExtends[tab].name}</li>
           </Link>
         ))}
         {/* TODO: host userId와 접속자 userId가 같을 경우 만 내 설정 보여야함 일단 주석처리*/}
-        {/* {hostUserId === attendeeUserId && (
-          <Link href={"/setting"}>
+        {hostUserId === loginUserId && (
+          <Link href={`${NAV_BASE_URL}/setting`}>
             <li className="navBtn">내 설정</li>
           </Link>
-        )} */}
-        <Link href={"/setting"}>
-          <li className="navBtn">내 설정</li>
-        </Link>
+        )}
       </ul>
     </nav>
   );

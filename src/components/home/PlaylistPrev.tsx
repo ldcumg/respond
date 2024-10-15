@@ -1,27 +1,18 @@
-import { getPlaylist } from "@/app/setting/server-action/playlistAction";
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
+import { getPlaylist } from "@/app/[userId]/setting/server-action/playlistAction";
 import queryKey from "@/queries/queryKey";
-import { useAuthStore } from "@/store/useUserInfoStore";
+import {  useUserInfoStore } from "@/store/useUserInfoStore";
 import { PlayList } from "@/types/playlist/playlist";
-import browserClient from "@/utils/supabase/client";
-import { getLoginUserId } from "@/utils/supabase/user";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-// const attendeeUserId = "방문자 userid";
-
 const PlaylistPrev = () => {
-  const { data: userId } = useQuery<string | undefined>({
-    queryKey: queryKey.auth.loginUser,
-    queryFn: () => getLoginUserId()
-  });
-  // const { isLoggedIn } = useAuthStore();
-  const auth = useAuthStore();
+  const {hostUserId, loginUserId} = useGetUserIds();
 
   const { data: playlist } = useQuery<PlayList[]>({
     queryKey: queryKey.playlist(hostUserId),
     queryFn: () => getPlaylist(hostUserId),
-    enabled: !!userId
+    enabled: !!hostUserId
   });
 
   if (!playlist) {
