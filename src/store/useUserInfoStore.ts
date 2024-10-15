@@ -11,9 +11,14 @@ interface AuthState {
 
 // 사용자 정보 관리
 interface UserInfo {
+  id: string | null | undefined; // 이메일은 문자열 또는 null
   email: string | null; // 이메일은 문자열
   nickname: string | null; // 닉네임은 문자열
-  setUser: (userInfo: { email: string | null; nickname: string | null }) => void; // 사용자 정보 설정
+  setUser: (userInfo: {
+    id: string | null;
+    email: string | null;
+    nickname: string | null;
+  }) => void; // 사용자 정보 설정
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -32,10 +37,12 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 export const useUserInfoStore = create<UserInfo>()((set) => ({
+  id: null,
   email: null,
   nickname: null,
   setUser: (userInfo) =>
     set(() => ({
+      id: userInfo.id,
       email: userInfo.email,
       nickname: userInfo.nickname
     }))
