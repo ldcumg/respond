@@ -64,8 +64,8 @@ export default function Schedule() {
   return (
     <div className="p-6">
       <h1 className="mb-4 text-2xl font-bold">스케쥴 관리</h1>
-      <div className="flex justify-between">
-        <div className="border-3 mb-4 w-1/3 border-solid p-4">
+      <div className="flex justify-between gap-5">
+        <div className="border-3 mb-4 w-1/3 border-solid p-4 rounded-[15px] border-black">
           <h2 className="flex items-center justify-between text-xl font-semibold">
             완료 <span>{todos.완료.length}</span>
           </h2>
@@ -77,12 +77,12 @@ export default function Schedule() {
             ))}
           </ul>
         </div>
-        <div className="border-3 mb-4 w-1/3 border-solid p-4">
+        <div className="border-3 mb-4 w-1/3 border-solid p-4 rounded-[15px] border-black">
           <h2 className="flex items-center justify-between text-xl font-semibold">
             진행중 <span>{todos.진행중.length}</span>
           </h2>
         </div>
-        <div className="border-3 mb-4 w-1/3 border-solid p-4">
+        <div className="border-3 mb-4 w-1/3 border-solid p-4 rounded-[15px] border-black">
           <h2 className="flex items-center justify-between text-xl font-semibold">
             취소 <span>{todos.취소.length}</span>
           </h2>
@@ -95,13 +95,15 @@ export default function Schedule() {
           </ul>
         </div>
       </div>
-      <div className="mt-4 flex items-center">
-        <input type="text" value={inputValue} onChange={handleInputChange} className="h-10 w-3/5" />
+      <div>
+      <div className="mt-4 flex items-center justify-center ">
+        <input type="text" value={inputValue} onChange={handleInputChange} className="h-10 w-3/5 border-3  rounded-[15px] border-black" />
         <button onClick={handleAddTodo} className="ml-2">
           추가하기
         </button>
       </div>
-      <label>투두리스트 만들기</label>
+      <div>
+      <label>투두리스트 </label>
       <ul>
         {currentTodos.map((todo, index) => (
           <li key={index} className="flex items-center justify-between divide-y divide-dashed">
@@ -109,12 +111,12 @@ export default function Schedule() {
             <div>
               <button
                 onClick={() => handleCompleteTodo(startIndex + index)}
-                className="mr-2 rounded bg-green-500 px-2 py-1 text-white">
+                className="mr-2 rounded px-2 py-1">
                 완료
               </button>
               <button
                 onClick={() => handleCancelTodo(startIndex + index)}
-                className="rounded bg-red-500 px-2 py-1 text-white">
+                className="rounded px-2 py-1 ">
                 취소
               </button>
             </div>
@@ -131,6 +133,8 @@ export default function Schedule() {
           </button>
         ))}
       </div>
+      </div>
+    </div>
     </div>
   );
 }
