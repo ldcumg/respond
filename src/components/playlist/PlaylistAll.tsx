@@ -71,8 +71,6 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: 
   /** 플레이리스트 추가이벤트 */
   //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    console.log("track", track);
-    console.log("track.id", track.id);
     if (!myPlayListData.some((list) => list.track_id === track.id)) {
       addPlayListMutation.mutate(track);
     } else {

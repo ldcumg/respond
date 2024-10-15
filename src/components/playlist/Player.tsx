@@ -16,10 +16,10 @@ export type SpotifyMainTrack = {
 const Player = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
-  const [mainTrack, setMainTrack] = useState<SpotifyMainTrack[]>([]);
   const [accessToken, setAccessToken] = useState("");
   const [playState, setPlayState] = useState(false); //재생상태
 
+  //스포티파이 재생 토큰
   useEffect(() => {
     const fetchSpotifyData = async () => {
       try {
@@ -50,23 +50,7 @@ const Player = () => {
     fetchSpotifyData();
   }, [clientId, clientSecret]);
 
-  // useEffect(() => {
-  //   const fetchPlayList = async () => {
-  //     const { data: loginUserId } = await browserClient.auth.getUser();
-  //     const userId = loginUserId?.user?.id;
-  //     const { data: mainPlay, error } = await browserClient
-  //       .from("playlist")
-  //       .select("*")
-  //       .eq("user_id", userId)
-  //       .eq("is_main", true);
-  //     if (error) console.error("playlist 가져오기 오류:", error.message);
-  //     else {
-  //       setMainTrack(mainPlay);
-  //     }
-  //   };
-  //   fetchPlayList();
-  // }, []);
-
+  //메인지정 mutation 함수
   const fetchMainPlay = async () => {
     const { data: loginUserId } = await browserClient.auth.getUser();
     const userId = loginUserId?.user?.id;
@@ -75,7 +59,6 @@ const Player = () => {
       .select("*")
       .eq("user_id", userId)
       .eq("is_main", true);
-    console.log("mainPlay", mainPlay);
     return mainPlay;
   };
 
@@ -87,8 +70,10 @@ const Player = () => {
     queryKey: ["myMainPlay", clientId, clientSecret],
     queryFn: fetchMainPlay
   });
-  console.log("myMainPlay", myMainPlay);
-  //mainTrack
+
+  if (myMainPlayIsError) return <div>데이터 가져오기 오류...</div>;
+  if (myMainPlayIsLoding) return <div>Loading...</div>;
+
   return (
     <div>
       {myMainPlay && myMainPlay.length > 0 ? (

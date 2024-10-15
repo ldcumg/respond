@@ -91,7 +91,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   const handleMainPlay = async (trackId: string) => {
     updateMainmutation.mutate(trackId);
   };
-  console.log("myPlayListData", myPlayListData);
+
   return (
     <div>
       {myPlayListData.length > 0 ? (
