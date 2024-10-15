@@ -55,7 +55,6 @@ const generateDefaultSetting = async (userId: string) => {
   if (error) {
     throw new Error("setting 생성 실패");
   }
-
 };
 
 export { getSetting, patchPrivacy, patchShowList, patchTabList, generateDefaultSetting };

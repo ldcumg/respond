@@ -6,7 +6,8 @@ const queryKey = {
   playlist: (userId: string) => ["playlist", userId],
   auth: {
     loginUser: ["loginUser"]
-  }
+  },
+  follow:["follow"]
 };
 
 export default queryKey;
