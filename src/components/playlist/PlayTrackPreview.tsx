@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Play, Pause } from "lucide-react";
 
 type PreviewProps = {
   accessToken: string;
@@ -12,8 +13,6 @@ type PreviewProps = {
 const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: PreviewProps) => {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [volume, setVolume] = useState(0.1); // 초기 볼륨
-
-  console.log("accessToken", accessToken);
 
   const handlePlayPreview = async () => {
     try {
@@ -54,9 +53,9 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
   return (
     <div>
       <button
-        className={`h-[50px] w-[50px] transform rounded-full border-[4px] border-black text-[14px]`}
+        className={`flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px]`}
         onClick={handlePlayPreview}>
-        {playState ? "정지" : "재생"}
+        {playState ? <Pause /> : <Play />}
       </button>
     </div>
   );
