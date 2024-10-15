@@ -2,6 +2,7 @@ import { Setting, TAB_LIST, tabListKr } from "@/types/setting";
 import React from "react";
 import { useSettingTabList } from "../hooks/useSettingTabList";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useGetUserIds } from "../hooks/useGetUserIds";
 
 type Props = {
   setting: Setting;
@@ -26,11 +27,22 @@ const tabListCheckItems = [
   }
 ] as const;
 
-const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
+// const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
 const SettingTabList = ({ setting }: Props) => {
+  // const {userId:hostUserId} = useParams<{ userId:string; }>();
+  // const router = useRouter()
+
+  // const { data: loginUserId } = useQuery<string | undefined>({
+  //   queryKey: queryKey.auth.loginUser,
+  //   queryFn: () => getLoginUserId()
+  // });
+
+  const {hostUserId, loginUserId} = useGetUserIds();
+
   const { tabListCheckList, handleCheckboxChange, isButtonEnabled, useTabListMutate } = useSettingTabList(setting);
   const tabListMutate = useTabListMutate();
+
 
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
@@ -39,7 +51,7 @@ const SettingTabList = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => tabListMutate({ userId: testUserId, tabList: tabListCheckList })}>
+            onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}>
             저장
           </button>
         )}

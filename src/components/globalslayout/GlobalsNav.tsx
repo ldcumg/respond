@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { getSetting } from "@/app/[userId]/setting/server-action/settingAction";
 import queryKey from "@/queries/queryKey";
 import { Setting, TAB_LIST, TabList } from "@/types/setting";
@@ -46,15 +47,17 @@ type Props = {
 };
 
 const GlobalsNav = ({ params }: Props) => {
-  const { userId: hostUserId } = useParams<{ userId: string }>();
+  // const {userId:hostUserId} = useParams<{ userId:string; }>();
+  // const { data: loginUserId } = useQuery<string | undefined>({
+  //   queryKey: queryKey.auth.loginUser,
+  //   queryFn: () => getLoginUserId()
+  // });
+
+  const { hostUserId, loginUserId } = useGetUserIds();
+
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
-  });
-
-  const { data: loginUserId } = useQuery<string | undefined>({
-    queryKey: queryKey.auth.loginUser,
-    queryFn: () => getLoginUserId()
   });
 
   /** 옆에 nav 스켈레톤 ? */
@@ -73,6 +76,9 @@ const GlobalsNav = ({ params }: Props) => {
   if (!loginUserId) {
     return <></>;
   }
+
+  // console.log("loginUserId", loginUserId);
+  // console.log("hostUserId === loginUserId", hostUserId === loginUserId);
 
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
   const NAV_BASE_URL = `/${hostUserId}`;

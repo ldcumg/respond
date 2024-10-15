@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import Player from "../playlist/Player";
+import Follow from "../home/Follow";
 import { useAllUsersStore } from "@/store/useUserInfoStore";
 import { getAllUsers } from "@/services/auth/serverAction";
 
@@ -18,6 +19,7 @@ const GlobalsUserInfo = () => {
   return (
     <div>
       <Player />
+      <Follow />
     </div>
   );
 };

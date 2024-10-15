@@ -13,15 +13,10 @@ type Props = {
   };
 };
 
-// 임시
-// const nickname = "123";
-
 const PostDetailPage = ({ params }: Props) => {
   const { userId, postId } = params;
   const route = useRouter();
   const [post, setPost] = useState<Post>();
-
-  const asagg = 3;
 
   useEffect(() => {
     (async function () {
@@ -46,13 +41,16 @@ const PostDetailPage = ({ params }: Props) => {
   };
 
   if (post) {
-    const { title, nickname, content } = post;
+    const { title, content, created_at } = post;
+    const imgUrl = post.board_img?.[0]?.img_url;
+    console.log("img_url", imgUrl);
     return (
       <>
         <h3>{title}</h3>
         <button>수정</button>
         <button onClick={handleDelete}>삭제</button>
-        <p>{nickname}</p>
+        <p>{created_at}</p>
+        {imgUrl && <img src={imgUrl} />}
         <p>{content}</p>
         <Link href={`/${userId}/board`}>목록으로 가기</Link>
       </>

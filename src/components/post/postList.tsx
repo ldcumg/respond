@@ -5,9 +5,6 @@ import { Post } from "@/types/post";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// 임시
-// const nickname = "123";
-
 type Props = {
   userId: string;
 };
@@ -24,6 +21,7 @@ const PostList = ({ userId }: Props) => {
       {posts.map((post) => (
         <Link href={`/${userId}/board/${post.id}`} key={post.id}>
           <h6>{post.title}</h6>
+          <p>{post.created_at}</p>
         </Link>
       ))}
     </ol>

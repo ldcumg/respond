@@ -1,7 +1,6 @@
 "use client";
 
 import { createPost, imagePosting } from "@/services/post/serverAction";
-import { useUserInfoStore } from "@/store/useUserInfoStore";
 import browserClient from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -23,6 +22,7 @@ type Props = {
 
 const CreatePost = ({ setIsPosting }: Props) => {
   const [image, setImage] = useState<File | null>(null);
+  const [imgPreviewUrl, setImgPreviewUrl] = useState<string | undefined>(undefined);
   const { register, handleSubmit, formState } = useForm({
     mode: "onSubmit",
     resolver: zodResolver(postSchema)
@@ -46,15 +46,19 @@ const CreatePost = ({ setIsPosting }: Props) => {
       const randomImageName = crypto.randomUUID();
       const { data: bucketData, error: imageError } = await browserClient.storage
         .from("board_img")
-        .upload(`post_img/${randomImageName}`, image);
+        .upload(`${nickname}/${randomImageName}`, image);
 
       if (imageError) {
         console.error(imageError);
         alert("이미지 업로드를 실패했습니다.");
         return;
       }
+      const { path } = bucketData;
 
-      const { error: imageTableError } = await imagePosting({ user_id, board_id, bucketData });
+      const { publicUrl } = browserClient.storage.from("board_img").getPublicUrl(path).data;
+      setImgPreviewUrl(publicUrl);
+
+      const { error: imageTableError } = await imagePosting({ user_id, board_id, publicUrl });
 
       if (imageTableError) {
         console.error(imageTableError);
@@ -71,12 +75,7 @@ const CreatePost = ({ setIsPosting }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="file" onChange={(e) => e.target.files && setImage(e.target.files[0])} multiple />
-      <img
-        src="https://acmtusazfkgoniskwtmu.supabase.co/storage/v1/object/public/board_img/post_img/e012e7ad-f8ae-4086-ad93-b22578700a09"
-        alt="미리보기 이미지"
-        width={45}
-        height={45}
-      />
+      <img src={imgPreviewUrl} alt="미리보기 이미지" width={45} height={45} />
       <label>게시물 제목</label>
       <input {...register("title")} />
       {titleValidateError && <p>{titleValidateError.message as string}</p>}

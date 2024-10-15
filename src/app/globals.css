@@ -68,7 +68,11 @@
 }
 
 /* 재사용하는 구조적인 스타일링 */
-@layer components {}
+@layer components {
+  .circle-btn {
+    @apply flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[30px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff]
+  }
+}
 
 /* 하나의 속성에 대해 스타일 */
 @layer utilities {
