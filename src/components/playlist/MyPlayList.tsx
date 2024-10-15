@@ -93,7 +93,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       {myPlayListData.length > 0 ? (
         <div className="mt-[40px] grid grid-cols-3 gap-4">
           {myPlayListData.map((list) => (
@@ -106,7 +106,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
               {isShowEdit && (
                 <div className="flex gap-[5px]">
                   {list.is_main === true ? (
-                    <button className="btn !bg-black !text-white" onClick={() => handleMainPlay(list.track_id)}>
+                    <button
+                      className="btn border-[2px] border-black !bg-black !text-white"
+                      onClick={() => handleMainPlay(list.track_id)}>
                       메인노래
                     </button>
                   ) : (
@@ -126,7 +128,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
           ))}
         </div>
       ) : (
-        <p>나만의 플레이리스트를 추가해보세요.</p>
+        <div className="flex h-full items-center justify-center">
+          <p>나만의 플레이리스트를 추가해보세요.</p>
+        </div>
       )}
     </div>
   );
