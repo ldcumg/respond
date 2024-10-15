@@ -7,7 +7,7 @@ const queryKey = {
   auth: {
     loginUser: ["loginUser"]
   },
-  follow: (hostUserId: string, loginUserId: string) => [hostUserId, loginUserId]
+  follow: (hostUserId: string, loginUserId: string | null | undefined) => ["follow", hostUserId, loginUserId]
 };
 
 export default queryKey;
