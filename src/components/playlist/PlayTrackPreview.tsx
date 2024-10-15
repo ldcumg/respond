@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Play, Pause } from "lucide-react";
 
 type PreviewProps = {
   accessToken: string;
@@ -52,9 +53,9 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
   return (
     <div>
       <button
-        className={`h-[50px] w-[50px] transform rounded-full border-[4px] border-black text-[14px]`}
+        className={`flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px]`}
         onClick={handlePlayPreview}>
-        {playState ? "정지" : "재생"}
+        {playState ? <Pause /> : <Play />}
       </button>
     </div>
   );

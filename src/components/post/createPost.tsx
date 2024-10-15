@@ -40,10 +40,8 @@ const CreatePost = ({ setIsPosting }: Props) => {
         .from("board_img")
         .upload(`post_img/${randomImageName}`, selectedImage);
 
-      const {data: urlData} = browserClient.storage.from("board_img").getPublicUrl(bucketData.path);
+      const { data: urlData } = browserClient.storage.from("board_img").getPublicUrl(bucketData.path);
       console.log("urlData", urlData);
-
-      
     }
 
     const { title, content } = value;
