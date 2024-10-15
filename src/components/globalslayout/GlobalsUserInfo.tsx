@@ -6,12 +6,12 @@ import { useAllUsersStore } from "@/store/useUserInfoStore";
 import { getAllUsers } from "@/services/auth/serverAction";
 
 const GlobalsUserInfo = () => {
-  const setAllUserInfo = useAllUsersStore((state) => state.setAllUsers);
+  const { setAllUsers } = useAllUsersStore((state) => state);
 
   // 모든 유저 정보 zustand에 저장
   useEffect(() => {
     (async function () {
-      getAllUsers().then(({ data }) => setAllUserInfo(data));
+      getAllUsers().then(({ data }) => setAllUsers(data));
     })();
   }, []);
 
