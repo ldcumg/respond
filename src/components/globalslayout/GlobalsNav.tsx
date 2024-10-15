@@ -14,7 +14,7 @@ const GlobalsNav = () => {
         <Link href={"/playlist"}>
           <li className="navBtn">채팅</li>
         </Link>
-        <Link href={"/playlist"}>
+        <Link href={"/schedule"}>
           <li className="navBtn">스케줄 관리</li>
         </Link>
         <Link href={"/playlist"}>
