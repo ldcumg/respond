@@ -14,6 +14,7 @@ import React from "react";
 import LogOutButton from "@/components/LogOutButton";
 import { useAuthStore } from "@/store/useUserInfoStore";
 import { useGetUserIds } from "./setting/hooks/useGetUserIds";
+import usePrivacyState from "./setting/hooks/usePrivacyState";
 
 const tabListExtends = {
   [SHOW_LIST.board]: {
@@ -47,17 +48,17 @@ const tabListExtends = {
 
 function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
   if (hostUserId === loginUserId) {
-    console.log('showList', showList);
+    console.log("showList", showList);
     return Object.keys(tabListExtends) as ShowList[];
   }
 
-  console.log('showList', showList);
+  console.log("showList", showList);
   return showList;
 }
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
-  const {hostUserId, loginUserId} = useGetUserIds();
+  const { hostUserId, loginUserId } = useGetUserIds();
 
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
@@ -67,6 +68,7 @@ const HomePage = () => {
 
   // TODO: ActiveComponent 지정하는 더 좋은 방법 ?
   const [activeTab, setActiveTab] = useState<ShowList | undefined>(setting?.show_list[0]);
+  const privacyState = usePrivacyState(setting);
 
   useEffect(() => {
     setActiveTab(setting?.show_list[0]);
@@ -76,8 +78,8 @@ const HomePage = () => {
     return <HomeSkelton />;
   }
 
-  if(!hostUserId || !loginUserId){
-    return <></>
+  if (!hostUserId || !loginUserId) {
+    return <></>;
   }
 
   const ActiveComponent = tabListExtends[activeTab].component;
@@ -86,10 +88,10 @@ const HomePage = () => {
     setActiveTab(show);
   };
 
-
   const showList = getTabList(setting.show_list, hostUserId, loginUserId);
   return (
     <div className="h-full pb-10">
+      {privacyState.toString()}
       <LogOutButton isLoggedIn={isLoggedIn} />
       <nav className="">
         <ul className="flex gap-[10px] pl-[50px]">

@@ -3,21 +3,48 @@
 import { Follow } from "@/types/follow";
 import { createClient } from "@/utils/supabase/server";
 
-const supabase = createClient();
+type RequestFollow = {
+  id: number;
+  toUserId: string | null | undefined;
+  fromUserId: string | null | undefined;
+};
 
-// const
+const getFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">): Promise<Follow | null> => {
+  console.log("🚀 ~ getFollow ~ fromUserId:", fromUserId);
+  console.log("🚀 ~ getFollow ~ toUserId:", toUserId);
+  const supabase = createClient();
 
-const a = 1;
-
-const postFollow = async ({ toUserId, fromUserId }: Partial<Follow>) => {};
-
-const patchFollow = async ({ toUserId, fromUserId }: any) => {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("follow")
-    .insert({ to_user_id: hostUserId, from_user_id: loginUserId })
-    .eq("user_id", userId);
+    .select()
+    .eq("to_user_id", toUserId)
+    .eq("from_user_id", fromUserId);
+  // .returns<Follow[]>();
 
   if (error) {
-    throw new Error("Follow update Error");
+    throw new Error("Follow select Error");
+  }
+
+  console.log("data", data);
+
+  return data.length > 0 ? data[0] : null;
+};
+
+const postFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">) => {
+  const supabase = createClient();
+  const { error } = await supabase.from("follow").insert({ to_user_id: toUserId, from_user_id: fromUserId });
+  if (error) {
+    throw new Error("Follow insert Error");
   }
 };
+
+const deleteFollow = async ({ id }: Pick<RequestFollow, "id">) => {
+  const supabase = createClient();
+  const { error } = await supabase.from("follow").delete().eq("id", id);
+
+  if (error) {
+    throw new Error("Follow delete Error");
+  }
+};
+
+export { getFollow, postFollow, deleteFollow };
