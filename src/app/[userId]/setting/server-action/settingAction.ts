@@ -10,8 +10,6 @@ const getSetting = async (userId: string) => {
     .eq("user_id", userId)
     .returns<Setting[]>();
 
-    console.log('"asdfasdfasdsd"', "asdfasdfasdsd");
-
   if (isSettingError) {
     throw new Error("setting select Error");
   }
@@ -58,7 +56,6 @@ const generateDefaultSetting = async (userId: string) => {
     throw new Error("setting 생성 실패");
   }
 
-  console.log("setting 생성 성공");
 };
 
 export { getSetting, patchPrivacy, patchShowList, patchTabList, generateDefaultSetting };
