@@ -5,12 +5,15 @@ import { createClient } from "@/utils/supabase/server";
 
 type RequestFollow = {
   id: number;
-  toUserId: string;
+  toUserId: string | null | undefined;
   fromUserId: string | null | undefined;
 };
 
 const getFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">): Promise<Follow | null> => {
+  console.log("🚀 ~ getFollow ~ fromUserId:", fromUserId);
+  console.log("🚀 ~ getFollow ~ toUserId:", toUserId);
   const supabase = createClient();
+
   const { data, error } = await supabase
     .from("follow")
     .select()
