@@ -7,6 +7,11 @@ import MyPlayList from "@/components/playlist/MyPlayList";
 import MyPlayListEdit from "@/components/playlist/MyPlayListEdit";
 import PlayListModalBtn from "@/components/playlist/PlayListModalBtn";
 import { useQuery } from "@tanstack/react-query";
+// import { SpotifyTrack } from "@/types/playlist/Spotify";
+// type SpotifyListProps = {
+//   track: SpotifyTrack;
+//   track_id: string;
+// };
 
 const Playlist = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;

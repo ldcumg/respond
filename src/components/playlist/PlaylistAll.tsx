@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
+// import PlayList from "@/types/playlist/playList";
 import browserClient from "@/utils/supabase/client";
 import PlaylistSearch from "./PlaylistSearch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +11,7 @@ import { X } from "lucide-react";
 
 type SpotifyListProps = {
   track: SpotifyTrack;
+  track_id: string;
 };
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];

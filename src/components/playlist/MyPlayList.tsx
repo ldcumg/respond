@@ -60,8 +60,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   const deletePlayListmutation = useMutation({
     mutationFn: deleteTrackPlayList,
     onSuccess: () => {
-      confirm("내 플레이리스트에서 삭제하시겠습니까?");
-      queryClient.invalidateQueries(["myPlayList"]);
+      if (window.confirm("내 플레이리스트에서 삭제하시겠습니까?")) {
+        queryClient.invalidateQueries(["myPlayList"]);
+      }
     },
     onError: (error: Error) => {
       console.log("error.message", error.message);
@@ -82,7 +83,6 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
         track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
       );
       queryClient.invalidateQueries(["myPlayList"]);
-      //업데이트트랙을 queryKey: ["myPlayList", clientId, clientSecret],이 쿼맄키에 뮤테이션으로 업데이트해준다.
     }
   });
 
