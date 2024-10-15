@@ -15,6 +15,7 @@ type PlaylistAllProps = {
   playlist: SpotifyListProps[];
   myPlayList: SpotifyListProps[];
   spotifyList: SpotifyListProps[];
+  myPlayListData: SpotifyListProps[];
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 type InvalidateQueryFilters = {
@@ -69,7 +70,8 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: 
   //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {
     console.log("track", track);
-    if (!myPlayListData.some((list) => list.track?.id === track.id)) {
+    console.log("track.id", track.id);
+    if (!myPlayListData.some((list) => list.track_id === track.id)) {
       addPlayListMutation.mutate(track);
     } else {
       alert("이미 플레이리스트에 존재하는 트랙입니다.");
