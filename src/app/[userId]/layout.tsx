@@ -2,9 +2,7 @@ import GlobalsUserInfo from "@/components/globalslayout/GlobalsUserInfo";
 import GlobalsNav from "@/components/globalslayout/GlobalsNav";
 import UserSearchBar from "@/components/globalslayout/UserSearchBar";
 
-type Props = Readonly<{
-  children: React.ReactNode;
-}>;
+type Props = Readonly<{ children: React.ReactNode }>;
 
 const layout = ({ children }: Props) => {
   return (

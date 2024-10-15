@@ -8,18 +8,20 @@ import { useEffect, useState } from "react";
 
 type Props = {
   params: {
+    userId: string;
     postId: string;
   };
 };
 
 // 임시
-const userId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 // const nickname = "123";
 
 const PostDetailPage = ({ params }: Props) => {
-  const { postId } = params;
+  const { userId, postId } = params;
   const route = useRouter();
   const [post, setPost] = useState<Post>();
+
+  const asagg = 3;
 
   useEffect(() => {
     (async function () {

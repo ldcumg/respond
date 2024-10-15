@@ -4,7 +4,14 @@ import CreatePost from "@/components/post/createPost";
 import PostList from "@/components/post/postList";
 import { useState } from "react";
 
-const PostsPage = () => {
+type Props = {
+  params: {
+    userId: string;
+  };
+};
+
+const PostsPage = ({ params }: Props) => {
+  const { userId } = params;
   const [isPosting, setIsPosting] = useState<boolean>(false);
 
   const handlePosting = () => {
@@ -26,7 +33,7 @@ const PostsPage = () => {
         <>
           <h3>게시물</h3>
           <button onClick={handlePosting}>+</button>
-          <PostList />
+          <PostList userId={userId} />
         </>
       )}
     </>

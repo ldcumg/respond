@@ -4,9 +4,19 @@ export type Post = {
   nickname: string;
   title: string;
   content: string;
-  created_at: string;
+  img_url?: string | null;
 };
 
-export type NewPost = Omit<Post, "id" | "created_at">;
+export type NewPost = Omit<Post, "id" | "img_url?">;
+
+export type PostImage = {
+  user_id: string;
+  board_id: number;
+  bucketData: {
+    path: string;
+    id: string;
+    fullPath: string;
+  };
+};
 
 export type ModifyPost = Pick<Post, "id" | "content">;

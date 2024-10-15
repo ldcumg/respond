@@ -6,10 +6,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // 임시
-const userId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 // const nickname = "123";
 
-const PostList = () => {
+type Props = {
+  userId: string;
+};
+
+const PostList = ({ userId }: Props) => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {

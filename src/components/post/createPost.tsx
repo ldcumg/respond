@@ -1,6 +1,7 @@
 "use client";
 
-import { createPost } from "@/services/post/serverAction";
+import { createPost, imagePosting } from "@/services/post/serverAction";
+import { useUserInfoStore } from "@/store/useUserInfoStore";
 import browserClient from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -21,72 +22,55 @@ type Props = {
 };
 
 const CreatePost = ({ setIsPosting }: Props) => {
+  const [image, setImage] = useState<File | null>(null);
   const { register, handleSubmit, formState } = useForm({
     mode: "onSubmit",
     resolver: zodResolver(postSchema)
   });
   const { title: titleValidateError, content: contentValidateError } = formState.errors;
 
-  // const [files, setFiles] = useState<File[]>([]);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
-  const [selectedImage, setSelectedImage] = useState<File | null>();
-
+  // NOTE 커스텀 훅으로 빼기
   const onSubmit = async (value: FieldValues) => {
-    if (selectedImage) {
-      console.log(selectedImage);
-
-      const randomImageName = crypto.randomUUID();
-      const { data: bucketData, error } = await browserClient.storage
-        .from("board_img")
-        .upload(`post_img/${randomImageName}`, selectedImage);
-
-      const { data: urlData } = browserClient.storage.from("board_img").getPublicUrl(bucketData.path);
-      console.log("urlData", urlData);
-    }
-
     const { title, content } = value;
-    const { error } = await createPost({ user_id, nickname, title, content });
+    const { data: boardData, error } = await createPost({ user_id, nickname, title, content });
 
     if (error) {
       console.error(error);
       alert("게시물 작성을 실패했습니다.");
       return;
     }
+
+    if (image) {
+      const { id: board_id } = boardData[0];
+
+      const randomImageName = crypto.randomUUID();
+      const { data: bucketData, error: imageError } = await browserClient.storage
+        .from("board_img")
+        .upload(`post_img/${randomImageName}`, image);
+
+      if (imageError) {
+        console.error(imageError);
+        alert("이미지 업로드를 실패했습니다.");
+        return;
+      }
+
+      const { error: imageTableError } = await imagePosting({ user_id, board_id, bucketData });
+
+      if (imageTableError) {
+        console.error(imageTableError);
+        alert("이미지 업로드를 실패했습니다.");
+        return;
+      }
+    }
+
     alert("게시물을 작성했습니다.");
     setIsPosting(false);
     return;
   };
 
-  // const handleFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) setSelectedImage(e.target.files[0]);
-  // console.log(e.target.files[0]);
-  // const fileList = e.target.files;
-  // console.log("fileList", fileList);
-  // if (fileList) {
-  //   const filesArray = Array.from(fileList);
-  //   filesArray.forEach((file) => {
-  //     handleAddImages(file);
-  //   });
-  // }
-  // };
-
-  // const handleAddImages = async (file: File) => {
-  //   const newFileName = crypto.randomUUID();
-  //   const { data, error } = await browserClient.storage.from("board_img").upload(`products/${newFileName}`, file);
-
-  // if (error) {
-  //   console.log("파일이 업로드 되지 않습니다.", error);
-  //   return;
-  // }
-
-  // const res = browserClient.storage.from("board_img").getPublicUrl(data.path);
-  // setFiles((prevFiles) => [file, ...prevFiles]);
-  // setUploadedFileUrl((prev: any) => [...prev, res.data.publicUrl]);
-  // };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="file" onChange={(e) => e.target.files && setSelectedImage(e.target.files[0])} multiple />
+      <input type="file" onChange={(e) => e.target.files && setImage(e.target.files[0])} multiple />
       <img
         src="https://acmtusazfkgoniskwtmu.supabase.co/storage/v1/object/public/board_img/post_img/e012e7ad-f8ae-4086-ad93-b22578700a09"
         alt="미리보기 이미지"

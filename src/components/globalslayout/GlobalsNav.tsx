@@ -46,7 +46,7 @@ type Props = {
 };
 
 const GlobalsNav = ({ params }: Props) => {
-  const {userId:hostUserId} = useParams<{ userId:string; }>();
+  const { userId: hostUserId } = useParams<{ userId: string }>();
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
@@ -56,11 +56,6 @@ const GlobalsNav = ({ params }: Props) => {
     queryKey: queryKey.auth.loginUser,
     queryFn: () => getLoginUserId()
   });
-  
-
-  
-
-  console.log('params', params);
 
   /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
@@ -75,8 +70,8 @@ const GlobalsNav = ({ params }: Props) => {
     );
   }
 
-  if(!loginUserId){
-    return <></>
+  if (!loginUserId) {
+    return <></>;
   }
 
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
