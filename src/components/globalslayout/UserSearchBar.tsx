@@ -19,6 +19,7 @@ const UserSearchBar = () => {
       return;
     }
     route.push(`/${searchedUser.id}`);
+    setSearchInput("");
   };
 
   return (
