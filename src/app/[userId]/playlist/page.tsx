@@ -77,11 +77,8 @@ const Playlist = () => {
   } = useQuery({
     queryKey: ["myPlayList", clientId, clientSecret],
     queryFn: fetchPlayList
-    // onSuccess: (data) => {
-    //   setMyPlayList(data)
-    // }
   });
-  // console.log("myPlayList", myPlayList);
+
   if (spotifyIsError || playListIsError) return <div>데이터 가져오기 오류...</div>;
   if (spotifyIsLoding || playListIsLoding) return <div>Loading...</div>;
 

@@ -83,6 +83,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
         track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
       );
       queryClient.invalidateQueries(["myPlayList"]);
+      queryClient.invalidateQueries(["myMainPlay"]);
     }
   });
 
