@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+// import { createClient } from "@supabase/supabase-js";
 
 // ToDo 상태의 타입 정의
 type TodoState = {
@@ -9,7 +9,7 @@ type TodoState = {
   취소: { 내용: string; 날짜: string }[]; // 취소된 할 일 목록
 };
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+// const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function Schedule() {
   const [inputValue, setInputValue] = useState<string>("");
