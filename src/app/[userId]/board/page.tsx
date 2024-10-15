@@ -26,22 +26,22 @@ const PostsPage = ({ params }: Props) => {
     <>
       {isPosting ? (
         <>
-          <h3>게시물 작성</h3>
-          <button
-            onClick={handlePosting}
-            className="circle-btn duration-3000">
-            <X />
-          </button>
+          <div className="page-title-container">
+            <h1 className="page-title">게시물 추가</h1>
+            <button onClick={handlePosting} className="circle-btn duration-3000">
+              <X />
+            </button>
+          </div>
           <CreatePost setIsPosting={setIsPosting} />
         </>
       ) : (
         <>
-          <h3>게시물 모아보기</h3>
-          <button
-            onClick={handlePosting}
-            className="circle-btn duration-3000">
-            <Plus />
-          </button>
+          <div className="page-title-container mb-8">
+            <h1 className="page-title">게시물 모아보기</h1>
+            <button onClick={handlePosting} className="circle-btn duration-3000">
+              <Plus />
+            </button>
+          </div>
           <PostList userId={userId} />
         </>
       )}

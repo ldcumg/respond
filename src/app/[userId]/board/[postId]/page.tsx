@@ -42,22 +42,38 @@ const PostDetailPage = ({ params }: Props) => {
 
   if (post) {
     const { title, content, created_at } = post;
+    const createdDay = created_at.substring(0, 10);
     const imgUrl = post.board_img?.[0]?.img_url;
-    console.log("img_url", imgUrl);
     return (
-      <>
-        <h3>{title}</h3>
-        <button>수정</button>
-        <button onClick={handleDelete}>삭제</button>
-        <p>{created_at}</p>
-        {imgUrl && <img src={imgUrl} />}
-        <p>{content}</p>
-        <Link href={`/${userId}/board`}>목록으로 가기</Link>
-      </>
+      <div className="relative h-full w-full">
+        <div className="page-title-container">
+          <h1 className="page-title">{title}</h1>
+          <div className="flex gap-6">
+            <button>수정</button>
+            <button onClick={handleDelete}>삭제</button>
+          </div>
+        </div>
+        <p>
+          <small>{createdDay}</small>
+        </p>
+        <div className="flex h-[75%] flex-col items-center overflow-auto">
+          {imgUrl && <img className="mx-auto mt-5 w-[60%]" src={imgUrl} />}
+          <p className="mt-5 flex w-full justify-center">{content}</p>
+        </div>
+        <Link
+          href={`/${userId}/board`}
+          className="absolute bottom-1 right-1/2 translate-x-1/2 rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white">
+          목록으로 가기
+        </Link>
+      </div>
     );
   }
 
-  return <h3>목록을 불러오는 중입니다.</h3>;
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <p>목록을 불러오는 중입니다...</p>
+    </div>
+  );
 };
 
 export default PostDetailPage;

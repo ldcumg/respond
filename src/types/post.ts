@@ -13,7 +13,7 @@ export type NewPost = Omit<Post, "id" | "created_at" | "img_url?">;
 export type PostImage = {
   user_id: string;
   board_id: number;
-  publicUrl: string;
+  imageUrl: string;
 };
 
 export type ModifyPost = Pick<Post, "id" | "content">;
