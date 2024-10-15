@@ -6,6 +6,7 @@ import { SpotifyTrack } from "@/types/playlist/Spotify";
 import browserClient from "@/utils/supabase/client";
 import PlaylistSearch from "./PlaylistSearch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { X } from "lucide-react";
 
 type SpotifyListProps = {
   track: SpotifyTrack;
@@ -13,9 +14,12 @@ type SpotifyListProps = {
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];
   myPlayList: SpotifyListProps[];
+  spotifyList: SpotifyListProps[];
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+type InvalidateQueryFilters = {
+  queryKey: string[];
+};
 /** supabase 플레이리스트 추가 */
 //1.뮤테이션 재료만들고
 const addTrackPlayList = async (track: SpotifyTrack) => {
@@ -43,27 +47,29 @@ const addTrackPlayList = async (track: SpotifyTrack) => {
 
 //TODO : 플레이리스트 추가시 중복된거 고쳐야함
 //2.뮤테이션 만들고
-const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayList }: PlaylistAllProps) => {
+const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
   const queryClient = useQueryClient();
-  console.log("myPlayList", myPlayList);
+  // console.log("myPlayList", myPlayList);
 
   const addPlayListMutation = useMutation({
     mutationFn: addTrackPlayList,
     onSuccess: () => {
       alert("플레이리스트에 추가되었습니다");
-      queryClient.invalidateQueries(["myPlayList"]);
+      const filtersQueryKey: InvalidateQueryFilters = { queryKey: ["myPlayList"] };
+      queryClient.invalidateQueries(filtersQueryKey);
     },
     onError: (error: Error) => {
       console.log("error.message", error.message);
     }
   });
 
+  // console.log("spotifyList", spotifyList);
   /** 플레이리스트 추가이벤트 */
   //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {
     console.log("track", track);
-    if (!myPlayList.some((list) => list.track?.id === track.id)) {
+    if (!myPlayListData.some((list) => list.track?.id === track.id)) {
       addPlayListMutation.mutate(track);
     } else {
       alert("이미 플레이리스트에 존재하는 트랙입니다.");
@@ -72,7 +78,7 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayList }: Play
 
   //검색어 따른 필터링리스트(제목,가수이름)
   const filterPlaylist = spotifyList.filter(
-    (list) =>
+    (list: SpotifyListProps) =>
       list.track.name.toLowerCase().includes(search.toLowerCase()) ||
       list.track.artists[0].name.toLowerCase().includes(search.toLowerCase())
   );
@@ -86,8 +92,8 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayList }: Play
     <div className="relative">
       <div className="borderline fixed left-1/2 top-1/2 flex h-[600px] w-full max-w-[500px] -translate-x-1/2 -translate-y-1/2 flex-col gap-[5px] overflow-scroll !pt-0">
         <div className="sticky top-[0px] flex flex-col items-end bg-[#fff] pt-[20px]">
-          <button onClick={handleCloseModal} className="">
-            닫기icon
+          <button onClick={handleCloseModal} className="cursor-pointer py-[10px]">
+            <X />
           </button>
           <PlaylistSearch setSearch={setSearch} />
         </div>

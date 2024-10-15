@@ -1,6 +1,4 @@
-// export type SpotifyData = {
-//   track: SpotifyTrack[];
-// };
+
 
 export type SpotifyTrack = {
   album: SpotifyAlbum;
