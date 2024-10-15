@@ -3,13 +3,13 @@
 import queryKey from "@/queries/queryKey";
 import { Setting, SHOW_LIST, TabList as ShowList } from "@/types/setting";
 import { useQuery } from "@tanstack/react-query";
-import { getSetting } from "./setting/server-action/settingAction";
+import { getSetting } from "./[userId]/setting/server-action/settingAction";
 import { useEffect, useState } from "react";
 import BoardPrev from "@/components/home/BoardPrev";
 import ChatPrev from "@/components/home/ChatPrev";
 import PlaylistPrev from "@/components/home/PlaylistPrev";
 import SchedulePrev from "@/components/home/SchedulePrev";
-import HomeSkelton from "./setting/components/HomeSkelton";
+import HomeSkelton from "./[userId]/setting/components/HomeSkelton";
 import React from "react";
 import LogOutButton from "../components/LogOutButton";
 import { useAuthStore } from "../store/useUserInfoStore";

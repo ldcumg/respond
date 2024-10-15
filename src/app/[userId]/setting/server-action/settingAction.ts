@@ -10,6 +10,8 @@ const getSetting = async (userId: string) => {
     .eq("user_id", userId)
     .returns<Setting[]>();
 
+    console.log('"asdfasdfasdsd"', "asdfasdfasdsd");
+
   if (isSettingError) {
     throw new Error("setting select Error");
   }
@@ -41,4 +43,22 @@ const patchTabList = async ({ userId, tabList }: { userId: string; tabList: TabL
   }
 };
 
-export { getSetting, patchPrivacy, patchShowList, patchTabList };
+/** 회원가입 시 setting에 기본값 추가 */
+const generateDefaultSetting = async (userId: string) => {
+  const defaultSetting: Partial<Setting> = {
+    user_id: userId,
+    theme_name: "default",
+    show_list: ["board"],
+    tab_list: ["board", "chat", "playlist", "schedule"],
+    privacy_type: "public"
+  };
+  const { error } = await supabase.from("setting").insert(defaultSetting);
+
+  if (error) {
+    throw new Error("setting 생성 실패");
+  }
+
+  console.log("setting 생성 성공");
+};
+
+export { getSetting, patchPrivacy, patchShowList, patchTabList, generateDefaultSetting };

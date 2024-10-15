@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import browserClient from "../utils/supabase/client";
 import { useAuthStore, useUserInfoStore } from "../store/useUserInfoStore";
+import { User } from "@supabase/supabase-js";
 
 export const useLoggedIn = () => {
   const { setIsLoggedIn } = useAuthStore();
@@ -16,11 +17,14 @@ export const useLoggedIn = () => {
       if (session) {
         const userInfo = session.user; // 사용자 정보 가져오기
 
-        const email = userInfo?.email || null; // 이메일 가져오기, 없으면 null
+        const { id, email } = userInfo;
+        // const email = userInfo?.email || null; // 이메일 가져오기, 없으면 null
         const nickname = userInfo?.user_metadata?.nickname || null; // 닉네임 가져오기, 없으면 null
 
         // Zustand useUserInfoStore에 저장
-        setUser({ email, nickname });
+        setUser({ id, email, nickname });
+
+        console.log("userInfo", userInfo);
 
         // 데이터가 존재 시, 로그인 상태로 설정
         console.log("사용자 정보가 있습니다. 사용자는 로그인했습니다.", userInfo);
