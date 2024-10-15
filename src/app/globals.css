@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* HTML태그 등 전역적인 스타일 */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -31,11 +32,17 @@
     --radius: 0.5rem;
   }
 
+  /* * {
+    @apply border-border;
+  } */
+
   body {
+    @apply bg-background text-foreground;
     color: var(--foreground);
     background: var(--background);
     font-family: "";
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -64,17 +71,41 @@
   }
 }
 
+/* 재사용하는 구조적인 스타일링 */
 @layer components {
 }
 
+/* 하나의 속성에 대해 스타일 */
 @layer utilities {
-}
-
-@layer base {
-  * {
-    @apply border-border;
+  .navBtn {
+    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-tl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .tabBtn {
+    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+  }
+
+  .btn {
+    @apply cursor-pointer rounded-lg bg-blue-500 px-4 py-1 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-blue-500 focus:ring-opacity-75;
+  }
+
+  .borderline {
+    @apply rounded-[22px] border-[4px] border-black bg-[#fff] px-[40px] py-[40px];
+  }
+
+  .pageTitle {
+    @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+  }
+
+  @keyframes play {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .play {
+    animation: play 4s linear infinite;
   }
 }
