@@ -21,7 +21,6 @@ const PostList = () => {
       {posts.map((post) => (
         <Link href={`/${userId}/board/${post.id}`} key={post.id}>
           <h6>{post.title}</h6>
-          <p>{post.created_at}</p>
         </Link>
       ))}
     </ol>

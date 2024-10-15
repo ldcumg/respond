@@ -32,3 +32,5 @@ export const deletePost = async (postId: string) => {
   const supabase = createClient();
   return await supabase.from(postsBoard).delete().eq("id", postId);
 };
+
+// 이미지
