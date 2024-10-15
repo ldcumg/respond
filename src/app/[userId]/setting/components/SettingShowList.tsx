@@ -2,6 +2,7 @@ import { Setting, SHOW_LIST, showListKr } from "@/types/setting";
 import React, { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSettingShowList } from "../hooks/useSettingShowList";
+import { useGetUserIds } from "../hooks/useGetUserIds";
 
 type Props = {
   setting: Setting;
@@ -26,10 +27,10 @@ const showListCheckItems = [
   }
 ] as const;
 
-const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
 const SettingShowList = ({ setting }: Props) => {
   const { showListCheckList, handleCheckboxChange, isButtonEnabled, useShowListMutate } = useSettingShowList(setting);
+  const {hostUserId, loginUserId} = useGetUserIds();
   const showListMutate = useShowListMutate();
 
   return (
@@ -39,7 +40,7 @@ const SettingShowList = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => showListMutate({ userId: testUserId, showList: showListCheckList })}>
+            onClick={() => showListMutate({ userId: hostUserId, showList: showListCheckList })}>
             저장
           </button>
         )}

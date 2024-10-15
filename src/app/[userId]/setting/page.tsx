@@ -26,7 +26,7 @@ const page = () => {
 
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
-    queryFn: () => getSetting(testUserId),
+    queryFn: () => getSetting(hostUserId),
     enabled: !!loginUserId
   });
 
