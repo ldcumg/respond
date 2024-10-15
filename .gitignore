@@ -36,6 +36,5 @@ yarn-error.log*
 next-env.d.ts
 
 # yarn
-.pnp.*
 .yarn/*
-!.yarn/sdks
+.pnp.*
