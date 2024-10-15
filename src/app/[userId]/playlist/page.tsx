@@ -8,7 +8,7 @@ import MyPlayListEdit from "@/components/playlist/MyPlayListEdit";
 import PlayListModalBtn from "@/components/playlist/PlayListModalBtn";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useUserInfoStore } from "@/store/useUserInfoStore";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 
 const Playlist = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
@@ -17,8 +17,10 @@ const Playlist = () => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
-  const { id } = useUserInfoStore();
-  console.log("id", id);
+  const loginUser = useGetUserInfo();
+  const loginUserId: string = loginUser?.id ?? "";
+  console.log("loginUserId", loginUserId);
+  console.log("userId", userId);
   //스포티파이 토큰요청
   const fetchSpotifyData = async () => {
     const tokenRes = await fetch("https://accounts.spotify.com/api/token", {
@@ -52,9 +54,9 @@ const Playlist = () => {
   };
 
   const fetchPlayList = async () => {
-    //Todo:유즈파람스로 갖고온 아이디값을 eq에 넣기
-    const { data: loginUserId } = await browserClient.auth.getUser();
-    const loginId = loginUserId?.user?.id;
+    // //Todo:유즈파람스로 갖고온 아이디값을 eq에 넣기
+    // const { data: loginUserId } = await browserClient.auth.getUser();
+    // const loginId = loginUserId?.user?.id;
 
     const { data: play, error } = await browserClient.from("playlist").select("*").eq("user_id", userId);
     if (error) console.error("playlist 가져오기 오류:", error.message);
@@ -86,12 +88,14 @@ const Playlist = () => {
     <div className="relative h-full w-full overflow-scroll">
       <div className="item-center sticky top-0 flex justify-between bg-white">
         <h1 className="pageTitle">플레이리스트</h1>
-        {/* {loginId === userId && ( */}
-        <div className="flex items-center gap-[10px]">
-          <PlayListModalBtn setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
-          <MyPlayListEdit setIsShowEdit={setIsShowEdit} isShowEdit={isShowEdit} />
-        </div>
-        {/* )} */}
+        {loginUserId === userId ? (
+          <div className="flex items-center gap-[10px]">
+            <PlayListModalBtn setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
+            <MyPlayListEdit setIsShowEdit={setIsShowEdit} isShowEdit={isShowEdit} />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       {isShowModal && (
         <PlaylistAll
