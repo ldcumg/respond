@@ -133,7 +133,8 @@ export default function Schedule() {
               <button
                 key={index}
                 onClick={() => setCurrentPage(index + 1)}
-                className={`mx-1 rounded px-3 py-1 ${currentPage === index + 1 ? "bg-black text-white" : "bg-gray-200"}`}>
+                className={`mx-1 rounded px-3 py-1 ${currentPage === index + 1 ? "bg-black text-white" : "bg-gray-200"}`}
+              >
                 {index + 1}
               </button>
             ))}

@@ -116,7 +116,8 @@ const ChatPage = () => {
           <h2 className="mr-2 text-2xl font-bold">새 채팅방 추가</h2>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white">
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white"
+          >
             +
           </button>
         </div>
@@ -155,7 +156,8 @@ const ChatPage = () => {
             <button
               onClick={handleAddRoom}
               disabled={selectedParticipants.length === 0}
-              className="rounded bg-green-500 px-4 py-2 text-white">
+              className="rounded bg-green-500 px-4 py-2 text-white"
+            >
               추가하기
             </button>
           </div>
@@ -166,7 +168,8 @@ const ChatPage = () => {
             key={room.id}
             href={{
               pathname: `/chat/${room.id}`
-            }}>
+            }}
+          >
             <button className="mt-2 rounded bg-gray-200 px-4 py-2">
               {room.name} ({room.participants.map((id) => participantNicknames[id]).join(", ")})
             </button>

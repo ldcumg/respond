@@ -21,7 +21,8 @@
 }
 
 .chat-message strong {
-  color: #0070f3; /* 슬랙 스타일링의 일부분 */
+  color: #0070f3;
+  /* 슬랙 스타일링의 일부분 */
 }
 
 .chat-input {
@@ -49,5 +50,6 @@
 }
 
 .chat-input button:hover {
-  background-color: #005bb5; /* 버튼 호버 효과 */
+  background-color: #005bb5;
+  /* 버튼 호버 효과 */
 }

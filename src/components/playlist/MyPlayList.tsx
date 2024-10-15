@@ -111,7 +111,8 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
                   ) : (
                     <button
                       className="btn border-[2px] border-black !bg-white !text-black"
-                      onClick={() => handleMainPlay(list.track_id)}>
+                      onClick={() => handleMainPlay(list.track_id)}
+                    >
                       지정
                     </button>
                   )}

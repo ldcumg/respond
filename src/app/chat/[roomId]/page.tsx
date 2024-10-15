@@ -145,7 +145,8 @@ const ChatRoom = () => {
         />
         <button
           onClick={handleSendMessage}
-          className="font-md w-[80px] rounded-full border-[3px] border-black bg-black px-4 py-2 text-white transition hover:bg-white hover:font-bold hover:text-black">
+          className="font-md w-[80px] rounded-full border-[3px] border-black bg-black px-4 py-2 text-white transition hover:bg-white hover:font-bold hover:text-black"
+        >
           전송
         </button>
       </div>

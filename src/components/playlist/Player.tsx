@@ -72,7 +72,8 @@ const Player = () => {
         <div className="flex flex-col items-center gap-[10px]">
           <div
             className={`relative rounded-full bg-center bg-no-repeat ${playState ? "play" : "pause"}`}
-            style={{ backgroundSize: "65%", backgroundImage: `url(${mainTrack[0].album_image})` }}>
+            style={{ backgroundSize: "65%", backgroundImage: `url(${mainTrack[0].album_image})` }}
+          >
             <Image src="/images/recordImg.png" alt="record" width={500} height={500} objectFit="cover" />
           </div>
           <div className="mx-h-[80px] mt-[8px] h-full text-center text-[33px] font-[900] leading-[1.1]">
