@@ -27,17 +27,7 @@ const tabListCheckItems = [
   }
 ] as const;
 
-// const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-
 const SettingTabList = ({ setting }: Props) => {
-  // const {userId:hostUserId} = useParams<{ userId:string; }>();
-  // const router = useRouter()
-
-  // const { data: loginUserId } = useQuery<string | undefined>({
-  //   queryKey: queryKey.auth.loginUser,
-  //   queryFn: () => getLoginUserId()
-  // });
-
   const { hostUserId, loginUserId } = useGetUserIds();
 
   const { tabListCheckList, handleCheckboxChange, isButtonEnabled, useTabListMutate } = useSettingTabList(setting);
@@ -50,8 +40,7 @@ const SettingTabList = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}
-          >
+            onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}>
             저장
           </button>
         )}

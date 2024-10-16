@@ -7,11 +7,6 @@ import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const Follow = () => {
-  // const { userId: hostUserId } = useParams<{ userId: string }>();
-  // const { data: loginUserId } = useQuery<string | undefined>({
-  //   queryKey: queryKey.auth.loginUser,
-  //   queryFn: () => getLoginUserId()
-  // });
   const { hostUserId, loginUserId } = useGetUserIds();
 
   const router = useRouter();
