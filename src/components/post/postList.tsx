@@ -1,23 +1,27 @@
 "use client";
 
-import { getPosts } from "@/services/post/serverAction";
-import { Post } from "@/types/post";
+import { postQuery } from "@/hooks/queries/post/usePostQuery";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type Props = {
   userId: string;
 };
 
 const PostList = ({ userId }: Props) => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { data, error, fetchNextPage, isPending, isError } = postQuery({ userId });
+  if (isPending) {
+    return <div>로딩 중...</div>;
+  }
 
-  useEffect(() => {
-    getPosts(userId).then(({ data }) => setPosts(data));
-  }, []);
+  if (isError) {
+    console.error(error);
+    return <div>오류가 발생했습니다.</div>;
+  }
+
+  const posts = data.pages.flat()
 
   return (
-    <ol className="flex flex-col">
+    <ol className="flex flex-col h-5/6 scroll-auto">
       {posts.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
@@ -33,6 +37,7 @@ const PostList = ({ userId }: Props) => {
           </Link>
         );
       })}
+      <button className="mt-1" onClick={() => fetchNextPage()}>더 보기</button>
     </ol>
   );
 };
