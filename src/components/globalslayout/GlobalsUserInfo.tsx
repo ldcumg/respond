@@ -21,18 +21,14 @@ const GlobalsUserInfo = () => {
       getAllUsers().then(({ data }) => setAllUsers(data));
     })();
   }, []);
-
+  console.log("loginUserId!🥶", loginUserId);
+  console.log("userId!!🥶", userId);
   return (
     <div>
       <Player />
       <FollowComponent />
-      {loginUserId === userId ? (
-        <div>
-          <ThemeBtn />
-        </div>
-      ) : (
-        ""
-      )}
+
+      <ThemeBtn />
     </div>
   );
 };

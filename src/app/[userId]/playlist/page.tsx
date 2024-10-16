@@ -16,11 +16,11 @@ const Playlist = () => {
   const [playList, setPlayList] = useState([]);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false);
+
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
   const loginUser = useGetUserInfo();
   const loginUserId: string = loginUser?.id ?? "";
-  // console.log("loginUserId", loginUserId);
-  // console.log("userId", userId);
+
   //스포티파이 토큰요청
   const fetchSpotifyData = async () => {
     const tokenRes = await fetch("https://accounts.spotify.com/api/token", {
