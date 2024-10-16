@@ -11,6 +11,7 @@ async function getLoginUserId() {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+  console.log("getLoginUserId user", user);
 
   return user?.id;
 }
@@ -44,6 +45,8 @@ export async function middleware(request: NextRequest) {
 
   const [loginUserId, setting] = await Promise.all([getLoginUserId(), getSetting(hostUserId)]);
 
+  console.log("middleware loginUserId", loginUserId);
+
   if (!loginUserId) {
     return NextResponse.rewrite(new URL("/", request.url));
   }
@@ -54,7 +57,7 @@ export async function middleware(request: NextRequest) {
 
   // 이상한 경로로 접근한 경우 /{userId}/{tab}/{이후URL}
   if (!!invalidPage) {
-    return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
+    // return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
   }
 
   // 경로에 menu가 있는 경우
@@ -72,6 +75,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
       }
     } else {
+      console.log("pathname", pathname);
       // 하지만 주인에 한해서 모든 탭에 접근 가능 (단 TAB_LIST[] + setting만)
       const tabList = Object.values(TAB_LIST) as string[];
       tabList.push("setting"); // TAB_LIST에 setting 안들어가있음
