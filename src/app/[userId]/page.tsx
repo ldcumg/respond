@@ -77,7 +77,6 @@ const HomePage = () => {
 
   return (
     <div className="flex h-full flex-col overflow-hidden p-[30px]">
-      {/* <LogOutButton /> */}
       <div className="mb-[40px] flex">
         <h1 className="pageTitle">나의 홈피</h1>
       </div>
