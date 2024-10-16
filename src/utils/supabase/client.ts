@@ -7,4 +7,3 @@ export const createClient = (): SupabaseClient =>
 const browserClient = createClient();
 
 export default browserClient;
-;

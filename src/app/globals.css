@@ -32,6 +32,10 @@
     --radius: 0.5rem;
   }
 
+  * {
+    word-break: keep-all;
+  }
+
   body {
     @apply bg-background text-foreground;
     color: var(--foreground);
@@ -123,6 +127,7 @@
     animation: play 4s linear infinite;
   }
 }
+
 @layer utilities {
   .border-3 {
     border-width: 3px;

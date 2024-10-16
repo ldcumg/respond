@@ -19,7 +19,8 @@ const LogOutButton = () => {
     <button
       type="button"
       className={`w-full rounded border-4 ${isLoggedIn ? "border-red-600 bg-red-600" : "border-black bg-black"} p-2 text-white hover:invert`}
-      onClick={isLoggedIn ? handleLogout : () => router.push("/login")}>
+      onClick={isLoggedIn ? handleLogout : () => router.push("/login")}
+    >
       {isLoggedIn ? "로그아웃" : "로그인"}
     </button>
   );
