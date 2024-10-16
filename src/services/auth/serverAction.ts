@@ -17,3 +17,10 @@ export const getIsLogin = async () => {
 
   return !!session;
 };
+
+/** 닉네임 변경 */
+export const modifyNickname = async () => {
+  const supabase = createClient();
+
+  return await supabase.from("countries").update({ name: "Australia" }).eq("id", 1);
+};

@@ -18,6 +18,7 @@ const CreatePost = ({ setIsPosting }: Props) => {
   const { allUsers } = useAllUsersStore((state) => state);
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  
   const { register, handleSubmit, formState } = useForm({
     mode: "onSubmit",
     resolver: zodResolver(POST_SCHEMA)
@@ -114,7 +115,6 @@ const CreatePost = ({ setIsPosting }: Props) => {
       <div className="flex h-2/5 w-full flex-col gap-4 border-y">
         <div className={`${inputAreaStyle} h-2/5`}>
           <label className={`${inputLabelStyle} items-center`}>게시물 제목</label>
-
           <div className="mt-3 flex h-full w-4/5 flex-col justify-center gap-1">
             <input className="h-1/2 w-full border pl-3" placeholder="게시물 제목" {...register("title")} />
             <p className={inputAlert}>{titleValidateError && (titleValidateError.message as string)}</p>

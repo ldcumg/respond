@@ -33,7 +33,7 @@ const UserSearchBar = () => {
           onChange={(e) => setSearchInputValue(e.target.value)}
           onFocus={() => setFocusInput(true)}
           // TODO useRef?
-          // onBlur={() => setFocusInput(false)}
+          onBlur={() => setFocusInput(false)}
         />
         <button className="text-gray-600">
           <Search />

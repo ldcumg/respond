@@ -9,6 +9,7 @@ import ThemeBtn from "../theme/ThemeBtn";
 import { useParams } from "next/navigation";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 import useOnAuthStateChange from "@/hooks/useOnAuthStateChange";
+import ModifyNicknameBtn from "../auth/ModifyNicknameBtn";
 
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
@@ -30,6 +31,7 @@ const GlobalsUserInfo = () => {
       <FollowComponent />
       {loginUserId === userId ? (
         <div>
+          <ModifyNicknameBtn />
           <ThemeBtn />
         </div>
       ) : (
