@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import browserClient from "../../../utils/supabase/client";
 import React from "react";
+import { generateDefaultSetting } from "@/app/[userId]/setting/server-action/settingAction";
 
 const NAME_REGEX = /^[가-힣a-zA-Z]{2,20}$/;
 const EMAIL_REGEX = /\S+@\S+\.\S+/;
@@ -70,7 +71,7 @@ const SignUp: React.FC = () => {
 
     if (validateForm()) {
       try {
-        const { error } = await browserClient.auth.signUp({
+        const { data, error } = await browserClient.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
@@ -81,14 +82,23 @@ const SignUp: React.FC = () => {
           }
         });
 
+        console.log("signUp Data => ", data);
+
         if (error) {
           setErrors({ email: "회원가입 오류: " + error.message });
           console.error("회원가입 오류:", error);
           return;
         }
 
+        let newUserId = data?.user?.id;
+
+        if (!newUserId) {
+          newUserId = "";
+        }
+
         alert("회원가입 완료! 로그인 페이지로 이동합니다.");
         setFormData({ name: "", nickname: "", email: "", password: "", confirmPassword: "" });
+        generateDefaultSetting(newUserId);
         router.push("/login");
       } catch (error) {
         console.error("회원가입 오류:", error);
