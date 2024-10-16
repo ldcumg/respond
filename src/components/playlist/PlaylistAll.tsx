@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
+// import PlayList from "@/types/playlist/playList";
 import browserClient from "@/utils/supabase/client";
 import PlaylistSearch from "./PlaylistSearch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,11 +11,13 @@ import { X } from "lucide-react";
 
 type SpotifyListProps = {
   track: SpotifyTrack;
+  track_id: string;
 };
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];
   myPlayList: SpotifyListProps[];
   spotifyList: SpotifyListProps[];
+  myPlayListData: SpotifyListProps[];
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 type InvalidateQueryFilters = {
@@ -45,13 +48,11 @@ const addTrackPlayList = async (track: SpotifyTrack) => {
   return data;
 };
 
-//TODO : 플레이리스트 추가시 중복된거 고쳐야함
-//2.뮤테이션 만들고
 const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
   const queryClient = useQueryClient();
-  // console.log("myPlayList", myPlayList);
 
+  //2.뮤테이션 만들고
   const addPlayListMutation = useMutation({
     mutationFn: addTrackPlayList,
     onSuccess: () => {
@@ -64,12 +65,10 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: 
     }
   });
 
-  // console.log("spotifyList", spotifyList);
   /** 플레이리스트 추가이벤트 */
   //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {
-    console.log("track", track);
-    if (!myPlayListData.some((list) => list.track?.id === track.id)) {
+    if (!myPlayListData.some((list) => list.track_id === track.id)) {
       addPlayListMutation.mutate(track);
     } else {
       alert("이미 플레이리스트에 존재하는 트랙입니다.");
