@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import browserClient from "../utils/supabase/client";
 import { useLoggedIn } from "../hooks/useLoggedIn";
-import React from "react";
 
 const LogOutButton = () => {
   const isLoggedIn = useLoggedIn(); // 훅을 사용하여 로그인 상태 가져오기

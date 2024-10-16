@@ -1,16 +1,18 @@
 import GlobalsUserInfo from "@/components/globalslayout/GlobalsUserInfo";
 import GlobalsNav from "@/components/globalslayout/GlobalsNav";
 import UserSearchBar from "@/components/searchBar/UserSearchBar";
+import LogOutButton from "@/components/LogOutButton";
 
 type Props = Readonly<{ children: React.ReactNode }>;
 
 const layout = ({ children }: Props) => {
   return (
     <>
-      <header className="absolute right-[15vw] top-[50px]">
-        <UserSearchBar />
+      <header className="flex flex-row justify-between items-center mx-auto w-[90%] max-w-[1920px] py-[60px]">
+        <div className="absolute"><LogOutButton /></div>
+        <div className="absolute right-[15vw]"><UserSearchBar /></div>
       </header>
-      <div className="mx-auto flex h-screen w-[90%] max-w-[1920px] gap-[20px] py-[100px]">
+      <div className="mx-auto flex mt-[100px] h-screen w-[90%] max-w-[1920px] gap-[20px]" style={{ height: 'calc(100vh - 100px)' }}>
         <aside className="borderline w-[20%]">
           <GlobalsUserInfo />
         </aside>
