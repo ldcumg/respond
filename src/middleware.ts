@@ -25,8 +25,6 @@ async function getHasAccessToPrivacyTab(setting: Setting, hostUserId: string, lo
   const isFollower = !!loginToHostFollow;
   const isMutualFollower = !!loginToHostFollow && !!hostToLoginFollow;
 
-  console.log("privacyType", privacyType);
-
   // 공개 범위가 private
   if (privacyType === PRIVACY_TYPE.private) {
     return false;
@@ -56,7 +54,6 @@ export async function middleware(request: NextRequest) {
 
   // 이상한 경로로 접근한 경우 /{userId}/{tab}/{이후URL}
   if (!!invalidPage) {
-    console.log("invalidPage invalidPage invalidPage invalidPage", invalidPage);
     return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
   }
 
@@ -65,7 +62,6 @@ export async function middleware(request: NextRequest) {
     // 로그인 유저 !== 페이지 주인
     if (hostUserId !== loginUserId) {
       // 공개범위 권한 없는놈은 아무 탭도 못들어감
-      console.log("hasAccessToPrivacyTab", hasAccessToPrivacyTab);
       if (!hasAccessToPrivacyTab) {
         return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
       }
@@ -77,7 +73,7 @@ export async function middleware(request: NextRequest) {
       }
     } else {
       const tabList = Object.values(TAB_LIST) as string[];
-      tabList.push("setting");
+      tabList.push("setting"); // TAB_LIST에 setting 안들어가있음
       // 존재하지 않는 탭 목록에 들어가려하는 놈 퇴치 (setting/playlist/board/chat 제외한 나머지)
       if (!tabList.includes(menu)) {
         return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
