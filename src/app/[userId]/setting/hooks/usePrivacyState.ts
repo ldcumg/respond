@@ -37,7 +37,7 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
   console.log("privacyType", privacyType);
   console.log("isFollower", isFollower);
   console.log("isMutualFollower", isMutualFollower);
-  debugger;
+  // debugger;
 
   // 공개 범위가 private
   if (privacyType === PRIVACY_TYPE.private) {

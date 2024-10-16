@@ -28,7 +28,7 @@
     "react-chat-ui": "^0.4.0",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
-    "sendbird": "^3.1.33",
+    "react-router-dom": "^6.27.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8",
