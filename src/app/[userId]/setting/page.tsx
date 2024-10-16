@@ -11,6 +11,7 @@ import SettingTabList from "./components/SettingTabList";
 import { getLoginUserId } from "@/utils/supabase/user";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import browserClient from "@/utils/supabase/client";
 
 const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 
@@ -18,9 +19,22 @@ const page = () => {
   const { userId: hostUserId } = useParams<{ userId: string }>();
   const router = useRouter();
 
-  const { data: loginUserId } = useQuery<string | undefined>({
+  const { data: loginUserId } = useQuery<string | null>({
     queryKey: queryKey.auth.loginUser,
-    queryFn: () => getLoginUserId()
+    queryFn: async () => {
+      const {
+        data: { session }
+      } = await browserClient.auth.getSession();
+
+      if (session) {
+        const userInfo = session.user; // 사용자 정보 가져오기
+        const { id } = userInfo;
+        return id;
+      }
+      return null;
+    },
+
+    staleTime: 0
   });
 
   const { data: setting } = useQuery<Setting>({

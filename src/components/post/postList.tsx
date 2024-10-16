@@ -9,7 +9,6 @@ type Props = {
 
 const PostList = ({ userId }: Props) => {
   const { data, error, fetchNextPage, isPending, isError } = postQuery({ userId });
-  console.log("data", data);
   if (isPending) {
     return <div>로딩 중...</div>;
   }
