@@ -14,4 +14,3 @@ const getLoginUserId = async () => {
 };
 
 export { getLoginUserId };
-

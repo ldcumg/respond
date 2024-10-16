@@ -13,7 +13,7 @@ import React from "react";
 const tabListExtends = {
   [TAB_LIST.board]: {
     id: TAB_LIST.board,
-    href: "/tempUserId/board",
+    href: "/board",
     name: "게시물"
   },
   [TAB_LIST.chat]: {
