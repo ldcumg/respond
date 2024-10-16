@@ -1,12 +1,14 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-// import queryKey from "../queryKeys";
+import queryKey from "../queryKeys";
 import { getPostsPaginate } from "@/services/post/postsPaginate";
 
-export const postQuery = ({ userId }) => {
+export const postQuery = ({ userId }: { userId: string }) => {
   return useInfiniteQuery({
-    queryKey: ["posts", userId],
+    queryKey: [...queryKey.posts, userId],
     queryFn: getPostsPaginate,
-    initialPageParam: null,
-    getNextPageParam: (prePosts) => prePosts
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      return lastPageParam + 1;
+    }
   });
 };

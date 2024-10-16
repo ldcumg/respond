@@ -23,3 +23,8 @@ export type RequestPost = {
   page?: number;
   postId?: string;
 };
+
+export type PostQuery = {
+  queryKey: string[];
+  pageParam: number;
+};

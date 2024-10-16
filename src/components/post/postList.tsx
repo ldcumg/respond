@@ -1,7 +1,6 @@
 "use client";
 
 import { postQuery } from "@/hooks/queries/post/usePostQuery";
-import { getPostDetail } from "@/services/post/serverAction";
 import Link from "next/link";
 
 type Props = {
@@ -9,42 +8,35 @@ type Props = {
 };
 
 const PostList = ({ userId }: Props) => {
-  const { data, error, fetchNextPage, hasNextPage, isPending, isFetchingNextPage, status } = postQuery({ userId });
-  console.log("data", data);
+  const { data, error, fetchNextPage, hasNextPage, isPending, isError } = postQuery({ userId });
   if (isPending) {
     return <div>로딩 중...</div>;
   }
 
-  // const { data: posts } = data?.pages[0];
-  // console.log("posts", posts);
+  if (isError) {
+    console.error(error);
+    return <div>오류가 발생했습니다.</div>;
+  }
 
-  // const ref  = useInView(
-  // {
-  // threshold: 1,
-  // onChange: (inView) => {
-  //   if (!inView || !hasNextPage || isFetchingNextPage) return;
-  //   fetchNextPage();
-  // }
-  // }
-  // );
+  const posts = data?.pages[0];
 
   return (
-    <ol className="flex flex-col">
-      {/* {posts?.map((post) => {
+    <ol className="flex flex-col h-5/6 scroll-auto">
+      {posts?.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link
             href={`/${userId}/board/${post.id}`}
             key={post.id}
-            className="flex h-11 flex-row items-center justify-between border-b-2">
+            className="mx-14 flex h-14 flex-row items-center justify-between border-b-2">
             <h6 className="text-xl">{post.title}</h6>
             <p>
               <small>{createdDay}</small>
             </p>
           </Link>
         );
-      })} */}
-      <button onClick={() => fetchNextPage()}>더 보기</button>
+      })}
+      <button className="mt-1" onClick={() => fetchNextPage()}>더 보기</button>
     </ol>
   );
 };

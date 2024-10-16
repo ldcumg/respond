@@ -56,7 +56,7 @@ const PostDetailPage = ({ params }: Props) => {
         <p>
           <small>{createdDay}</small>
         </p>
-        <div className="flex h-[75%] flex-col items-center overflow-auto">
+        <div className="flex h-[75%] flex-col items-center overflow-auto mx-20">
           {imgUrl && <img className="mx-auto mt-5 w-[60%]" src={imgUrl} />}
           <p className="mt-5 flex w-full justify-center">{content}</p>
         </div>
