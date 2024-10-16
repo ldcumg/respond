@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import browserClient from "@/utils/supabase/client";
 import Link from "next/link";
+import { ChevronLeft, MessageCirclePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import GlobalError from "../GlobalError";
+import browserClient from "@/utils/supabase/client";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type Room = {
   id: number;
@@ -14,6 +18,7 @@ type Room = {
 type User = {
   id: string;
   nickname: string;
+  email?: string;
 };
 
 const ChatPage = () => {
@@ -24,14 +29,22 @@ const ChatPage = () => {
   const [newRoomName, setNewRoomName] = useState("");
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [participantNicknames, setParticipantNicknames] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const router = useRouter();
 
   // 사용자 목록 가져오기
   const fetchUsers = async () => {
-    const { data, error } = await browserClient.from("user_info").select("*");
-    if (error) {
-      console.error("사용자 목록 가져오기 오류:", error);
-    } else {
+    try {
+      const { data, error } = await browserClient.from("user_info").select("*");
+
+      if (error) {
+        throw new Error("사용자 목록 가져오기 오류: " + error.message);
+      }
+
       setUsers(data);
+    } catch (error) {
+      setError(new Error("사용자 목록 가져오기 중 오류 발생"));
     }
   };
 
@@ -40,11 +53,9 @@ const ChatPage = () => {
     const user = await browserClient.auth.getUser();
     if (user.data.user) {
       const userId = user.data.user.id;
-
       const { data, error } = await browserClient.from("rooms").select("*").contains("participants", [userId]); // 참가자인 방만 조회 필터링
-
       if (error) {
-        console.error("방 목록 가져오기 오류:", error);
+        setError(new Error("방 목록 가져오기 오류"));
       } else {
         setRooms(data);
         await fetchParticipantNicknames(data); // 참가자 닉네임 가져오기
@@ -53,19 +64,27 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    fetchRooms();
-    fetchUsers();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await Promise.all([fetchRooms(), fetchUsers()]);
+      } catch (error) {
+        setError(new Error("데이터를 가져오는 동안 오류가 발생했습니다."));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // 참가자 닉네임 가져오기
   const fetchParticipantNicknames = async (rooms: Room[]) => {
     const participantIds = rooms.flatMap((room) => room.participants); // 모든 참가자 ID 가져오기
 
-    console.log("모든 참가자 아이디:", participantIds);
-
     const { data, error } = await browserClient.from("user_info").select("nickname, id").in("id", participantIds);
     if (error) {
-      console.error("참가자 닉네임 가져오기 오류:", error);
+      setError(new Error("참가자 닉네임 가져오기 오류"));
     } else {
       const nicknames = data.reduce((acc: { [key: string]: string }, user: { nickname: string; id: string }) => {
         acc[user.id] = user.nickname;
@@ -87,7 +106,7 @@ const ChatPage = () => {
         });
 
         if (error) {
-          console.error("채팅방 추가 중 오류 발생:", error);
+          setError(new Error("채팅방 추가 중 오류 발생"));
         } else {
           setNewRoomName("");
           setSelectedParticipants([]);
@@ -109,20 +128,36 @@ const ChatPage = () => {
     });
   };
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
+  // 로딩 중일 때 로딩 스피너 표시
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  // 에러 발생 시 에러 표시
+  if (error) {
+    return <GlobalError error={error} />;
+  }
+
   return (
-    <>
-      <div className="p-4">
-        <div className="mb-4 flex items-center">
-          <h2 className="mr-2 text-2xl font-bold">새 채팅방 추가</h2>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white"
-          >
-            +
-          </button>
+    <div className="flex h-screen flex-col justify-between bg-gray-200">
+      <div className="flex h-[80px] items-center border-b-[10px] border-black bg-white p-9">
+        <div className="cursor-pointer" onClick={handleGoBack}>
+          <ChevronLeft size={40} strokeWidth={3} />
         </div>
-        {showForm && (
-          <div className="mb-4 rounded-lg bg-white p-6 shadow-md">
+        <h2 className="grow text-center text-xl font-black text-gray-800">내 채팅</h2>
+        <button onClick={() => setShowForm(!showForm)} className="flex">
+          <MessageCirclePlus size={36} strokeWidth={2.75} />
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="m-auto flex w-full min-w-[400px] max-w-lg flex-col rounded-lg bg-white p-6 shadow-lg">
+            <h3 className="py-4 text-center text-lg font-bold">새 채팅방 추가</h3>
             <input
               type="text"
               value={newRoomName}
@@ -130,53 +165,65 @@ const ChatPage = () => {
               placeholder="새 방 이름"
               className="mb-4 w-full rounded border px-4 py-2"
             />
-            <h3 className="mb-2 text-xl">초대할 참가자 선택</h3>
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="사용자 검색..."
-              className="mb-2 w-full border p-2"
+              placeholder="내 이웃 검색"
+              className="mb-2 w-full border p-2 px-4"
             />
             <ul className="mb-4 max-h-40 overflow-y-auto rounded border">
               {users
                 .filter((user) => user.nickname.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map((user) => (
-                  <li key={user.id} className="flex items-center">
+                  <li key={user.id} className="flex items-center border-b border-gray-200 px-6 py-2">
+                    <p className="grow">{user.nickname}</p>
                     <input
                       type="checkbox"
                       checked={selectedParticipants.includes(user.id)}
                       onChange={() => handleSelectParticipant(user.id)}
-                      className="mr-2"
+                      className="ml-2 flex-none"
                     />
-                    {user.nickname}
                   </li>
                 ))}
             </ul>
             <button
               onClick={handleAddRoom}
               disabled={selectedParticipants.length === 0}
-              className="rounded bg-green-500 px-4 py-2 text-white"
-            >
-              추가하기
+              className="rounded-full bg-black px-5 py-3 font-semibold text-white">
+              초대하기
+            </button>
+            <button onClick={() => setShowForm(false)} className="mt-4 font-bold text-red-500">
+              닫기
             </button>
           </div>
-        )}
-        <h1 className="mt-6 text-2xl">채팅방 목록</h1>
-        {rooms.map((room) => (
-          <Link
-            key={room.id}
-            href={{
-              pathname: `/chat/${room.id}`
-            }}
-          >
-            <button className="mt-2 rounded bg-gray-200 px-4 py-2">
-              {room.name} ({room.participants.map((id) => participantNicknames[id]).join(", ")})
-            </button>
-          </Link>
-        ))}
+        </div>
+      )}
+
+      <div className="flex h-full flex-col p-6">
+        <h1 className="mb-2 mt-6 text-2xl font-bold text-black">채팅방 목록</h1>
+        <hr className="h-[8px] w-[180px] bg-black" />
+        <div className="mt-4 space-y-4">
+          {rooms.map((room) => (
+            <Link
+              key={room.id}
+              href={{
+                pathname: `/chat/${room.id}`
+              }}>
+              <div className="mb-2 w-full rounded-lg border-8 border-black bg-white px-6 py-4 shadow-lg transition duration-200 ease-in-out hover:bg-gray-300">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold">{room.name}</span>
+                  <span className="text-sm text-gray-600">
+                    {room.participants.map((id) => participantNicknames[id]).join(", ")}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
+
 export default ChatPage;
