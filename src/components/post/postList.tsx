@@ -28,7 +28,8 @@ const PostList = ({ userId }: Props) => {
           <Link
             href={`/${userId}/board/${post.id}`}
             key={post.id}
-            className="mx-14 flex h-14 flex-row items-center justify-between border-b-2">
+            className="flex h-11 flex-row items-center justify-between border-b-2"
+          >
             <h6 className="text-xl">{post.title}</h6>
             <p>
               <small>{createdDay}</small>

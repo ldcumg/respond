@@ -5,14 +5,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useSettingPrivacy } from "../hooks/useSettingPrivacy";
 import { Setting } from "@/types/setting";
+import { useGetUserIds } from "../hooks/useGetUserIds";
 
 type Props = {
   setting: Setting;
 };
 
-const testUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-
 const SettingPrivacy = ({ setting }: Props) => {
+  const { hostUserId, loginUserId } = useGetUserIds();
   const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, usePrivacyTypeMutate } =
     useSettingPrivacy(setting);
   const privacyTypeMutate = usePrivacyTypeMutate();
@@ -24,7 +24,8 @@ const SettingPrivacy = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => privacyTypeMutate({ userId: testUserId, privacyType: privacySelected })}>
+            onClick={() => privacyTypeMutate({ userId: hostUserId, privacyType: privacySelected })}
+          >
             저장
           </button>
         )}

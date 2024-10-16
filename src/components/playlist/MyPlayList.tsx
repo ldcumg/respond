@@ -60,8 +60,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   const deletePlayListmutation = useMutation({
     mutationFn: deleteTrackPlayList,
     onSuccess: () => {
-      confirm("내 플레이리스트에서 삭제하시겠습니까?");
-      queryClient.invalidateQueries(["myPlayList"]);
+      if (window.confirm("내 플레이리스트에서 삭제하시겠습니까?")) {
+        queryClient.invalidateQueries(["myPlayList"]);
+      }
     },
     onError: (error: Error) => {
       console.log("error.message", error.message);
@@ -82,7 +83,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
         track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
       );
       queryClient.invalidateQueries(["myPlayList"]);
-      //업데이트트랙을 queryKey: ["myPlayList", clientId, clientSecret],이 쿼맄키에 뮤테이션으로 업데이트해준다.
+      queryClient.invalidateQueries(["myMainPlay"]);
     }
   });
 
@@ -90,9 +91,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   const handleMainPlay = async (trackId: string) => {
     updateMainmutation.mutate(trackId);
   };
-  console.log("myPlayListData", myPlayListData);
+
   return (
-    <div>
+    <div className="h-full">
       {myPlayListData.length > 0 ? (
         <div className="mt-[40px] grid grid-cols-3 gap-4">
           {myPlayListData.map((list) => (
@@ -105,13 +106,16 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
               {isShowEdit && (
                 <div className="flex gap-[5px]">
                   {list.is_main === true ? (
-                    <button className="btn !bg-black !text-white" onClick={() => handleMainPlay(list.track_id)}>
+                    <button
+                      className="btn border-[2px] border-black !bg-black !text-white"
+                      onClick={() => handleMainPlay(list.track_id)}>
                       메인노래
                     </button>
                   ) : (
                     <button
                       className="btn border-[2px] border-black !bg-white !text-black"
-                      onClick={() => handleMainPlay(list.track_id)}>
+                      onClick={() => handleMainPlay(list.track_id)}
+                    >
                       지정
                     </button>
                   )}
@@ -125,7 +129,9 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
           ))}
         </div>
       ) : (
-        <p>나만의 플레이리스트를 추가해보세요.</p>
+        <div className="flex h-full items-center justify-center">
+          <p>나만의 플레이리스트를 추가해보세요.</p>
+        </div>
       )}
     </div>
   );

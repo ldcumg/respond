@@ -12,11 +12,14 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)"
+      },
+      cursor: {
+        fancy: "url(hand.cur), pointer"
       }
     }
   },
   future: {
-    hoverOnlyWhenSupported: true      // 모바일에서 호버 끄기
+    hoverOnlyWhenSupported: true // 모바일에서 호버 끄기
   },
   plugins: []
 };

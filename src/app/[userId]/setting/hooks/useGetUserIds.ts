@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
 export const useGetUserIds = () => {
-  const {userId:hostUserId} = useParams<{ userId:string; }>();
-  
+  const { userId: hostUserId } = useParams<{ userId: string }>();
+
   const { data: loginUserId } = useQuery<string | null>({
     queryKey: queryKey.auth.loginUser,
     queryFn: async () => {
@@ -14,17 +14,15 @@ export const useGetUserIds = () => {
         data: { session }
       } = await browserClient.auth.getSession();
 
-      if(session){
-
+      if (session) {
         const userInfo = session.user; // 사용자 정보 가져오기
         const { id } = userInfo;
         return id;
       }
-      return null
+      return null;
     },
-    staleTime:0
+    staleTime: 0
   });
 
-  return{hostUserId, loginUserId};
-  
-}
+  return { hostUserId, loginUserId };
+};
