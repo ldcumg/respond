@@ -149,7 +149,7 @@ export default function Schedule() {
 
   return (
     <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">스케쥴 관리</h1>
+      <h1 className="mb-4 text-2xl font-bold">스케줄 관리</h1>
 
       <div className="flex justify-between gap-5">
         <div
