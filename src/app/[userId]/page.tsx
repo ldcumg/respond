@@ -11,7 +11,6 @@ import PlaylistPrev from "@/components/home/PlaylistPrev";
 import SchedulePrev from "@/components/home/SchedulePrev";
 import HomeSkelton from "./setting/components/HomeSkelton";
 import React from "react";
-import LogOutButton from "@/components/LogOutButton";
 import { useAuthStore } from "@/store/useUserInfoStore";
 import { useGetUserIds } from "./setting/hooks/useGetUserIds";
 import usePrivacyState from "./setting/hooks/usePrivacyState";
@@ -92,7 +91,6 @@ const HomePage = () => {
   return (
     <div className="h-full pb-10">
       {privacyState.toString()}
-      <LogOutButton isLoggedIn={isLoggedIn} />
       <nav className="">
         <ul className="flex gap-[10px] pl-[50px]">
           {showList.map((show) => (
