@@ -1,13 +1,17 @@
 "use client";
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { useFollow } from "@/hooks/useFollow";
-import React from "react";
+import React, { useEffect } from "react";
 
 const FollowComponent = () => {
   const { hostUserId, loginUserId } = useGetUserIds();
   const { follow, isFollowed, useFollowPostMutate, useFollowDeleteMutate } = useFollow();
   const postMutate = useFollowPostMutate();
   const deleteMutate = useFollowDeleteMutate();
+
+  console.log("hostUserId", hostUserId);
+  console.log("loginUserId", loginUserId);
+  console.log("hostUserId === loginUserId", hostUserId === loginUserId);
 
   if (hostUserId === loginUserId) {
     return <></>;
