@@ -12,7 +12,7 @@ type Props = {
 };
 
 const SettingPrivacy = ({ setting }: Props) => {
-  const { hostUserId, loginUserId } = useGetUserIds();
+  const { hostUserId } = useGetUserIds();
   const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, usePrivacyTypeMutate } =
     useSettingPrivacy(setting);
   const privacyTypeMutate = usePrivacyTypeMutate();

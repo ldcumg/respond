@@ -1,9 +1,9 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
 import { PrivacyType, Setting, ShowList, TabList } from "@/types/setting";
-const supabase = createClient();
 
 const getSetting = async (userId: string) => {
+  const supabase = createClient();
   const { data: setting, error: isSettingError } = await supabase
     .from("setting")
     .select()
@@ -18,6 +18,7 @@ const getSetting = async (userId: string) => {
 };
 
 const patchPrivacy = async ({ userId, privacyType }: { userId: string; privacyType: PrivacyType }) => {
+  const supabase = createClient();
   const { error } = await supabase.from("setting").update({ privacy_type: privacyType }).eq("user_id", userId);
 
   if (error) {
@@ -26,6 +27,7 @@ const patchPrivacy = async ({ userId, privacyType }: { userId: string; privacyTy
 };
 
 const patchShowList = async ({ userId, showList }: { userId: string; showList: ShowList[] }) => {
+  const supabase = createClient();
   const { error } = await supabase.from("setting").update({ show_list: showList }).eq("user_id", userId);
 
   if (error) {
@@ -34,6 +36,7 @@ const patchShowList = async ({ userId, showList }: { userId: string; showList: S
 };
 
 const patchTabList = async ({ userId, tabList }: { userId: string; tabList: TabList[] }) => {
+  const supabase = createClient();
   const { error } = await supabase.from("setting").update({ tab_list: tabList }).eq("user_id", userId);
 
   if (error) {
@@ -43,6 +46,7 @@ const patchTabList = async ({ userId, tabList }: { userId: string; tabList: TabL
 
 /** 회원가입 시 setting에 기본값 추가 */
 const generateDefaultSetting = async (userId: string) => {
+  const supabase = createClient();
   const defaultSetting: Partial<Setting> = {
     user_id: userId,
     theme_name: "default",

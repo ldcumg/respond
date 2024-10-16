@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export const useGetUserIds = () => {
   const { userId: hostUserId } = useParams<{ userId: string }>();
-  const [loginUserId, setLoginUserId] = useState<string | null | undefined>("");
+  const [loginUserId, setLoginUserId] = useState<string | null>(null);
 
   const { data: loginUserIdQuery } = useQuery<string | null>({
     queryKey: queryKey.auth.loginUser,
@@ -27,10 +27,10 @@ export const useGetUserIds = () => {
     staleTime: 0
   });
 
-  const a = 1;
-
   useEffect(() => {
-    setLoginUserId(loginUserIdQuery);
+    if (loginUserIdQuery) {
+      setLoginUserId(loginUserIdQuery);
+    }
   }, [loginUserIdQuery]);
 
   return { hostUserId, loginUserId };
