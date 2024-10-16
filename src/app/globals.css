@@ -68,10 +68,17 @@
 }
 
 /* 재사용하는 구조적인 스타일링 */
-@layer components {}
+@layer components {
+}
 
 /* 하나의 속성에 대해 스타일 */
 @layer utilities {
+  body.green {
+    @apply bg-[green];
+  }
+  body.yellow {
+    @apply bg-[yellow];
+  }
   .navBtn {
     @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-tl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
   }

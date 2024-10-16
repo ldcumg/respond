@@ -5,6 +5,8 @@ import Image from "next/image";
 import browserClient from "@/utils/supabase/client";
 import PlayTrackPreview from "./PlayTrackPreview";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 
 export type SpotifyMainTrack = {
   track_id: string;
@@ -18,6 +20,9 @@ const Player = () => {
   const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [accessToken, setAccessToken] = useState("");
   const [playState, setPlayState] = useState(false); //재생상태
+  const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
+  const loginUser = useGetUserInfo();
+  const loginUserId: string = loginUser?.id ?? "";
 
   //스포티파이 재생 토큰
   useEffect(() => {
@@ -52,8 +57,8 @@ const Player = () => {
 
   //메인지정 mutation 함수
   const fetchMainPlay = async () => {
-    const { data: loginUserId } = await browserClient.auth.getUser();
-    const userId = loginUserId?.user?.id;
+    // const { data: loginUserId } = await browserClient.auth.getUser();
+    // const userId = loginUserId?.user?.id;
     const { data: mainPlay, error } = await browserClient
       .from("playlist")
       .select("*")

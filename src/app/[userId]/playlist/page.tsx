@@ -1,7 +1,7 @@
 "use client";
 
 import PlaylistAll from "@/components/playlist/PlaylistAll";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import MyPlayList from "@/components/playlist/MyPlayList";
 import MyPlayListEdit from "@/components/playlist/MyPlayListEdit";
@@ -19,8 +19,8 @@ const Playlist = () => {
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
   const loginUser = useGetUserInfo();
   const loginUserId: string = loginUser?.id ?? "";
-  console.log("loginUserId", loginUserId);
-  console.log("userId", userId);
+  // console.log("loginUserId", loginUserId);
+  // console.log("userId", userId);
   //스포티파이 토큰요청
   const fetchSpotifyData = async () => {
     const tokenRes = await fetch("https://accounts.spotify.com/api/token", {

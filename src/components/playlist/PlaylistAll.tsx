@@ -48,13 +48,11 @@ const addTrackPlayList = async (track: SpotifyTrack) => {
   return data;
 };
 
-//TODO : 플레이리스트 추가시 중복된거 고쳐야함
-//2.뮤테이션 만들고
 const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: PlaylistAllProps) => {
   const [search, setSearch] = useState<string>("");
   const queryClient = useQueryClient();
-  // console.log("myPlayList", myPlayList);
 
+  //2.뮤테이션 만들고
   const addPlayListMutation = useMutation({
     mutationFn: addTrackPlayList,
     onSuccess: () => {
@@ -67,7 +65,6 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: 
     }
   });
 
-  // console.log("spotifyList", spotifyList);
   /** 플레이리스트 추가이벤트 */
   //3.뮤테이션 실행하기
   const handleAddPlayList = async (track: SpotifyTrack) => {

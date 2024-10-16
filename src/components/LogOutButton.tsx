@@ -13,6 +13,7 @@ const LogOutButton = () => {
     await browserClient.auth.signOut(); // Supabase에서 로그아웃 수행
     document.cookie = "supabaseSession=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // 쿠키 삭제
     router.push("/login"); // 로그아웃 후 로그인 페이지로 이동
+    document.body.className = "";
   };
 
   return (
