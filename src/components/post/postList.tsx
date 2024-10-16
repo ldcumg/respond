@@ -1,24 +1,36 @@
 "use client";
 
-import { getPosts } from "@/services/post/serverAction";
-import { Post } from "@/types/post";
+import { postQuery } from "@/hooks/queries/post/usePostQuery";
+import { getPostDetail } from "@/services/post/serverAction";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type Props = {
   userId: string;
 };
 
 const PostList = ({ userId }: Props) => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const { data, error, fetchNextPage, hasNextPage, isPending, isFetchingNextPage, status } = postQuery({ userId });
+  console.log("data", data);
+  if (isPending) {
+    return <div>로딩 중...</div>;
+  }
 
-  useEffect(() => {
-    getPosts(userId).then(({ data }) => setPosts(data));
-  }, []);
+  // const { data: posts } = data?.pages[0];
+  // console.log("posts", posts);
+
+  // const ref  = useInView(
+  // {
+  // threshold: 1,
+  // onChange: (inView) => {
+  //   if (!inView || !hasNextPage || isFetchingNextPage) return;
+  //   fetchNextPage();
+  // }
+  // }
+  // );
 
   return (
     <ol className="flex flex-col">
-      {posts.map((post) => {
+      {/* {posts?.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link
@@ -31,7 +43,8 @@ const PostList = ({ userId }: Props) => {
             </p>
           </Link>
         );
-      })}
+      })} */}
+      <button onClick={() => fetchNextPage()}>더 보기</button>
     </ol>
   );
 };

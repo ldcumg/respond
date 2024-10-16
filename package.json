@@ -67,6 +67,5 @@
     "prettier-plugin-tailwindcss@0.6.8": {
       "unplugged": true
     }
-  },
-  "packageManager": "yarn@4.5.0"
+  }
 }

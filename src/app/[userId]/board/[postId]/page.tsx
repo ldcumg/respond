@@ -1,6 +1,6 @@
 "use client";
 
-import { deletePost, getPosts } from "@/services/post/serverAction";
+import { deletePost, getPostDetail } from "@/services/post/serverAction";
 import { Post } from "@/types/post";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ const PostDetailPage = ({ params }: Props) => {
 
   useEffect(() => {
     (async function () {
-      const { data } = await getPosts(userId);
+      const { data } = await getPostDetail({ postId });
       const targetPost = data.find((post) => post.id === Number(postId));
       setPost(targetPost);
     })();
