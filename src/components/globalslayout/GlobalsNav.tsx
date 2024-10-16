@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
+import usePrivacyState from "@/app/[userId]/setting/hooks/usePrivacyState";
 import { getSetting } from "@/app/[userId]/setting/server-action/settingAction";
 import queryKey from "@/queries/queryKey";
 import { Setting, TAB_LIST, TabList } from "@/types/setting";
@@ -47,6 +48,7 @@ const GlobalsNav = () => {
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
   });
+  const privacyState = usePrivacyState(setting);
 
   /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
@@ -77,11 +79,15 @@ const GlobalsNav = () => {
         <Link href={NAV_BASE_URL}>
           <li className="navBtn">홈</li>
         </Link>
-        {tabList.map((tab) => (
-          <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
-            <li className="navBtn">{tabListExtends[tab].name}</li>
-          </Link>
-        ))}
+        {privacyState && (
+          <>
+            {tabList.map((tab) => (
+              <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
+                <li className="navBtn">{tabListExtends[tab].name}</li>
+              </Link>
+            ))}
+          </>
+        )}
         {/* TODO: host userId와 접속자 userId가 같을 경우 만 내 설정 보여야함 일단 주석처리*/}
         {hostUserId === loginUserId && (
           <Link href={`${NAV_BASE_URL}/setting`}>
