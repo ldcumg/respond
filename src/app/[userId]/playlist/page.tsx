@@ -37,7 +37,7 @@ const Playlist = () => {
 
     if (!tokenRes.ok) throw new Error("토큰 가져오기 실패");
 
-    const { access_token } = await tokenRes.json(); // 토큰 추출해서access_token 변수애 저장
+    const { access_token } = await tokenRes.json();
 
     // Spotify API에 데이터 요청
     const spotifyRes = await fetch("https://api.spotify.com/v1/playlists/37i9dQZEVXbNxXF4SkHj9F", {
@@ -47,17 +47,12 @@ const Playlist = () => {
     });
 
     if (!spotifyRes.ok) throw new Error("스포티파이 데이터 패치 실패");
-    if (spotifyRes.ok) console.log("스포티파이 데이터 패치 성공");
 
     const data = await spotifyRes.json();
     return data.tracks.items;
   };
 
   const fetchPlayList = async () => {
-    // //Todo:유즈파람스로 갖고온 아이디값을 eq에 넣기
-    // const { data: loginUserId } = await browserClient.auth.getUser();
-    // const loginId = loginUserId?.user?.id;
-
     const { data: play, error } = await browserClient.from("playlist").select("*").eq("user_id", userId);
     if (error) console.error("playlist 가져오기 오류:", error.message);
     return play;
@@ -103,15 +98,9 @@ const Playlist = () => {
           myPlayListData={myPlayListData}
           playlist={playList}
           setIsShowModal={setIsShowModal}
-          // myPlayList={myPlayList}
         />
       )}
-      <MyPlayList
-        myPlayListData={myPlayListData}
-        // setMyPlayList={setMyPlayList}
-        // myPlayList={myPlayList}
-        isShowEdit={isShowEdit}
-      />
+      <MyPlayList myPlayListData={myPlayListData} isShowEdit={isShowEdit} />
     </div>
   );
 };

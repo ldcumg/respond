@@ -18,7 +18,6 @@ const ThemeBtn = () => {
 
   const fetchMainTheme = async () => {
     const { data, error } = await browserClient.from("setting").select("theme_name").eq("user_id", userId).single();
-    console.log(data);
     return data;
   };
 
@@ -45,9 +44,6 @@ const ThemeBtn = () => {
 
   if (error) return <div>데이터 가져오기 오류...</div>;
   if (isLoading) return <div>Loading...</div>;
-
-  console.log("myTheme", myTheme);
-  console.log("theme", theme);
 
   return (
     <div>

@@ -22,9 +22,8 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
         }
       });
       const data = await res.json();
-      console.log("data", data);
       const previewUrl = data.preview_url;
-      console.log("previewUrl", previewUrl);
+
       if (previewUrl) {
         // 기존 오디오 정지 및 새 오디오 설정
         if (audio) {
@@ -54,8 +53,7 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
     <div>
       <button
         className={`flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px]`}
-        onClick={handlePlayPreview}
-      >
+        onClick={handlePlayPreview}>
         {playState ? <Pause /> : <Play />}
       </button>
     </div>
