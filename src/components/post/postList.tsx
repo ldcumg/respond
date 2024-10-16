@@ -8,7 +8,8 @@ type Props = {
 };
 
 const PostList = ({ userId }: Props) => {
-  const { data, error, fetchNextPage, hasNextPage, isPending, isError } = postQuery({ userId });
+  const { data, error, fetchNextPage, isPending, isError } = postQuery({ userId });
+  console.log("data", data);
   if (isPending) {
     return <div>로딩 중...</div>;
   }
@@ -18,11 +19,11 @@ const PostList = ({ userId }: Props) => {
     return <div>오류가 발생했습니다.</div>;
   }
 
-  const posts = data?.pages[0];
+  const posts = data.pages.flat()
 
   return (
     <ol className="flex flex-col h-5/6 scroll-auto">
-      {posts?.map((post) => {
+      {posts.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link

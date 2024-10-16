@@ -56,14 +56,13 @@ const PostDetailPage = ({ params }: Props) => {
         <p>
           <small>{createdDay}</small>
         </p>
-        <div className="flex h-[75%] flex-col items-center overflow-auto mx-20">
+        <div className="mx-20 flex h-[75%] flex-col items-center overflow-auto">
           {imgUrl && <img className="mx-auto mt-5 w-[60%]" src={imgUrl} />}
           <p className="mt-5 flex w-full justify-center">{content}</p>
         </div>
         <Link
           href={`/${userId}/board`}
-          className="absolute bottom-1 right-1/2 translate-x-1/2 rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white"
-        >
+          className="absolute bottom-1 right-1/2 translate-x-1/2 rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white">
           목록으로 가기
         </Link>
       </div>

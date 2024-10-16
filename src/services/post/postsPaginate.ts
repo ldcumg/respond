@@ -11,7 +11,7 @@ export const getPostsPaginate = async ({ queryKey, pageParam }: PostQuery) => {
     .from(boardTable)
     .select(`*,board_img(img_url)`)
     .eq("user_id", userId)
-    .range(10 * pageParam, 15 * pageParam + 14);
+    .range(10 * pageParam, 10 * pageParam + 9);
 
   if (error) throw new Error("게시물을 불러오는 데 실패했습니다.");
 
