@@ -79,6 +79,7 @@ const GlobalsNav = () => {
         <Link href={NAV_BASE_URL}>
           <li className="navBtn">홈</li>
         </Link>
+        {/* TODO: 이거 이상함 */}
         {privacyState && (
           <>
             {tabList.map((tab) => (
