@@ -40,19 +40,7 @@ function getTabList(tabList: TabList[], hostUserId: string, attendeeUserId: stri
   return tabList;
 }
 
-type Props = {
-  params: {
-    userId: string;
-  };
-};
-
-const GlobalsNav = ({ params }: Props) => {
-  // const {userId:hostUserId} = useParams<{ userId:string; }>();
-  // const { data: loginUserId } = useQuery<string | undefined>({
-  //   queryKey: queryKey.auth.loginUser,
-  //   queryFn: () => getLoginUserId()
-  // });
-
+const GlobalsNav = () => {
   const { hostUserId, loginUserId } = useGetUserIds();
 
   const { data: setting } = useQuery<Setting>({

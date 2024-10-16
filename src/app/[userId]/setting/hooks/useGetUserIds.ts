@@ -3,11 +3,13 @@ import browserClient from "@/utils/supabase/client";
 import { getLoginUserId } from "@/utils/supabase/user";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const useGetUserIds = () => {
   const { userId: hostUserId } = useParams<{ userId: string }>();
+  const [loginUserId, setLoginUserId] = useState<string | null | undefined>("");
 
-  const { data: loginUserId } = useQuery<string | null>({
+  const { data: loginUserIdQuery } = useQuery<string | null>({
     queryKey: queryKey.auth.loginUser,
     queryFn: async () => {
       const {
@@ -21,8 +23,15 @@ export const useGetUserIds = () => {
       }
       return null;
     },
+
     staleTime: 0
   });
+
+  const a = 1;
+
+  useEffect(() => {
+    setLoginUserId(loginUserIdQuery);
+  }, [loginUserIdQuery]);
 
   return { hostUserId, loginUserId };
 };
