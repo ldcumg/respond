@@ -19,11 +19,19 @@ const GlobalsUserInfo = () => {
     })();
   }, []);
   return (
-    <div>
+    <div className="flex h-full flex-col justify-between">
       <Player />
       <FollowComponent />
-
-      <ThemeBtn />
+      <div className="flex flex-col gap-[40px] px-[20px]">
+        <div>
+          <h2 className="mb-[10px] text-[25px] font-bold">사용자이름</h2>
+          <p className="text-[16px]">email@email.com</p>
+        </div>
+        <div className="flex justify-between gap-[10px] pb-[50px]">
+          <ThemeBtn /> {/* <- 내 정보수정 컴포넌트로 바꿔주세요 */}
+          <ThemeBtn />
+        </div>
+      </div>
     </div>
   );
 };

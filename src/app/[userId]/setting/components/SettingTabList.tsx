@@ -45,7 +45,7 @@ const SettingTabList = ({ setting }: Props) => {
           </button>
         )}
         {!isButtonEnabled && (
-          <button className="cursor-pointer bg-[#F4F4F4] px-[10px] py-[5px] hover:bg-[#e4e3e3]">저장</button>
+          <button className="cursor-auto bg-[#d3d3d3] px-[10px] py-[5px] text-[#9a9a9a]">저장</button>
         )}
       </div>
       <div className="flex items-center gap-[42px] space-x-2">
