@@ -13,7 +13,6 @@ export const useGetUserInfo = () => {
 
       if (session) {
         const userInfo = session.user; // 사용자 정보 가져오기
-        console.log("userInfo", userInfo);
         return userInfo;
       }
       return null;

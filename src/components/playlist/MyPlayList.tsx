@@ -12,8 +12,8 @@ type SpotifyListProps = {
   is_main: boolean;
 };
 type MyPlaylistAllProps = {
-  myPlayList: SpotifyListProps[];
-  setMyPlayList: SpotifyListProps[];
+  // myPlayList: SpotifyListProps[];
+  // setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
   myPlayListData: SpotifyListProps[];
 };

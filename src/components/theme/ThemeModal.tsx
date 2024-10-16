@@ -29,7 +29,7 @@ const ThemeModal = ({ setIsModalOpen, setTheme, theme }: ThemeModalProps) => {
   const themeChangeMutation = useMutation({
     mutationFn: themeChange,
     onSuccess: () => {
-      queryClient.invalidateQueries(["myTheme"]);
+      queryClient.invalidateQueries({ queryKey: ["myTheme"] });
     },
     onError: (error: Error) => {
       console.log("error.message", error.message);

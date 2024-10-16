@@ -9,10 +9,6 @@ const FollowComponent = () => {
   const postMutate = useFollowPostMutate();
   const deleteMutate = useFollowDeleteMutate();
 
-  console.log("hostUserId", hostUserId);
-  console.log("loginUserId", loginUserId);
-  console.log("hostUserId === loginUserId", hostUserId === loginUserId);
-
   if (hostUserId === loginUserId) {
     return <></>;
   }

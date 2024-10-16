@@ -69,8 +69,9 @@ const Player = () => {
     isLoading: myMainPlayIsLoding,
     error: myMainPlayIsError
   } = useQuery({
-    queryKey: ["myMainPlay", clientId, clientSecret],
-    queryFn: fetchMainPlay
+    queryKey: ["myMainPlay"],
+    queryFn: fetchMainPlay,
+    staleTime: 0
   });
 
   if (myMainPlayIsError) return <div>데이터 가져오기 오류...</div>;

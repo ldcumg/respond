@@ -47,15 +47,13 @@ const ThemeBtn = () => {
 
   return (
     <div>
-      {loginUserId === userId ? (
+      {loginUserId === userId && (
         <>
           <button onClick={openTheme} className="cursor-pointer bg-[#F4F4F4] px-[15px] py-[10px] hover:bg-[#e1e1e1]">
             내 홈피 꾸미기
           </button>
           {isModalOpen && <ThemeModal setIsModalOpen={setIsModalOpen} theme={theme} setTheme={setTheme} />}
         </>
-      ) : (
-        ""
       )}
     </div>
   );

@@ -82,8 +82,6 @@ const SignUp: React.FC = () => {
           }
         });
 
-        console.log("signUp Data => ", data);
-
         if (error) {
           setErrors({ email: "회원가입 오류: " + error.message });
           console.error("회원가입 오류:", error);

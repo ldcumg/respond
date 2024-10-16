@@ -95,12 +95,12 @@ const Playlist = () => {
       {isShowModal && (
         <PlaylistAll
           spotifyList={spotifyList}
-          myPlayListData={myPlayListData}
+          myPlayListData={myPlayListData || []}
           playlist={playList}
           setIsShowModal={setIsShowModal}
         />
       )}
-      <MyPlayList myPlayListData={myPlayListData} isShowEdit={isShowEdit} />
+      <MyPlayList myPlayListData={myPlayListData || []} isShowEdit={isShowEdit} />
     </div>
   );
 };
