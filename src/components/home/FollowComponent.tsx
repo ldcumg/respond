@@ -1,7 +1,7 @@
 "use client";
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { useFollow } from "@/hooks/useFollow";
-import React from "react";
+import React, { useEffect } from "react";
 
 const FollowComponent = () => {
   const { hostUserId, loginUserId } = useGetUserIds();

@@ -1,28 +1,44 @@
 "use client";
 
-import { getPosts } from "@/services/post/serverAction";
-import { Post } from "@/types/post";
+import { postQuery } from "@/hooks/queries/post/usePostQuery";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-// 임시
-const userId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-// const nickname = "123";
+type Props = {
+  userId: string;
+};
 
-const PostList = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+const PostList = ({ userId }: Props) => {
+  const { data, error, fetchNextPage, isPending, isError } = postQuery({ userId });
+  if (isPending) {
+    return <div>로딩 중...</div>;
+  }
 
-  useEffect(() => {
-    getPosts(userId).then(({ data }) => setPosts(data));
-  }, []);
+  if (isError) {
+    console.error(error);
+    return <div>오류가 발생했습니다.</div>;
+  }
+
+  const posts = data.pages.flat();
 
   return (
-    <ol>
-      {posts.map((post) => (
-        <Link href={`/${userId}/board/${post.id}`} key={post.id}>
-          <h6>{post.title}</h6>
-        </Link>
-      ))}
+    <ol className="flex h-5/6 flex-col scroll-auto">
+      {posts.map((post) => {
+        const createdDay = post.created_at.substring(0, 10);
+        return (
+          <Link
+            href={`/${userId}/board/${post.id}`}
+            key={post.id}
+            className="flex h-11 flex-row items-center justify-between border-b-2">
+            <h6 className="text-xl">{post.title}</h6>
+            <p>
+              <small>{createdDay}</small>
+            </p>
+          </Link>
+        );
+      })}
+      <button className="mt-1" onClick={() => fetchNextPage()}>
+        더 보기
+      </button>
     </ol>
   );
 };

@@ -32,6 +32,10 @@
     --radius: 0.5rem;
   }
 
+  * {
+    word-break: keep-all;
+  }
+
   body {
     @apply bg-background text-foreground;
     color: var(--foreground);
@@ -68,28 +72,90 @@
 }
 
 /* 재사용하는 구조적인 스타일링 */
-@layer components {}
+@layer components {
+  .page-title-container {
+    @apply sticky top-0 flex items-center justify-between bg-white;
+  }
+
+  .page-title {
+    @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+  }
+
+  .circle-btn {
+    @apply flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[30px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff];
+  }
+}
 
 /* 하나의 속성에 대해 스타일 */
 @layer utilities {
+  /*테마색*/
+  .theme-colorchip {
+    @apply h-[90px] flex-1 rounded-[8px];
+  }
+  body.pink {
+    @apply bg-[#FFA1A1];
+  }
+  body.green {
+    @apply bg-[#C4FF94];
+  }
+  body.yellow {
+    @apply bg-[#FFFD8B];
+  }
+  body.blue {
+    @apply bg-[#91C1D6];
+  }
+  body.gray {
+    @apply bg-[#787878];
+  }
+  body.dark {
+    @apply bg-[#212121];
+  }
+  body.light {
+    @apply bg-[#E6E6E6];
+  }
+  body.navy {
+    @apply bg-[#2c2163];
+  }
+
   .navBtn {
     @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-tl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
   }
 
   .tabBtn {
-    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+    @apply cursor-pointer rounded-[20px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white px-7 py-4 text-[20px] font-bold text-black;
   }
 
   .btn {
-    @apply cursor-pointer rounded-lg bg-blue-500 px-4 py-1 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-blue-500 focus:ring-opacity-75;
+    @apply cursor-pointer rounded-lg bg-black px-4 py-1 font-semibold text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-blue-500 focus:ring-opacity-75;
   }
 
   .borderline {
-    @apply rounded-[22px] border-[4px] border-black bg-[#fff] px-[40px] py-[40px];
+    @apply rounded-[22px] border-[4px] border-black bg-[#fff];
+    /* px-[40px] py-[40px]; */
+  }
+  .pageTitle {
+    @apply flex-[.7] border-b-[4px] border-black text-[32px] font-semibold text-black;
   }
 
-  .pageTitle {
-    @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+  .no-radius {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .li-hover-container {
+    position: relative;
+  }
+
+  .li-hover-container .hover-move {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .li-hover-container:hover .hover-move {
+    transform: translateX(70px);
+  }
+
+  .settingBox {
+    @apply flex w-[80%] flex-col justify-between gap-[20px] rounded-[18px] border-4 border-black px-[20px] pb-[40px] pt-[20px];
   }
 
   @keyframes play {
@@ -106,6 +172,7 @@
     animation: play 4s linear infinite;
   }
 }
+
 @layer utilities {
   .border-3 {
     border-width: 3px;

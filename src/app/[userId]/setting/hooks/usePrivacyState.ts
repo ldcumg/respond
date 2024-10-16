@@ -10,9 +10,6 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
   const { hostUserId, loginUserId } = useGetUserIds();
 
   // 접속자(로그인유저)가 호스트 팔로우
-
-  console.log("loginUserId", loginUserId);
-  console.log("hostUserId", hostUserId);
   const { data: loginToHostFollow } = useQuery<Follow | null>({
     queryKey: queryKey.follow(hostUserId, loginUserId),
     queryFn: () => getFollow({ toUserId: hostUserId, fromUserId: loginUserId }),
@@ -30,14 +27,13 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
     return false;
   }
 
+  if (hostUserId === loginUserId) {
+    return true;
+  }
+
   const privacyType = setting.privacy_type;
   const isFollower = !!loginToHostFollow;
   const isMutualFollower = !!loginToHostFollow && !!hostToLoginFollow;
-
-  console.log("privacyType", privacyType);
-  console.log("isFollower", isFollower);
-  console.log("isMutualFollower", isMutualFollower);
-  debugger;
 
   // 공개 범위가 private
   if (privacyType === PRIVACY_TYPE.private) {

@@ -1,5 +1,3 @@
-
-
 export type SpotifyTrack = {
   album: SpotifyAlbum;
   artists: SpotifyArtist;

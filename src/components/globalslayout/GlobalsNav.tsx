@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
+import usePrivacyState from "@/app/[userId]/setting/hooks/usePrivacyState";
 import { getSetting } from "@/app/[userId]/setting/server-action/settingAction";
 import queryKey from "@/queries/queryKey";
 import { Setting, TAB_LIST, TabList } from "@/types/setting";
@@ -13,7 +14,7 @@ import React from "react";
 const tabListExtends = {
   [TAB_LIST.board]: {
     id: TAB_LIST.board,
-    href: "/tempUserId/board",
+    href: "/board",
     name: "게시물"
   },
   [TAB_LIST.chat]: {
@@ -34,34 +35,21 @@ const tabListExtends = {
 } as const;
 
 function getTabList(tabList: TabList[], hostUserId: string, attendeeUserId: string) {
+  // 만약 페이지 주인도 탭 설정에 따른 탭만 노출되게하려면 이 조건 지우면 됨
   if (hostUserId === attendeeUserId) {
     return Object.keys(tabListExtends) as TabList[];
   }
   return tabList;
 }
 
-type Props = {
-  params: {
-    userId: string;
-  };
-};
+const GlobalsNav = () => {
+  const { hostUserId, loginUserId } = useGetUserIds();
 
-const GlobalsNav = ({ params }: Props) => {
-  // const {userId:hostUserId} = useParams<{ userId:string; }>();
-  // const { data: loginUserId } = useQuery<string | undefined>({
-  //   queryKey: queryKey.auth.loginUser,
-  //   queryFn: () => getLoginUserId()
-  // });
-
-  const {hostUserId, loginUserId} = useGetUserIds();
-  
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId)
   });
-
-
-  
+  const privacyState = usePrivacyState(setting);
 
   /** 옆에 nav 스켈레톤 ? */
   if (!setting) {
@@ -76,16 +64,11 @@ const GlobalsNav = ({ params }: Props) => {
     );
   }
 
-  if(!loginUserId){
-    return <></>
+  if (!loginUserId) {
+    return <></>;
   }
-
-  console.log('loginUserId', loginUserId);
-  console.log('hostUserId === loginUserId', hostUserId === loginUserId);
-
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
   const NAV_BASE_URL = `/${hostUserId}`;
-
 
   return (
     <nav>
@@ -93,16 +76,26 @@ const GlobalsNav = ({ params }: Props) => {
         <Link href={NAV_BASE_URL}>
           <li className="navBtn">홈</li>
         </Link>
-        {tabList.map((tab) => (
-          <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
-            <li className="navBtn">{tabListExtends[tab].name}</li>
-          </Link>
-        ))}
-        {/* TODO: host userId와 접속자 userId가 같을 경우 만 내 설정 보여야함 일단 주석처리*/}
+        {privacyState && hostUserId !== loginUserId && (
+          <>
+            {tabList.map((tab) => (
+              <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
+                <li className="navBtn">{tabListExtends[tab].name}</li>
+              </Link>
+            ))}
+          </>
+        )}
         {hostUserId === loginUserId && (
-          <Link href={`${NAV_BASE_URL}/setting`}>
-            <li className="navBtn">내 설정</li>
-          </Link>
+          <>
+            {tabList.map((tab) => (
+              <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
+                <li className="navBtn">{tabListExtends[tab].name}</li>
+              </Link>
+            ))}
+            <Link href={`${NAV_BASE_URL}/setting`}>
+              <li className="navBtn">내 설정</li>
+            </Link>
+          </>
         )}
       </ul>
     </nav>

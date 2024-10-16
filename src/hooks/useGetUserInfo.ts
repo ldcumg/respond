@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetUserInfo = () => {
   const { data: userInfo } = useQuery<User | null>({
-    queryKey: queryKey.auth.loginUser,
+    queryKey: queryKey.auth.userInfo,
     queryFn: async () => {
       const {
         data: { session }
@@ -13,7 +13,6 @@ export const useGetUserInfo = () => {
 
       if (session) {
         const userInfo = session.user; // 사용자 정보 가져오기
-        console.log("userInfo", userInfo);
         return userInfo;
       }
       return null;
