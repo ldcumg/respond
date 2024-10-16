@@ -14,6 +14,7 @@ import React from "react";
 import { useAuthStore } from "@/store/useUserInfoStore";
 import { useGetUserIds } from "./setting/hooks/useGetUserIds";
 import usePrivacyState from "./setting/hooks/usePrivacyState";
+import LogOutButton from "@/components/LogOutButton";
 
 const tabListExtends = {
   [SHOW_LIST.board]: {
@@ -79,20 +80,7 @@ const HomePage = () => {
 
   return (
     <div className="h-full pb-10">
-<<<<<<< HEAD
-      {privacyState.toString()}
-      <nav className="">
-        <ul className="flex gap-[10px] pl-[50px]">
-          {showList.map((show) => (
-            <div key={show} onClick={() => handleTabChange(show)}>
-              <li className="tabBtn">{tabListExtends[show].name}</li>
-            </div>
-          ))}
-        </ul>
-      </nav>
-      <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
-=======
-      <LogOutButton isLoggedIn={isLoggedIn} />
+      <LogOutButton/>
       {privacyState && (
         <div className="h-full pb-10">
           <nav className="">
@@ -108,7 +96,6 @@ const HomePage = () => {
         </div>
       )}
       {!privacyState && <>볼 권한이 없어요</>}
->>>>>>> 4be4ba47b881634229c6ef4dc56227b68abcf475
     </div>
   );
 };
