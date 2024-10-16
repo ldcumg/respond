@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import browserClient from "@/utils/supabase/client";
 import Link from "next/link";
 import { ChevronLeft, MessageCirclePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import GlobalError from "../GlobalError";
+import browserClient from "@/utils/supabase/client";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type Room = {
   id: number;
@@ -37,11 +37,11 @@ const ChatPage = () => {
   const fetchUsers = async () => {
     try {
       const { data, error } = await browserClient.from("user_info").select("*");
-      
+
       if (error) {
         throw new Error("사용자 목록 가져오기 오류: " + error.message);
       }
-      
+
       setUsers(data);
     } catch (error) {
       setError(new Error("사용자 목록 가져오기 중 오류 발생"));
@@ -144,7 +144,7 @@ const ChatPage = () => {
 
   return (
     <div className="flex h-screen flex-col justify-between bg-gray-200">
-      <div className="flex h-[80px] items-center bg-white p-9 border-b-[10px] border-black">
+      <div className="flex h-[80px] items-center border-b-[10px] border-black bg-white p-9">
         <div className="cursor-pointer" onClick={handleGoBack}>
           <ChevronLeft size={40} strokeWidth={3} />
         </div>

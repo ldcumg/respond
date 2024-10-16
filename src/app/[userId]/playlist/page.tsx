@@ -82,8 +82,8 @@ const Playlist = () => {
 
   return (
     <div className="relative h-full w-full overflow-scroll">
-      <div className="item-center sticky top-0 flex justify-between bg-white">
-        <h1 className="pageTitle">플레이리스트</h1>
+      <div className="page-title-container">
+        <h1 className="page-title">플레이리스트</h1>
         <div className="flex items-center gap-[10px]">
           <PlayListModalBtn setIsShowModal={setIsShowModal} isShowModal={isShowModal} />
           <MyPlayListEdit setIsShowEdit={setIsShowEdit} isShowEdit={isShowEdit} />

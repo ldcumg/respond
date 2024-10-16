@@ -38,11 +38,10 @@ const SettingTabList = ({ setting }: Props) => {
   //   queryFn: () => getLoginUserId()
   // });
 
-  const {hostUserId, loginUserId} = useGetUserIds();
+  const { hostUserId, loginUserId } = useGetUserIds();
 
   const { tabListCheckList, handleCheckboxChange, isButtonEnabled, useTabListMutate } = useSettingTabList(setting);
   const tabListMutate = useTabListMutate();
-
 
   return (
     <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
@@ -51,7 +50,8 @@ const SettingTabList = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}>
+            onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}
+          >
             저장
           </button>
         )}

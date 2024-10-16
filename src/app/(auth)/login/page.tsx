@@ -13,7 +13,7 @@ const Login = () => {
   const { setIsLoggedIn } = useAuthStore();
   const router = useRouter();
 
-  console.log(setIsLoggedIn);
+  // console.log(setIsLoggedIn);
 
   useEffect(() => {
     const sessionCookie = async () => {
@@ -81,7 +81,8 @@ const Login = () => {
           <button
             type="submit"
             className="w-full rounded border-4 border-black bg-black p-2 text-white hover:invert"
-            onClick={handleLogin}>
+            onClick={handleLogin}
+          >
             로그인
           </button>
         </div>

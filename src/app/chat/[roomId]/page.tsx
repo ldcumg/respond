@@ -37,14 +37,14 @@ const ChatRoom = () => {
   const fetchUser = async () => {
     try {
       const { data, error } = await browserClient.auth.getUser();
-      
+
       if (error || !data?.user) {
         throw new Error("사용자 정보를 가져오는 중 오류: " + error?.message);
       }
-      
+
       setUser({
         id: data.user.id,
-        nickname: data.user.user_metadata?.nickname,
+        nickname: data.user.user_metadata?.nickname
       });
     } catch (error) {
       setError(new Error("사용자 목록 가져오기 중 오류 발생"));
@@ -76,7 +76,7 @@ const ChatRoom = () => {
 
           return {
             ...chat,
-            user_nickname: userError ? "Unknown" : userData?.nickname,
+            user_nickname: userError ? "Unknown" : userData?.nickname
           };
         })
       );
@@ -91,11 +91,7 @@ const ChatRoom = () => {
 
   const fetchRoomDetails = async () => {
     try {
-      const { data, error } = await browserClient
-        .from("rooms")
-        .select("name")
-        .eq("id", roomId)
-        .single();
+      const { data, error } = await browserClient.from("rooms").select("name").eq("id", roomId).single();
 
       if (error) {
         throw new Error("채팅방 정보 가져오기 오류: " + error.message);
@@ -122,7 +118,7 @@ const ChatRoom = () => {
             user_id: payload.new.user_id,
             room_id: payload.new.room_id,
             created_at: payload.new.created_at,
-            user_nickname: payload.new.user_nickname,
+            user_nickname: payload.new.user_nickname
           };
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         })
@@ -152,7 +148,7 @@ const ChatRoom = () => {
           user_id: user.id,
           room_id: roomId,
           user_nickname: userData?.nickname,
-          created_at: new Date().toISOString(),
+          created_at: new Date().toISOString()
         });
 
         if (sendError) {
@@ -189,7 +185,7 @@ const ChatRoom = () => {
 
   return (
     <div className="flex h-screen flex-col">
-      <div className="flex h-[80px] items-center bg-white p-9 border-b-[10px] border-black">
+      <div className="flex h-[80px] items-center border-b-[10px] border-black bg-white p-9">
         <div className="cursor-pointer" onClick={handleGoBack}>
           <ChevronLeft size={40} strokeWidth={3} />
         </div>
@@ -201,7 +197,9 @@ const ChatRoom = () => {
           const isFirstMessageFromUser = index === 0 || messages[index - 1].user_id !== message.user_id;
 
           return (
-            <div key={message.id} className={`mb-2 flex ${message.user_id === user?.id ? "justify-end" : "justify-start"}`}>
+            <div
+              key={message.id}
+              className={`mb-2 flex ${message.user_id === user?.id ? "justify-end" : "justify-start"}`}>
               <div className={`flex items-center ${message.user_id === user?.id ? "flex-row-reverse" : ""}`}>
                 <div className={`flex flex-col ${message.user_id === user?.id ? "items-end" : "items-start"}`}>
                   {isFirstMessageFromUser && <h3 className="mb-1 font-bold">- {message.user_nickname}</h3>}
