@@ -81,7 +81,7 @@ const Playlist = () => {
 
   return (
     <div className="relative h-full w-full p-[30px]">
-      <div className="item-center sticky top-0 flex justify-between bg-white">
+      <div className="item-center sticky top-0 flex justify-between">
         <h1 className="pageTitle">플레이리스트</h1>
         {loginUserId === userId ? (
           <div className="flex items-center gap-[10px]">

@@ -15,9 +15,8 @@ const MyPlayListEdit = ({ setIsShowEdit, isShowEdit }: PlaylistEditProps) => {
   return (
     <button
       onClick={handleShowEditBtn}
-      className={`duration-3000 flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px] transition-transform ease-in-out ${isShowEdit ? "bg-[#000] text-[#fff]" : "bg-[#fff] text-[#000]"}`}
-    >
-      {isShowEdit ? <SquarePen color="white" /> : <SquarePen color="black" />}
+      className={`duration-3000 flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px] transition-transform ease-in-out ${isShowEdit ? "bg-[#000] text-[#fff]" : "bg-[#fff] text-[#000]"}`}>
+      {isShowEdit ? <SquarePen strokeWidth={3} color="white" /> : <SquarePen strokeWidth={3} color="black" />}
     </button>
   );
 };

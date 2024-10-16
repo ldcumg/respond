@@ -14,7 +14,7 @@ const PlaylistSearch = ({ setSearch }: PlaylistSearchProps) => {
         placeholder="제목 또는 가수명을 검색하세요."
         onChange={(e) => setSearch(e.target.value)}
       />
-      <Search className="w-[10%]" />
+      <Search strokeWidth={3} className="w-[10%]" />
     </div>
   );
 };

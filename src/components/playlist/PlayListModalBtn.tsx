@@ -15,9 +15,8 @@ const PlayListModalBtn = ({ setIsShowModal, isShowModal }: PlaylistModalBtnProps
   return (
     <button
       onClick={handleShowModal}
-      className={`circle-btn duration-3000 ${isShowModal ? "rotate-45 bg-[#000] text-[#fff]" : "rotate-0 bg-[#fff] text-[#000]"}`}
-    >
-      <Plus />
+      className={`circle-btn duration-3000 ${isShowModal ? "rotate-45 bg-[#000] text-[#fff]" : "rotate-0 bg-[#fff] text-[#000]"}`}>
+      <Plus strokeWidth={3} />
     </button>
   );
 };

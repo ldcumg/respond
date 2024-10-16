@@ -10,7 +10,6 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
   const { hostUserId, loginUserId } = useGetUserIds();
 
   // 접속자(로그인유저)가 호스트 팔로우
-
   const { data: loginToHostFollow } = useQuery<Follow | null>({
     queryKey: queryKey.follow(hostUserId, loginUserId),
     queryFn: () => getFollow({ toUserId: hostUserId, fromUserId: loginUserId }),
@@ -26,6 +25,10 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
 
   if (!setting) {
     return false;
+  }
+
+  if (hostUserId === loginUserId) {
+    return true;
   }
 
   const privacyType = setting.privacy_type;

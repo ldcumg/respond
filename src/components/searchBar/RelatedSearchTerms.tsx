@@ -12,7 +12,7 @@ const RelatedSearchTerms = ({ searchInputValue }: Props) => {
   const { allUsers } = useAllUsersStore((state) => state);
 
   return (
-    <ul className="z-50 flex max-h-44 w-[300px] flex-col overflow-auto bg-gray-50">
+    <ul className="absolute z-50 flex max-h-44 w-[300px] flex-col overflow-auto bg-white">
       {allUsers
         .filter((user) => user.nickname.toLowerCase().includes(searchInputValue.toLowerCase()))
         .map((user) => (

@@ -8,7 +8,6 @@ import { Setting } from "@/types/setting";
 import queryKey from "@/queries/queryKey";
 import SettingShowList from "./components/SettingShowList";
 import SettingTabList from "./components/SettingTabList";
-import { getLoginUserId } from "@/utils/supabase/user";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
