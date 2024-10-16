@@ -8,12 +8,18 @@ type Props = Readonly<{ children: React.ReactNode }>;
 const layout = ({ children }: Props) => {
   return (
     <>
-      <header className="flex flex-row justify-between items-center mx-auto w-[90%] max-w-[1920px] py-[60px]">
-        <div className="absolute"><LogOutButton /></div>
-        <div className="absolute right-[15vw]"><UserSearchBar /></div>
+      <header className="mx-auto flex w-[90%] max-w-[1920px] flex-row items-center justify-between py-[60px]">
+        <div className="absolute">
+          <LogOutButton />
+        </div>
+        <div className="absolute right-[15vw]">
+          <UserSearchBar />
+        </div>
       </header>
-      <div className="mx-auto flex mt-[100px] h-screen w-[90%] max-w-[1920px] gap-[20px]" style={{ height: 'calc(100vh - 100px)' }}>
-        <aside className="borderline w-[20%]">
+      <div
+        className="mx-auto flex h-[90vh] w-[90%] max-w-[1920px] gap-[20px]"
+        style={{ height: "calc(100vh - 150px)" }}>
+        <aside className="borderline w-[20%] p-[20px]">
           <GlobalsUserInfo />
         </aside>
         <section className="flex w-[80%]">

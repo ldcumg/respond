@@ -19,9 +19,7 @@ const HomePage = () => {
     }
   }, [isLoggedIn, loginUserId, router]);
 
-  return (
-    <LoadingSpinner/>
-  );
+  return <LoadingSpinner />;
 };
 
 export default HomePage;

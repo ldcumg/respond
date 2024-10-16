@@ -80,7 +80,7 @@ const Playlist = () => {
   if (spotifyIsLoding || playListIsLoding) return <div>Loading...</div>;
 
   return (
-    <div className="relative h-full w-full overflow-scroll">
+    <div className="relative h-full w-full p-[30px]">
       <div className="item-center sticky top-0 flex justify-between bg-white">
         <h1 className="pageTitle">플레이리스트</h1>
         {loginUserId === userId ? (
