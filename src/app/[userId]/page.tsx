@@ -43,17 +43,6 @@ const tabListExtends = {
   }
 } as const;
 
-// const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-// const attendeeUserId = "방문자 userid";
-
-// function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
-//   if (hostUserId === loginUserId) {
-//     return Object.keys(tabListExtends) as ShowList[];
-//   }
-
-//   return showList;
-// }
-
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
   const { hostUserId, loginUserId } = useGetUserIds();
@@ -91,18 +80,22 @@ const HomePage = () => {
 
   return (
     <div className="h-full pb-10">
-      {privacyState.toString()}
       <LogOutButton isLoggedIn={isLoggedIn} />
-      <nav className="">
-        <ul className="flex gap-[10px] pl-[50px]">
-          {showList.map((show) => (
-            <div key={show} onClick={() => handleTabChange(show)}>
-              <li className="tabBtn">{tabListExtends[show].name}</li>
-            </div>
-          ))}
-        </ul>
-      </nav>
-      <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
+      {privacyState && (
+        <div className="h-full pb-10">
+          <nav className="">
+            <ul className="flex gap-[10px] pl-[50px]">
+              {showList.map((show) => (
+                <div key={show} onClick={() => handleTabChange(show)}>
+                  <li className="tabBtn">{tabListExtends[show].name}</li>
+                </div>
+              ))}
+            </ul>
+          </nav>
+          <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
+        </div>
+      )}
+      {!privacyState && <>볼 권한이 없어요</>}
     </div>
   );
 };
