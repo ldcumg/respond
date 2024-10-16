@@ -10,8 +10,6 @@ type RequestFollow = {
 };
 
 const getFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">): Promise<Follow | null> => {
-  console.log("🚀 ~ getFollow ~ fromUserId:", fromUserId);
-  console.log("🚀 ~ getFollow ~ toUserId:", toUserId);
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -24,8 +22,6 @@ const getFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">): P
   if (error) {
     throw new Error("Follow select Error");
   }
-
-  console.log("data", data);
 
   return data.length > 0 ? data[0] : null;
 };

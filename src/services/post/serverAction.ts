@@ -33,8 +33,6 @@ export const getPostDetail = async ({ postId }: { postId: string }) => {
 export const modifyPost = async ({ id, content }: ModifyPost) => {
   const supabase = createClient();
   const { data, error } = await supabase.from(board).update({ content }).eq("id", id);
-  console.log("error", error);
-  console.log("data", data);
 };
 
 /** 게시물 삭제 */
