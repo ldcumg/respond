@@ -154,6 +154,10 @@
     transform: translateX(70px);
   }
 
+  .settingBox {
+    @apply flex w-[80%] flex-col justify-between gap-[20px] rounded-[18px] border-4 border-black px-[20px] pb-[40px] pt-[20px];
+  }
+
   @keyframes play {
     0% {
       transform: rotate(0deg);
