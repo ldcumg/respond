@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
+import moment from "moment-timezone";
+import { ArrowUpRight, ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import GlobalError from "@/app/GlobalError";
 
 type Message = {
   id: number;
@@ -13,61 +18,101 @@ type Message = {
   user_nickname: string;
 };
 
+type User = {
+  id: string;
+  nickname: string;
+};
+
 const ChatRoom = () => {
   const { roomId } = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [selectedRoomName, setSelectedRoomName] = useState<string>("");
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const router = useRouter();
+
+  // 현재 로그인한 사용자의 정보 가져오기
+  const fetchUser = async () => {
+    try {
+      const { data, error } = await browserClient.auth.getUser();
+      
+      if (error || !data?.user) {
+        throw new Error("사용자 정보를 가져오는 중 오류: " + error?.message);
+      }
+      
+      setUser({
+        id: data.user.id,
+        nickname: data.user.user_metadata?.nickname,
+      });
+    } catch (error) {
+      setError(new Error("사용자 목록 가져오기 중 오류 발생"));
+    }
+  };
 
   // chat 데이터 불러오기
   const fetchMessages = async () => {
-    const { data, error } = await browserClient
-      .from("chat")
-      .select("*")
-      .eq("room_id", roomId)
-      .order("created_at", { ascending: true });
+    try {
+      const { data, error } = await browserClient
+        .from("chat")
+        .select("*")
+        .eq("room_id", roomId)
+        .order("created_at", { ascending: true });
 
-    if (error) {
-      console.error("메시지 가져오기 오류:", error.message);
-    } else {
+      if (error) {
+        throw new Error("메시지 가져오기 오류: " + error?.message);
+      } else if (!data) {
+        throw new Error("메시지가 없습니다.");
+      }
+
       const messagesWithNicknames = await Promise.all(
         data.map(async (chat) => {
-          const { data: userData } = await browserClient
+          const { data: userData, error: userError } = await browserClient
             .from("user_info")
             .select("nickname")
             .eq("id", chat.user_id)
             .single();
+
           return {
             ...chat,
-            user_nickname: userData?.nickname
+            user_nickname: userError ? "Unknown" : userData?.nickname,
           };
         })
       );
+
       setMessages(messagesWithNicknames);
+    } catch (error) {
+      setError(new Error("메세지 가져오기 중 오류 발생"));
+    } finally {
+      setLoading(false);
     }
   };
 
-  // 방 정보 가져오기, 실시간, 메세지 빈배열 만들기
-  useEffect(() => {
-    const fetchRoomDetails = async () => {
-      const { data: roomData, error: roomError } = await browserClient
+  const fetchRoomDetails = async () => {
+    try {
+      const { data, error } = await browserClient
         .from("rooms")
         .select("name")
         .eq("id", roomId)
         .single();
 
-      if (roomError) {
-        console.error("룸 정보 가져오기 오류:", roomError.message);
-      } else {
-        setSelectedRoomName(roomData.name);
+      if (error) {
+        throw new Error("채팅방 정보 가져오기 오류: " + error.message);
       }
-    };
 
+      setSelectedRoomName(data?.name || "채팅방 이름이 없습니다!");
+    } catch (error) {
+      setError(new Error("채팅방 정보 가져오기 중 오류 발생"));
+    }
+  };
+
+  useEffect(() => {
     if (roomId) {
+      fetchUser();
       fetchMessages();
       fetchRoomDetails();
 
-      // Realtime 실시간
       const subscription = browserClient
         .channel(`chat:room_id=eq.${roomId}`)
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "chat" }, (payload) => {
@@ -77,7 +122,7 @@ const ChatRoom = () => {
             user_id: payload.new.user_id,
             room_id: payload.new.room_id,
             created_at: payload.new.created_at,
-            user_nickname: payload.new.user_nickname
+            user_nickname: payload.new.user_nickname,
           };
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         })
@@ -90,64 +135,109 @@ const ChatRoom = () => {
   }, [roomId]);
 
   const handleSendMessage = async () => {
-    const user = await browserClient.auth.getUser();
-    if (newMessage.trim() && user.data.user && roomId) {
-      const { data: userData, error: userError } = await browserClient
-        .from("user_info")
-        .select("nickname")
-        .eq("id", user.data.user.id)
-        .single();
-      if (userError) {
-        console.error("유저 닉네임 가져오기 오류:", userError.message);
-        return;
-      }
+    if (newMessage.trim() && user && roomId) {
+      try {
+        const { data: userData, error: userError } = await browserClient
+          .from("user_info")
+          .select("nickname")
+          .eq("id", user.id)
+          .single();
 
-      // chat 데이터 삽입
-      const { error } = await browserClient.from("chat").insert({
-        content: newMessage,
-        user_id: user.data.user.id,
-        room_id: roomId,
-        user_nickname: userData?.nickname,
-        created_at: new Date().toISOString()
-      });
+        if (userError) {
+          throw new Error("유저 닉네임 가져오기 오류: " + userError.message);
+        }
 
-      if (error) {
-        console.error("메시지 전송 중 오류 발생:", error);
-      } else {
-        setNewMessage(""); // 메시지 입력 초기화
+        const { error: sendError } = await browserClient.from("chat").insert({
+          content: newMessage,
+          user_id: user.id,
+          room_id: roomId,
+          user_nickname: userData?.nickname,
+          created_at: new Date().toISOString(),
+        });
+
+        if (sendError) {
+          throw new Error("메시지 전송 중 오류 발생: " + sendError.message);
+        } else {
+          setNewMessage("");
+        }
+      } catch (error) {
+        setError(new Error("메시지 전송 중 오류 발생"));
       }
     }
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newMessage.trim()) {
+      handleSendMessage();
+    }
+  };
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
+  // 로딩 중일 때 로딩 스피너 표시
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  // 오류가 발생했을 때 GlobalError 컴포넌트 렌더링
+  if (error) {
+    return <GlobalError error={error} />;
+  }
+
   return (
-    <div className="flex flex-col justify-between">
-      <div className="flex flex-1 flex-col">
-        <h2 className="text-md mb-4 font-bold">현재 채팅방: {selectedRoomName}</h2>
-        <div className="h-[280px] rounded-lg bg-gray-100 p-4 shadow-md">
-          {messages.map((message) => (
-            <div key={message.id} className="mb-2 flex justify-end">
-              <div className="rounded-md bg-white p-2 shadow-md">
-                <strong className="text-black">{message.user_nickname}</strong>
-                <span>{message.content}</span>
-                <div className="text-sm text-gray-500">{message.created_at}</div>
+    <div className="flex h-screen flex-col">
+      <div className="flex h-[80px] items-center bg-white p-9 border-b-[10px] border-black">
+        <div className="cursor-pointer" onClick={handleGoBack}>
+          <ChevronLeft size={40} strokeWidth={3} />
+        </div>
+        <h2 className="grow text-center text-xl font-black text-gray-800">{selectedRoomName}</h2>
+      </div>
+
+      <div className="flex-grow overflow-y-auto bg-gray-200 p-8">
+        {messages.map((message, index) => {
+          const isFirstMessageFromUser = index === 0 || messages[index - 1].user_id !== message.user_id;
+
+          return (
+            <div key={message.id} className={`mb-2 flex ${message.user_id === user?.id ? "justify-end" : "justify-start"}`}>
+              <div className={`flex items-center ${message.user_id === user?.id ? "flex-row-reverse" : ""}`}>
+                <div className={`flex flex-col ${message.user_id === user?.id ? "items-end" : "items-start"}`}>
+                  {isFirstMessageFromUser && <h3 className="mb-1 font-bold">- {message.user_nickname}</h3>}
+                  <div
+                    className={`flex max-w-md items-center rounded-md px-4 py-2 shadow-md ${
+                      message.user_id === user?.id ? "border-4 border-black bg-white text-black" : "bg-white text-black"
+                    }`}>
+                    <p className="flex-1">{message.content}</p>
+                  </div>
+                  <span className="mt-1 px-2 text-xs text-gray-400">
+                    {moment.utc(message.created_at).tz("Asia/Seoul").format("HH:mm")}
+                  </span>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-      <div className="mt-4 flex flex-row">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="메시지를 입력하세요"
-          className="mr-2 flex-1 rounded-md border border-gray-300 p-2"
-        />
-        <button
-          onClick={handleSendMessage}
-          className="font-md w-[80px] rounded-full border-[3px] border-black bg-black px-4 py-2 text-white transition hover:bg-white hover:font-bold hover:text-black">
-          전송
-        </button>
+
+      <div className="flex h-[80px] items-center bg-white p-9">
+        <form
+          onSubmit={handleSubmit}
+          className="fixed bottom-0 left-0 right-0 mb-2 flex flex-row items-center gap-4 bg-white p-4">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="메시지를 입력하세요"
+            className="ml-4 h-[54px] flex-1 rounded-full border-[6px] border-black px-6 focus:shadow-xl focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="mr-4 flex h-[54px] w-[54px] items-center justify-center rounded-full border-[6px] border-black hover:bg-gray-200">
+            <ArrowUpRight size={32} strokeWidth={3} />
+          </button>
+        </form>
       </div>
     </div>
   );
