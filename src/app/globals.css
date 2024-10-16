@@ -88,12 +88,35 @@
 
 /* 하나의 속성에 대해 스타일 */
 @layer utilities {
+  /*테마색*/
+  .theme-colorchip {
+    @apply h-[90px] flex-1 rounded-[8px];
+  }
+  body.pink {
+    @apply bg-[#FFA1A1];
+  }
   body.green {
-    @apply bg-[green];
+    @apply bg-[#C4FF94];
   }
   body.yellow {
-    @apply bg-[yellow];
+    @apply bg-[#FFFD8B];
   }
+  body.blue {
+    @apply bg-[#91C1D6];
+  }
+  body.gray {
+    @apply bg-[#787878];
+  }
+  body.dark {
+    @apply bg-[#212121];
+  }
+  body.light {
+    @apply bg-[#E6E6E6];
+  }
+  body.navy {
+    @apply bg-[#2c2163];
+  }
+
   .navBtn {
     @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-tl-[0px] border-[4px] border-l-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
   }

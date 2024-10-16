@@ -42,19 +42,6 @@ const tabListExtends = {
   }
 } as const;
 
-// const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-// const attendeeUserId = "방문자 userid";
-
-function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
-  if (hostUserId === loginUserId) {
-    console.log("showList", showList);
-    return Object.keys(tabListExtends) as ShowList[];
-  }
-
-  console.log("showList", showList);
-  return showList;
-}
-
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
   const { hostUserId, loginUserId } = useGetUserIds();
@@ -87,9 +74,12 @@ const HomePage = () => {
     setActiveTab(show);
   };
 
-  const showList = getTabList(setting.show_list, hostUserId, loginUserId);
+  // const showList = getTabList(setting.show_list, hostUserId, loginUserId);
+  const showList = setting.show_list;
+
   return (
     <div className="h-full pb-10">
+<<<<<<< HEAD
       {privacyState.toString()}
       <nav className="">
         <ul className="flex gap-[10px] pl-[50px]">
@@ -101,6 +91,24 @@ const HomePage = () => {
         </ul>
       </nav>
       <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
+=======
+      <LogOutButton isLoggedIn={isLoggedIn} />
+      {privacyState && (
+        <div className="h-full pb-10">
+          <nav className="">
+            <ul className="flex gap-[10px] pl-[50px]">
+              {showList.map((show) => (
+                <div key={show} onClick={() => handleTabChange(show)}>
+                  <li className="tabBtn">{tabListExtends[show].name}</li>
+                </div>
+              ))}
+            </ul>
+          </nav>
+          <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
+        </div>
+      )}
+      {!privacyState && <>볼 권한이 없어요</>}
+>>>>>>> 4be4ba47b881634229c6ef4dc56227b68abcf475
     </div>
   );
 };

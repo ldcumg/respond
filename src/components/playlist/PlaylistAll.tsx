@@ -15,7 +15,7 @@ type SpotifyListProps = {
 };
 type PlaylistAllProps = {
   playlist: SpotifyListProps[];
-  myPlayList: SpotifyListProps[];
+  // myPlayList: SpotifyListProps[];
   spotifyList: SpotifyListProps[];
   myPlayListData: SpotifyListProps[];
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;

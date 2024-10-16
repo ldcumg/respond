@@ -1,5 +1,4 @@
 "use client";
-// import { useState, useEffect } from "react";
 import { SpotifyTrack } from "@/types/playlist/Spotify";
 import browserClient from "@/utils/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,8 +12,8 @@ type SpotifyListProps = {
   is_main: boolean;
 };
 type MyPlaylistAllProps = {
-  myPlayList: SpotifyListProps[];
-  setMyPlayList: SpotifyListProps[];
+  // myPlayList: SpotifyListProps[];
+  // setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
   myPlayListData: SpotifyListProps[];
 };
@@ -26,11 +25,10 @@ const deleteTrackPlayList = async (trackId: string) => {
   //로그인한 유저의 플레이리스트에서 선택한 플리만 삭제
   const { data, error } = await browserClient.from("playlist").delete().eq("track_id", trackId).eq("user_id", userId);
   if (error) console.error("삭제중 오류 발생:", error);
-  else console.log("트랙 삭제", data);
 };
 
 //1.업데이트뮤테이션 재료 : 서버상태 업데이트 함수
-const upDateMainTrack = async (trackId: string) => {
+const upDateMainTrack = async (trackId: string): Promise<string> => {
   const { data: loginUserId } = await browserClient.auth.getUser();
   const userId = loginUserId?.user?.id;
 
@@ -38,7 +36,6 @@ const upDateMainTrack = async (trackId: string) => {
 
   if (resetError) {
     console.error("메인지정중 리셋과정에서 오류 발생:", resetError);
-    return;
   }
 
   const { data, error: updateError } = await browserClient
@@ -50,8 +47,9 @@ const upDateMainTrack = async (trackId: string) => {
   if (updateError) {
     console.error("메인지정중 오류 발생:", updateError);
   }
+  return trackId;
 };
-// myPlayList, setMyPlayList,
+
 const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   const queryClient = useQueryClient();
 
@@ -61,7 +59,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
     mutationFn: deleteTrackPlayList,
     onSuccess: () => {
       if (window.confirm("내 플레이리스트에서 삭제하시겠습니까?")) {
-        queryClient.invalidateQueries(["myPlayList"]);
+        queryClient.invalidateQueries({ queryKey: ["myPlayList"] });
       }
     },
     onError: (error: Error) => {
@@ -77,13 +75,13 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   /** 메인노래 지정 이벤트 */
   //2.업뎃뮤테이션
   const updateMainmutation = useMutation({
-    mutationFn: upDateMainTrack, //mutationFn : upDateMainTrack함수 실행
+    mutationFn: upDateMainTrack,
     onSuccess: (trackId: string) => {
       const updatedTracks = myPlayListData.map((track) =>
         track.track_id === trackId ? { ...track, is_main: true } : { ...track, is_main: false }
       );
-      queryClient.invalidateQueries(["myPlayList"]);
-      queryClient.invalidateQueries(["myMainPlay"]);
+      queryClient.invalidateQueries({ queryKey: ["myPlayList"] });
+      queryClient.invalidateQueries({ queryKey: ["myMainPlay"] });
     }
   });
 
@@ -114,8 +112,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
                   ) : (
                     <button
                       className="btn border-[2px] border-black !bg-white !text-black"
-                      onClick={() => handleMainPlay(list.track_id)}
-                    >
+                      onClick={() => handleMainPlay(list.track_id)}>
                       지정
                     </button>
                   )}

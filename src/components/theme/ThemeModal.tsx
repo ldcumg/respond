@@ -29,7 +29,7 @@ const ThemeModal = ({ setIsModalOpen, setTheme, theme }: ThemeModalProps) => {
   const themeChangeMutation = useMutation({
     mutationFn: themeChange,
     onSuccess: () => {
-      queryClient.invalidateQueries(["myTheme"]);
+      queryClient.invalidateQueries({ queryKey: ["myTheme"] });
     },
     onError: (error: Error) => {
       console.log("error.message", error.message);
@@ -57,10 +57,26 @@ const ThemeModal = ({ setIsModalOpen, setTheme, theme }: ThemeModalProps) => {
           onClick={closeTheme}>
           <X />
         </button>
-        <ul className="flex gap-2 rounded-[22px] border-[4px] border-black p-[20px]">
-          <li className="h-[80px] w-[80px] rounded-[8px] bg-[green]" onClick={() => handelThemeChange("green")}></li>
-          <li className="h-[80px] w-[80px] rounded-[8px] bg-[yellow]" onClick={() => handelThemeChange("yellow")}></li>
-        </ul>
+        <div className="flex h-full w-full flex-col justify-center gap-[20px]">
+          <div>
+            <h2 className="py-[10px] text-[18px] font-bold">Colorful</h2>
+            <ul className="flex gap-2 rounded-[22px] border-[4px] border-black p-[20px]">
+              <li className="theme-colorchip bg-[#FFA1A1]" onClick={() => handelThemeChange("pink")}></li>
+              <li className="theme-colorchip bg-[#FFFD8B]" onClick={() => handelThemeChange("yellow")}></li>
+              <li className="theme-colorchip bg-[#C4FF94]" onClick={() => handelThemeChange("green")}></li>
+              <li className="theme-colorchip bg-[#91C1D6]" onClick={() => handelThemeChange("blue")}></li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="py-[10px] text-[18px] font-bold">Mono</h2>
+            <ul className="flex gap-2 rounded-[22px] border-[4px] border-black p-[20px]">
+              <li className="theme-colorchip bg-[#787878]" onClick={() => handelThemeChange("gray")}></li>
+              <li className="theme-colorchip bg-[#212121]" onClick={() => handelThemeChange("dark")}></li>
+              <li className="theme-colorchip bg-[#E6E6E6]" onClick={() => handelThemeChange("light")}></li>
+              <li className="theme-colorchip bg-[#2c2163]" onClick={() => handelThemeChange("navy")}></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
