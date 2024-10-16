@@ -122,7 +122,7 @@
   }
 
   .tabBtn {
-    @apply cursor-pointer rounded-[8px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white py-4 pl-2 pr-4 font-semibold text-black;
+    @apply cursor-pointer rounded-[20px] rounded-bl-[0px] rounded-br-[0px] border-[4px] border-b-0 border-black bg-white px-7 py-4 text-[20px] font-bold text-black;
   }
 
   .btn {
@@ -130,10 +130,28 @@
   }
 
   .borderline {
-    @apply rounded-[22px] border-[4px] border-black bg-[#fff] px-[40px] py-[40px];
+    @apply rounded-[22px] border-[4px] border-black bg-[#fff];
+    /* px-[40px] py-[40px]; */
   }
   .pageTitle {
     @apply flex-[.7] border-b-[4px] border-black text-[32px] font-semibold text-black;
+  }
+
+  .no-radius {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
+  .li-hover-container {
+    position: relative;
+  }
+
+  .li-hover-container .hover-move {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .li-hover-container:hover .hover-move {
+    transform: translateX(70px);
   }
 
   @keyframes play {

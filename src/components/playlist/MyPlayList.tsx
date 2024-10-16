@@ -12,8 +12,6 @@ type SpotifyListProps = {
   is_main: boolean;
 };
 type MyPlaylistAllProps = {
-  // myPlayList: SpotifyListProps[];
-  // setMyPlayList: SpotifyListProps[];
   isShowEdit: boolean;
   myPlayListData: SpotifyListProps[];
 };
@@ -91,7 +89,7 @@ const MyPlayList = ({ myPlayListData, isShowEdit }: MyPlaylistAllProps) => {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full overflow-auto pb-[30px]">
       {myPlayListData.length > 0 ? (
         <div className="mt-[40px] grid grid-cols-3 gap-4">
           {myPlayListData.map((list) => (
