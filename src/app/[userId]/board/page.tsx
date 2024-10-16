@@ -3,8 +3,16 @@
 import CreatePost from "@/components/post/createPost";
 import PostList from "@/components/post/postList";
 import { useState } from "react";
+import { Plus, X } from "lucide-react";
 
-const PostsPage = () => {
+type Props = {
+  params: {
+    userId: string;
+  };
+};
+
+const PostsPage = ({ params }: Props) => {
+  const { userId } = params;
   const [isPosting, setIsPosting] = useState<boolean>(false);
 
   const handlePosting = () => {
@@ -18,15 +26,23 @@ const PostsPage = () => {
     <>
       {isPosting ? (
         <>
-          <h3>게시물 작성</h3>
-          <button onClick={handlePosting}>X</button>
+          <div className="page-title-container">
+            <h1 className="page-title">게시물 추가</h1>
+            <button onClick={handlePosting} className="circle-btn duration-3000">
+              <X />
+            </button>
+          </div>
           <CreatePost setIsPosting={setIsPosting} />
         </>
       ) : (
         <>
-          <h3>게시물</h3>
-          <button onClick={handlePosting}>+</button>
-          <PostList />
+          <div className="page-title-container mb-8">
+            <h1 className="page-title">게시물 모아보기</h1>
+            <button onClick={handlePosting} className="circle-btn duration-3000">
+              <Plus />
+            </button>
+          </div>
+          <PostList userId={userId} />
         </>
       )}
     </>

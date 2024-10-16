@@ -39,6 +39,7 @@ const ThemeModal = ({ setIsModalOpen, setTheme, theme }: ThemeModalProps) => {
   const handelThemeChange = async (newTheme: string) => {
     setTheme(newTheme);
     themeChangeMutation.mutate(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {

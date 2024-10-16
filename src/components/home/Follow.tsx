@@ -22,7 +22,7 @@ const Follow = () => {
 
   const handleFollow = () => {};
 
-  console.log("hostUserId", hostUserId);
+  // console.log("hostUserId", hostUserId);
 
   return (
     <div>

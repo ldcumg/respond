@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Player from "../playlist/Player";
-import Follow from "../home/Follow";
+import FollowComponent from "../home/FollowComponent";
 import { useAllUsersStore } from "@/store/useUserInfoStore";
 import { getAllUsers } from "@/services/auth/serverAction";
 import ThemeBtn from "../theme/ThemeBtn";
@@ -25,8 +25,7 @@ const GlobalsUserInfo = () => {
   return (
     <div>
       <Player />
-      <Follow />
-      {/* <ThemeBtn /> */}
+      <FollowComponent />
       {loginUserId === userId ? (
         <div>
           <ThemeBtn />

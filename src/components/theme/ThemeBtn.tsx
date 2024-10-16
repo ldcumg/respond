@@ -7,8 +7,6 @@ import browserClient from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
 
 const ThemeBtn = () => {
-  const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [theme, setTheme] = useState("default");
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
@@ -27,18 +25,26 @@ const ThemeBtn = () => {
     isLoading,
     error
   } = useQuery({
-    queryKey: ["myTheme", clientId, clientSecret],
+    queryKey: ["myTheme"],
     queryFn: fetchMainTheme
   });
-  console.log("myTheme", myTheme);
+
   useEffect(() => {
     if (myTheme) {
+      localStorage.clear(); // 로컬 스토리지 비우기
       const themeName = myTheme.theme_name;
       setTheme(themeName);
-      document.body.className = theme;
+      document.body.className = themeName;
+      localStorage.getItem(themeName); //로컬 스토리지 테마값 가져오기
     }
-  }, []);
+  }, [userId, myTheme]); //유저아이디가 변경되거나, 가져온 테마값이 변경될때
+
+  if (error) return <div>데이터 가져오기 오류...</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  console.log("myTheme", myTheme);
   console.log("theme", theme);
+
   return (
     <div>
       <button onClick={openTheme} className="cursor-pointer bg-[#F4F4F4] px-[15px] py-[10px] hover:bg-[#e1e1e1]">

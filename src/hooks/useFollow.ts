@@ -1,21 +1,51 @@
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import queryKey from "@/queries/queryKey";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { deleteFollow, getFollow, postFollow } from "@/server-action/followAction";
+import { Follow } from "@/types/follow";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 export const useFollow = () => {
-  const [isFollowEnabled, setIsFollowEnabled] = useState(true);
-  const b = 1;
+  const { hostUserId, loginUserId } = useGetUserIds();
+  const { data: follow } = useQuery<Follow | null>({
+    queryKey: queryKey.follow(hostUserId, loginUserId),
+    queryFn: () => getFollow({ toUserId: hostUserId, fromUserId: loginUserId }),
+    enabled: !!loginUserId
+  });
+  const [isFollowed, setIsFollowed] = useState(!!follow);
 
-  const useToggleFollowMutate = () => {
-    // const queryClient = useQueryClient();
-    // const { mutate } = useMutation({
-    //   mutationFn: patchShowList,
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries({ queryKey: queryKey.follow });
-    //   },
-    //   onMutate: () => {
-    //     setIsButtonEnabled(false);
-    //   }
-    // });
+  useEffect(() => {
+    setIsFollowed(!!follow);
+  }, [follow]);
+
+  const useFollowPostMutate = () => {
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+      mutationFn: postFollow,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: queryKey.follow(hostUserId, loginUserId) });
+      },
+      onMutate: () => {
+        setIsFollowed(true);
+      }
+    });
+
+    return mutate;
   };
+
+  const useFollowDeleteMutate = () => {
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+      mutationFn: deleteFollow,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: queryKey.follow(hostUserId, loginUserId) });
+      },
+      onMutate: () => {
+        setIsFollowed(false);
+      }
+    });
+    return mutate;
+  };
+
+  return { follow, isFollowed, useFollowPostMutate, useFollowDeleteMutate };
 };

@@ -69,6 +69,17 @@
 
 /* 재사용하는 구조적인 스타일링 */
 @layer components {
+  .page-title-container {
+    @apply sticky top-0 flex items-center justify-between bg-white;
+  }
+
+  .page-title {
+    @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+  }
+
+  .circle-btn {
+    @apply flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[30px] transition-transform ease-in-out hover:bg-[#000] hover:text-[#fff];
+  }
 }
 
 /* 하나의 속성에 대해 스타일 */
@@ -94,9 +105,8 @@
   .borderline {
     @apply rounded-[22px] border-[4px] border-black bg-[#fff] px-[40px] py-[40px];
   }
-
   .pageTitle {
-    @apply w-[60%] max-w-[800px] border-b-4 border-black pb-[5px] text-[32px] font-bold text-black;
+    @apply flex-[.7] border-b-[4px] border-black text-[32px] font-semibold text-black;
   }
 
   @keyframes play {
@@ -111,5 +121,10 @@
 
   .play {
     animation: play 4s linear infinite;
+  }
+}
+@layer utilities {
+  .border-3 {
+    border-width: 3px;
   }
 }
