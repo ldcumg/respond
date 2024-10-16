@@ -11,10 +11,8 @@ import PlaylistPrev from "@/components/home/PlaylistPrev";
 import SchedulePrev from "@/components/home/SchedulePrev";
 import HomeSkelton from "./setting/components/HomeSkelton";
 import React from "react";
-import { useAuthStore } from "@/store/useUserInfoStore";
 import { useGetUserIds } from "./setting/hooks/useGetUserIds";
 import usePrivacyState from "./setting/hooks/usePrivacyState";
-import LogOutButton from "@/components/LogOutButton";
 
 const tabListExtends = {
   [SHOW_LIST.board]: {
@@ -44,7 +42,6 @@ const tabListExtends = {
 } as const;
 
 const HomePage = () => {
-  const { isLoggedIn } = useAuthStore();
   const { hostUserId, loginUserId } = useGetUserIds();
 
   const { data: setting } = useQuery<Setting>({

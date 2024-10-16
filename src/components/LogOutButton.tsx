@@ -17,10 +17,10 @@ const LogOutButton = () => {
   return (
     <button
       type="button"
-      className={`w-full rounded border-4 ${isLoggedIn ? "border-red-600 bg-red-600" : "border-black bg-black"} p-2 text-white hover:invert`}
+      className={`rounded-full border-[4px] ${isLoggedIn ? "border-black bg-black text-white font-normal" : "border-black bg-white text-black font-extrabold"} py-2 px-4 hover:invert`}
       onClick={isLoggedIn ? handleLogout : () => router.push("/login")}
     >
-      {isLoggedIn ? "로그아웃" : "로그인"}
+      {isLoggedIn ? "로그아웃하기" : "로그인하기"}
     </button>
   );
 };
