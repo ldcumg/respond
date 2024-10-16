@@ -11,9 +11,6 @@ import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
-  const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
-  const loginUser = useGetUserInfo();
-  const loginUserId: string = loginUser?.id ?? "";
 
   // 모든 유저 정보 zustand에 저장
   useEffect(() => {
@@ -21,8 +18,6 @@ const GlobalsUserInfo = () => {
       getAllUsers().then(({ data }) => setAllUsers(data));
     })();
   }, []);
-  console.log("loginUserId!🥶", loginUserId);
-  console.log("userId!!🥶", userId);
   return (
     <div>
       <Player />

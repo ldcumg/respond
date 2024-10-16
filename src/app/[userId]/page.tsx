@@ -11,8 +11,6 @@ import PlaylistPrev from "@/components/home/PlaylistPrev";
 import SchedulePrev from "@/components/home/SchedulePrev";
 import HomeSkelton from "./setting/components/HomeSkelton";
 import React from "react";
-import LogOutButton from "@/components/LogOutButton";
-import { useAuthStore } from "@/store/useUserInfoStore";
 import { useGetUserIds } from "./setting/hooks/useGetUserIds";
 import usePrivacyState from "./setting/hooks/usePrivacyState";
 
@@ -44,7 +42,6 @@ const tabListExtends = {
 } as const;
 
 const HomePage = () => {
-  const { isLoggedIn } = useAuthStore();
   const { hostUserId, loginUserId } = useGetUserIds();
 
   const { data: setting } = useQuery<Setting>({
@@ -79,12 +76,15 @@ const HomePage = () => {
   const showList = setting.show_list;
 
   return (
-    <div className="h-full pb-10">
-      <LogOutButton isLoggedIn={isLoggedIn} />
+    <div className="flex h-full flex-col overflow-hidden p-[30px]">
+      {/* <LogOutButton /> */}
+      <div className="mb-[40px] flex">
+        <h1 className="pageTitle">나의 홈피</h1>
+      </div>
       {privacyState && (
-        <div className="h-full pb-10">
+        <div className="flex flex-1 flex-col overflow-hidden">
           <nav className="">
-            <ul className="flex gap-[10px] pl-[50px]">
+            <ul className="flex gap-[5px]">
               {showList.map((show) => (
                 <div key={show} onClick={() => handleTabChange(show)}>
                   <li className="tabBtn">{tabListExtends[show].name}</li>
@@ -92,7 +92,9 @@ const HomePage = () => {
               ))}
             </ul>
           </nav>
-          <main className="borderline h-full w-full overflow-hidden">{activeTab && <ActiveComponent />}</main>
+          <main className="borderline no-radius w-full flex-1 overflow-auto p-[30px]">
+            {activeTab && <ActiveComponent />}
+          </main>
         </div>
       )}
       {!privacyState && <>볼 권한이 없어요</>}

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, MessageCirclePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import GlobalError from "../GlobalError";
 import browserClient from "@/utils/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import GlobalError from "@/app/GlobalError";
 
 type Room = {
   id: number;
@@ -32,6 +32,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const router = useRouter();
+  const [userId, setUserId] = useState<string | undefined>(undefined);
 
   // 사용자 목록 가져오기
   const fetchUsers = async () => {
@@ -51,9 +52,10 @@ const ChatPage = () => {
   // 방 목록 가져오기
   const fetchRooms = async () => {
     const user = await browserClient.auth.getUser();
-    if (user.data.user) {
-      const userId = user.data.user.id;
-      const { data, error } = await browserClient.from("rooms").select("*").contains("participants", [userId]); // 참가자인 방만 조회 필터링
+    const id = user.data.user?.id; // userId를 변수에 저장
+    setUserId(id);
+    if (id) {
+      const { data, error } = await browserClient.from("rooms").select("*").contains("participants", [id]); // 참가자인 방만 조회 필터링
       if (error) {
         setError(new Error("방 목록 가져오기 오류"));
       } else {
@@ -144,18 +146,18 @@ const ChatPage = () => {
 
   return (
     <div className="flex h-screen flex-col justify-between bg-gray-200">
-      <div className="flex h-[80px] items-center border-b-[10px] border-black bg-white p-9">
+      <div className="flex h-[60px] items-center border-b-[4px] border-black bg-white p-4">
         <div className="cursor-pointer" onClick={handleGoBack}>
-          <ChevronLeft size={40} strokeWidth={3} />
+          <ChevronLeft size={40} strokeWidth={2} />
         </div>
         <h2 className="grow text-center text-xl font-black text-gray-800">내 채팅</h2>
         <button onClick={() => setShowForm(!showForm)} className="flex">
-          <MessageCirclePlus size={36} strokeWidth={2.75} />
+          <MessageCirclePlus size={36} strokeWidth={2} />
         </button>
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
           <div className="m-auto flex w-full min-w-[400px] max-w-lg flex-col rounded-lg bg-white p-6 shadow-lg">
             <h3 className="py-4 text-center text-lg font-bold">새 채팅방 추가</h3>
             <input
@@ -201,16 +203,11 @@ const ChatPage = () => {
       )}
 
       <div className="flex h-full flex-col p-6">
-        <h1 className="mb-2 mt-6 text-2xl font-bold text-black">채팅방 목록</h1>
-        <hr className="h-[8px] w-[180px] bg-black" />
+        <h1 className="mt-4 text-xl font-bold text-black">채팅방 목록</h1>
         <div className="mt-4 space-y-4">
           {rooms.map((room) => (
-            <Link
-              key={room.id}
-              href={{
-                pathname: `/chat/${room.id}`
-              }}>
-              <div className="mb-2 w-full rounded-lg border-8 border-black bg-white px-6 py-4 shadow-lg transition duration-200 ease-in-out hover:bg-gray-300">
+            <Link key={room.id} href={`/${userId}/chat/${room.id}`}>
+              <div className="mb-2 w-full rounded-lg border-[4px] border-black bg-white px-6 py-4 shadow-lg transition duration-200 ease-in-out hover:bg-gray-300">
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-semibold">{room.name}</span>
                   <span className="text-sm text-gray-600">

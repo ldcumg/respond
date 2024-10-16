@@ -34,23 +34,27 @@ const SettingTabList = ({ setting }: Props) => {
   const tabListMutate = useTabListMutate();
 
   return (
-    <div className="flex h-20 w-[70%] flex-col justify-between rounded-md border-2 border-black p-2">
+    <div className="settingBox">
       <div className="flex justify-between">
-        <h2>탭 목록</h2>
+        <h2 className="text-[20px] font-semibold">탭 목록</h2>
         {isButtonEnabled && (
           <button
-            className="bg-slate-200"
+            className="bg-[#F4F4F4] px-[10px] py-[5px] hover:bg-[#e4e3e3]"
             onClick={() => tabListMutate({ userId: hostUserId, tabList: tabListCheckList })}>
             저장
           </button>
         )}
-        {!isButtonEnabled && <button className="cursor-auto bg-red-400">저장</button>}
+        {!isButtonEnabled && (
+          <button className="cursor-pointer bg-[#F4F4F4] px-[10px] py-[5px] hover:bg-[#e4e3e3]">저장</button>
+        )}
       </div>
-      <div className="items-top flex space-x-2">
+      <div className="flex items-center gap-[42px] space-x-2">
         {tabListCheckItems.map((item) => (
-          <div key={item.id} onClick={() => handleCheckboxChange(item.id)}>
+          <div key={item.id} className="flex items-center gap-[8px]" onClick={() => handleCheckboxChange(item.id)}>
             <Checkbox id={item.id} checked={tabListCheckList.includes(item.id)} />
-            <label htmlFor={item.label}>{item.label}</label>
+            <label htmlFor={item.label} className="text-[16px]">
+              {item.label}
+            </label>
           </div>
         ))}
       </div>
