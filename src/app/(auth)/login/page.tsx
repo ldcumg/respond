@@ -5,13 +5,17 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../store/useUserInfoStore";
 import browserClient from "../../../utils/supabase/client";
 import React from "react";
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
+import Link from "next/link";
 
-const Login = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { setIsLoggedIn } = useAuthStore();
   const router = useRouter();
+  const {loginUserId}= useGetUserIds();
+  
 
   useEffect(() => {
     const sessionCookie = async () => {
@@ -21,7 +25,7 @@ const Login = () => {
       if (session) {
         alert("이미 로그인된 사용자입니다!");
         setIsLoggedIn(true); // 로그인 상태 설정
-        router.push("/"); // 이미 로그인되어 있을 경우 홈으로 이동
+        router.push(`/${loginUserId}`); // 이미 로그인되어 있을 경우 홈으로 이동
       } else {
         setIsLoggedIn(false); // 세션이 없으면 로그인 상태 false로 설정
       }
@@ -82,6 +86,14 @@ const Login = () => {
             onClick={handleLogin}>
             로그인
           </button>
+          <div>계정이 없으신가요? {''}
+            <Link 
+                href={`/signup`}
+                className="text-gray-500 underline underline-offset-[4px] hover:bg-gray-200"> 
+            회원가입 바로가기
+            </Link>
+          </div>
+            
         </div>
         {error && <p className="text-red-500">에러입니다: {error}</p>}
       </div>
@@ -89,4 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
