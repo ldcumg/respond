@@ -27,6 +27,10 @@ const usePrivacyState = (setting: Setting | undefined): boolean => {
     return false;
   }
 
+  if (hostUserId === loginUserId) {
+    return true;
+  }
+
   const privacyType = setting.privacy_type;
   const isFollower = !!loginToHostFollow;
   const isMutualFollower = !!loginToHostFollow && !!hostToLoginFollow;
