@@ -17,8 +17,6 @@ const Follow = () => {
 
   const handleFollow = () => {};
 
-  // console.log("hostUserId", hostUserId);
-
   return (
     <div>
       <button onClick={handleFollow}>Follow</button>

@@ -46,15 +46,13 @@ const tabListExtends = {
 // const hostUserId = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
 // const attendeeUserId = "방문자 userid";
 
-function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
-  if (hostUserId === loginUserId) {
-    console.log("showList", showList);
-    return Object.keys(tabListExtends) as ShowList[];
-  }
+// function getTabList(showList: ShowList[], hostUserId: string, loginUserId: string) {
+//   if (hostUserId === loginUserId) {
+//     return Object.keys(tabListExtends) as ShowList[];
+//   }
 
-  console.log("showList", showList);
-  return showList;
-}
+//   return showList;
+// }
 
 const HomePage = () => {
   const { isLoggedIn } = useAuthStore();
@@ -88,7 +86,9 @@ const HomePage = () => {
     setActiveTab(show);
   };
 
-  const showList = getTabList(setting.show_list, hostUserId, loginUserId);
+  // const showList = getTabList(setting.show_list, hostUserId, loginUserId);
+  const showList = setting.show_list;
+
   return (
     <div className="h-full pb-10">
       {privacyState.toString()}
