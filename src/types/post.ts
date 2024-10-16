@@ -17,3 +17,14 @@ export type PostImage = {
 };
 
 export type ModifyPost = Pick<Post, "id" | "content">;
+
+export type RequestPost = {
+  userId: string;
+  page?: number;
+  postId?: string;
+};
+
+export type PostQuery = {
+  queryKey: string[];
+  pageParam: number;
+};
