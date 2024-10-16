@@ -29,7 +29,7 @@ const showListCheckItems = [
 
 const SettingShowList = ({ setting }: Props) => {
   const { showListCheckList, handleCheckboxChange, isButtonEnabled, useShowListMutate } = useSettingShowList(setting);
-  const { hostUserId, loginUserId } = useGetUserIds();
+  const { hostUserId } = useGetUserIds();
   const showListMutate = useShowListMutate();
 
   return (

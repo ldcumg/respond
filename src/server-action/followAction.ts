@@ -23,7 +23,8 @@ const getFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">): P
     throw new Error("Follow select Error");
   }
 
-  return data.length > 0 ? data[0] : null;
+  // return data.length > 0 ? data[0] : null;
+  return data ? data[0] : null;
 };
 
 const postFollow = async ({ toUserId, fromUserId }: Omit<RequestFollow, "id">) => {
