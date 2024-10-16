@@ -58,12 +58,16 @@ const HomePage = () => {
     setActiveTab(setting?.show_list[0]);
   }, [setting]);
 
-  if (!setting || !activeTab) {
-    return <HomeSkelton />;
+  if (!setting || !loginUserId) {
+    return <></>;
   }
 
-  if (!hostUserId || !loginUserId) {
-    return <></>;
+  if (!activeTab) {
+    return <>활성화된 탭이 업서요</>;
+  }
+
+  if (!privacyState) {
+    return <>권한이 없네요.</>;
   }
 
   const ActiveComponent = tabListExtends[activeTab].component;
@@ -72,7 +76,6 @@ const HomePage = () => {
     setActiveTab(show);
   };
 
-  // const showList = getTabList(setting.show_list, hostUserId, loginUserId);
   const showList = setting.show_list;
 
   return (
@@ -80,23 +83,20 @@ const HomePage = () => {
       <div className="mb-[40px] flex">
         <h1 className="pageTitle">나의 홈피</h1>
       </div>
-      {privacyState && (
-        <div className="flex flex-1 flex-col overflow-hidden">
-          <nav className="">
-            <ul className="flex gap-[5px]">
-              {showList.map((show) => (
-                <div key={show} onClick={() => handleTabChange(show)}>
-                  <li className="tabBtn">{tabListExtends[show].name}</li>
-                </div>
-              ))}
-            </ul>
-          </nav>
-          <main className="borderline no-radius w-full flex-1 overflow-auto p-[30px]">
-            {activeTab && <ActiveComponent />}
-          </main>
-        </div>
-      )}
-      {!privacyState && <>볼 권한이 없어요</>}
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <nav className="">
+          <ul className="flex gap-[5px]">
+            {showList.map((show) => (
+              <div key={show} onClick={() => handleTabChange(show)}>
+                <li className="tabBtn">{tabListExtends[show].name}</li>
+              </div>
+            ))}
+          </ul>
+        </nav>
+        <main className="borderline no-radius w-full flex-1 overflow-auto p-[30px]">
+          {activeTab && <ActiveComponent />}
+        </main>
+      </div>
     </div>
   );
 };

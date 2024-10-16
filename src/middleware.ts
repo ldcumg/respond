@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
   const [loginUserId, setting] = await Promise.all([getLoginUserId(), getSetting(hostUserId)]);
 
   if (!loginUserId) {
-    return NextResponse.rewrite(new URL("/login", request.url));
+    return NextResponse.rewrite(new URL("/", request.url));
   }
 
   const hasAccessToPrivacyTab = await getHasAccessToPrivacyTab(setting, hostUserId, loginUserId);
@@ -72,6 +72,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL(`/${hostUserId}`, request.url));
       }
     } else {
+      // 하지만 주인에 한해서 모든 탭에 접근 가능 (단 TAB_LIST[] + setting만)
       const tabList = Object.values(TAB_LIST) as string[];
       tabList.push("setting"); // TAB_LIST에 setting 안들어가있음
       // 존재하지 않는 탭 목록에 들어가려하는 놈 퇴치 (setting/playlist/board/chat 제외한 나머지)
