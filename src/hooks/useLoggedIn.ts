@@ -17,12 +17,11 @@ export const useLoggedIn = () => {
       if (session) {
         const userInfo = session.user; // 사용자 정보 가져오기
 
-        const { id, email } = userInfo;
-        // const email = userInfo?.email || null; // 이메일 가져오기, 없으면 null
+        const email = userInfo?.email || null; // 이메일 가져오기, 없으면 null
         const nickname = userInfo?.user_metadata?.nickname || null; // 닉네임 가져오기, 없으면 null
 
         // Zustand useUserInfoStore에 저장
-        setUser({ id, email, nickname });
+        setUser({ email, nickname });
         setIsLoggedIn(true);
       } else {
         // 데이터가 존재하지 않으면, 로그아웃 상태로 설정
