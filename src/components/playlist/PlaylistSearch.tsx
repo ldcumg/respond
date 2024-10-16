@@ -4,10 +4,6 @@ import { Search } from "lucide-react";
 type PlaylistSearchProps = {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 };
-/* 지울예정
-  React.Dispatch<> : 디스패치 함수(상태를 업데이트)의 타입을 정의
-  React.SetStateAction<받을타입> : 상태 업데이트 함수가 받을 수 있는 인자의 타입을 정의
-*/
 
 const PlaylistSearch = ({ setSearch }: PlaylistSearchProps) => {
   return (

@@ -41,7 +41,7 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
         setAudio(newAudio); // 오디오 객체를 상태에 저장
         setPlayState((prev) => !prev);
       } else {
-        alert("미리보기 URL을 사용할 수 없습니다.");
+        alert("미리보기 URL이 제공되지않습니다.");
       }
     } catch (error) {
       console.error("오류 발생:", error);
