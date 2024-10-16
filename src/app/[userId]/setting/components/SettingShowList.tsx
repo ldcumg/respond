@@ -29,7 +29,7 @@ const showListCheckItems = [
 
 const SettingShowList = ({ setting }: Props) => {
   const { showListCheckList, handleCheckboxChange, isButtonEnabled, useShowListMutate } = useSettingShowList(setting);
-  const { hostUserId, loginUserId } = useGetUserIds();
+  const { hostUserId } = useGetUserIds();
   const showListMutate = useShowListMutate();
 
   return (
@@ -39,8 +39,7 @@ const SettingShowList = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => showListMutate({ userId: hostUserId, showList: showListCheckList })}
-          >
+            onClick={() => showListMutate({ userId: hostUserId, showList: showListCheckList })}>
             저장
           </button>
         )}

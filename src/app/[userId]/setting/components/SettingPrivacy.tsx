@@ -12,7 +12,7 @@ type Props = {
 };
 
 const SettingPrivacy = ({ setting }: Props) => {
-  const { hostUserId, loginUserId } = useGetUserIds();
+  const { hostUserId } = useGetUserIds();
   const { privacySelected, handlePrivacySelectedChange, isButtonEnabled, usePrivacyTypeMutate } =
     useSettingPrivacy(setting);
   const privacyTypeMutate = usePrivacyTypeMutate();
@@ -24,8 +24,7 @@ const SettingPrivacy = ({ setting }: Props) => {
         {isButtonEnabled && (
           <button
             className="bg-slate-200"
-            onClick={() => privacyTypeMutate({ userId: hostUserId, privacyType: privacySelected })}
-          >
+            onClick={() => privacyTypeMutate({ userId: hostUserId, privacyType: privacySelected })}>
             저장
           </button>
         )}

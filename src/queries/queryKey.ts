@@ -8,7 +8,7 @@ const queryKey = {
     loginUser: ["loginUser"],
     userInfo: ["userInfo"]
   },
-  follow: (hostUserId: string, loginUserId: string | null | undefined) => ["follow", hostUserId, loginUserId]
+  follow: (hostUserId: string | null, loginUserId: string | null) => ["follow", hostUserId, loginUserId]
 };
 
 export default queryKey;

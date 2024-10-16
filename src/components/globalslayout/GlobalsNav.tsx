@@ -66,10 +66,6 @@ const GlobalsNav = () => {
   if (!loginUserId) {
     return <></>;
   }
-
-  // console.log("loginUserId", loginUserId);
-  // console.log("hostUserId === loginUserId", hostUserId === loginUserId);
-
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
   const NAV_BASE_URL = `/${hostUserId}`;
 
