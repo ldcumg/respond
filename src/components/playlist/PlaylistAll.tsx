@@ -89,10 +89,10 @@ const PlaylistAll = ({ spotifyList, playlist, setIsShowModal, myPlayListData }: 
 
   return (
     <div className="relative">
-      <div className="borderline fixed left-1/2 top-1/2 flex h-[600px] w-full max-w-[500px] -translate-x-1/2 -translate-y-1/2 flex-col gap-[5px] overflow-scroll !pt-0">
+      <div className="borderline fixed left-1/2 top-1/2 flex h-[600px] w-full max-w-[500px] -translate-x-1/2 -translate-y-1/2 flex-col gap-[5px] overflow-scroll p-[30px] !pt-0">
         <div className="sticky top-[0px] flex flex-col items-end bg-[#fff] pt-[20px]">
           <button onClick={handleCloseModal} className="cursor-pointer py-[10px]">
-            <X />
+            <X strokeWidth={3} />
           </button>
           <PlaylistSearch setSearch={setSearch} />
         </div>
