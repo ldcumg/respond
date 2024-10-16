@@ -10,7 +10,7 @@ const layout = ({ children }: Props) => {
       <header className="absolute right-[15vw] top-[50px]">
         <UserSearchBar />
       </header>
-      <div className="mx-auto flex h-screen w-[90%] max-w-[1920px] gap-[20px] py-[100px]">
+      <div className="mx-auto flex h-screen w-[90%] max-w-[1920px] gap-[20px] pb-[30px] pt-[100px]">
         <aside className="borderline w-[20%]">
           <GlobalsUserInfo />
         </aside>
