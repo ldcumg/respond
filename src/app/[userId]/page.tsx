@@ -76,17 +76,13 @@ const HomePage = () => {
     setActiveTab(show);
   };
 
-  // const showList = getTabList(setting.show_list, hostUserId, loginUserId);
   const showList = setting.show_list;
-  console.log("2 2 2 2 privacyState", privacyState);
 
   return (
     <div className="flex h-full flex-col overflow-hidden p-[30px]">
-      {/* <LogOutButton /> */}
       <div className="mb-[40px] flex">
         <h1 className="pageTitle">나의 홈피</h1>
       </div>
-      {/* {privacyState && ( */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <nav className="">
           <ul className="flex gap-[5px]">
@@ -101,9 +97,6 @@ const HomePage = () => {
           {activeTab && <ActiveComponent />}
         </main>
       </div>
-      {/* )} */}
-
-      {/* {!privacyState && <>볼 권한이 없어요</>} */}
     </div>
   );
 };
