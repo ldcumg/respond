@@ -44,8 +44,7 @@ const Player = () => {
           throw new Error("토큰 가져오기 실패");
         }
 
-        const { access_token } = await tokenRes.json(); // 토큰 추출해서access_token 변수애 저장
-        // console.log("access_token", access_token);
+        const { access_token } = await tokenRes.json();
 
         setAccessToken(access_token);
       } catch (error) {
@@ -57,8 +56,6 @@ const Player = () => {
 
   //메인지정 mutation 함수
   const fetchMainPlay = async () => {
-    // const { data: loginUserId } = await browserClient.auth.getUser();
-    // const userId = loginUserId?.user?.id;
     const { data: mainPlay, error } = await browserClient
       .from("playlist")
       .select("*")
@@ -72,8 +69,9 @@ const Player = () => {
     isLoading: myMainPlayIsLoding,
     error: myMainPlayIsError
   } = useQuery({
-    queryKey: ["myMainPlay", clientId, clientSecret],
-    queryFn: fetchMainPlay
+    queryKey: ["myMainPlay"],
+    queryFn: fetchMainPlay,
+    staleTime: 0
   });
 
   if (myMainPlayIsError) return <div>데이터 가져오기 오류...</div>;

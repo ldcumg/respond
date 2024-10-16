@@ -18,18 +18,17 @@ const PostList = ({ userId }: Props) => {
     return <div>오류가 발생했습니다.</div>;
   }
 
-  const posts = data.pages.flat()
+  const posts = data.pages.flat();
 
   return (
-    <ol className="flex flex-col h-5/6 scroll-auto">
+    <ol className="flex h-5/6 flex-col scroll-auto">
       {posts.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link
             href={`/${userId}/board/${post.id}`}
             key={post.id}
-            className="flex h-11 flex-row items-center justify-between border-b-2"
-          >
+            className="flex h-11 flex-row items-center justify-between border-b-2">
             <h6 className="text-xl">{post.title}</h6>
             <p>
               <small>{createdDay}</small>
@@ -37,7 +36,9 @@ const PostList = ({ userId }: Props) => {
           </Link>
         );
       })}
-      <button className="mt-1" onClick={() => fetchNextPage()}>더 보기</button>
+      <button className="mt-1" onClick={() => fetchNextPage()}>
+        더 보기
+      </button>
     </ol>
   );
 };
