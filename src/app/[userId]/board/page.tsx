@@ -32,7 +32,7 @@ const PostsPage = ({ params }: Props) => {
               <X />
             </button>
           </div>
-          <CreatePost setIsPosting={setIsPosting} />
+          <CreatePost hostId={userId} setIsPosting={setIsPosting} />
         </div>
       ) : (
         <div className="h-full p-[30px]">
@@ -42,7 +42,7 @@ const PostsPage = ({ params }: Props) => {
               <Plus />
             </button>
           </div>
-          <PostList userId={userId} />
+          <PostList hostId={userId} />
         </div>
       )}
     </>
