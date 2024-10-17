@@ -1,9 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import browserClient from "@/utils/supabase/client";
-
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 type TodoState = {
   진행중: { id: string; todo: string; date: string; status: string; created_at: string }[];
@@ -83,7 +80,7 @@ export default function Schedule() {
       created_at: new Date().toISOString()
     };
 
-    const { data, error } = await supabase.from("schedule").insert([newTodo]).select();
+    const { data, error } = await .from("schedule").insert([newTodo]).select();
     if (error) return console.error("투두 추가 중 오류 발생:", error);
 
     const insertedTodo = {
