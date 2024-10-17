@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: " 응답하라 2024",
-  description: "향수를 일으ㄴ키는 레트로 SNS"
+  description: "향수를 일으키는 레트로 SNS"
 };
 
 type Props = Readonly<{ children: React.ReactNode }>;
