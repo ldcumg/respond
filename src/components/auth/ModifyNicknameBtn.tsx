@@ -10,7 +10,7 @@ const ModifyNicknameBtn = () => {
     <div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="cursor-pointer bg-[#F4F4F4] px-[15px] py-[10px] hover:bg-[#e1e1e1]">
+        className="cursor-pointer bg-[#e5e7eb] px-[15px] py-[10px] hover:bg-[#e1e1e1]">
         내 정보 수정
       </button>
       {isModalOpen && <ModifyNicknameModal setIsModalOpen={setIsModalOpen} />}

@@ -32,9 +32,7 @@ const ModifyNicknameModal = ({ setIsModalOpen }: Props) => {
 
     const { newNickname } = value;
 
-    const { data, error } = await modifyNickname({ userId, newNickname });
-    console.log("error", error);
-    console.log("data", data);
+    const { error } = await modifyNickname({ userId, newNickname });
 
     if (error) {
       alert("닉네임 변경에 실패했습니다.");
@@ -42,10 +40,11 @@ const ModifyNicknameModal = ({ setIsModalOpen }: Props) => {
     }
 
     alert("닉네임이 변경되었습니다.");
+    return;
   };
 
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center">
+    <div className="fixed inset-0 z-10 h-full flex items-center justify-center">
       <div className="relative h-[40vh] w-[500px] rounded-[22px] border-[4px] border-black bg-white px-[20px] py-[40px]">
         <h2 className="absolute left-1/2 top-[-50px] flex -translate-x-1/2 transform items-center justify-center rounded-[8px] border-4 border-black bg-white px-[50px] py-[20px] text-[20px] font-semibold">
           닉네임 변경
@@ -55,12 +54,16 @@ const ModifyNicknameModal = ({ setIsModalOpen }: Props) => {
           onClick={() => setIsModalOpen(false)}>
           <X />
         </button>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex gap-2 rounded-[22px] border-[4px] border-black p-[20px]">
-            <input placeholder="원하는 닉네임을 입력해주세요." {...register("newNickname")} />
-          </div>
+        <form className="flex h-full items-center justify-around flex-col" onSubmit={handleSubmit(onSubmit)}>
+          <input
+            className="flex w-full gap-2 rounded-[22px] border-[4px] border-black p-[20px]"
+            placeholder="원하는 닉네임을 입력해주세요."
+            {...register("newNickname")}
+          />
           <p>{newNicknameValidate && (newNicknameValidate.message as string)}</p>
-          <button>닉네임 변경하기</button>
+          <button className="rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white">
+            닉네임 변경하기
+          </button>
         </form>
       </div>
     </div>

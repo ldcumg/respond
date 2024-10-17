@@ -25,5 +25,5 @@ export const getIsLogin = async () => {
 export const modifyNickname = async ({ userId, newNickname }: NewNickname) => {
   const supabase = createClient();
 
-  return await supabase.from(userTable).update({ nickname: newNickname }).eq("id", userId).select();
+  return await supabase.from(userTable).update({ nickname: newNickname }).eq("id", userId);
 };

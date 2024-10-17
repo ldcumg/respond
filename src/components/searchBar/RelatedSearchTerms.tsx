@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   searchInputValue: string;
+  relatedTermsRef: React.MutableRefObject<boolean>;
 };
 
-const RelatedSearchTerms = ({ searchInputValue }: Props) => {
+const RelatedSearchTerms = ({ searchInputValue, relatedTermsRef }: Props) => {
   const route = useRouter();
   const { allUsers } = useAllUsersStore((state) => state);
 
@@ -19,6 +20,8 @@ const RelatedSearchTerms = ({ searchInputValue }: Props) => {
           <li
             className="w-full cursor-pointer py-3 pl-3 hover:bg-gray-200"
             onClick={() => route.push(`/${user.id}`)}
+            onMouseEnter={() => (relatedTermsRef.current = true)}
+            onMouseLeave={() => (relatedTermsRef.current = false)}
             key={user.id}>
             {user.nickname}
           </li>
