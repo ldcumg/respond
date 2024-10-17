@@ -9,6 +9,9 @@ import ThemeBtn from "../theme/ThemeBtn";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
+import useOnAuthStateChange from "@/hooks/useOnAuthStateChange";
+
 
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
@@ -36,6 +39,8 @@ const GlobalsUserInfo = () => {
     queryFn: fetchUserInfoData,
     staleTime: 0
   });
+
+  useOnAuthStateChange();
 
   return (
     <div className="flex h-full flex-col justify-between">

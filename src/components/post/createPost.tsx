@@ -1,21 +1,21 @@
 "use client";
 
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { POST_SCHEMA } from "@/constants/postSchema";
 import { createPost, deletePost, imagePosting } from "@/services/post/serverAction";
+import { useAllUsersStore } from "@/store/useUserInfoStore";
 import browserClient from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-
-// NOTE 임시
-const user_id = "588a4dea-b95a-4836-b6bc-10dbafa4a81f";
-const nickname = "123";
 
 type Props = {
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CreatePost = ({ setIsPosting }: Props) => {
+  const { loginUserId: user_id } = useGetUserIds();
+  const { allUsers } = useAllUsersStore((state) => state);
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const { register, handleSubmit, formState } = useForm({
@@ -26,31 +26,36 @@ const CreatePost = ({ setIsPosting }: Props) => {
 
   // TODO 커스텀 훅으로 빼기
   const onSubmit = async (value: FieldValues) => {
-    const { title, content } = value;
-    const { data: boardData, error } = await createPost({ user_id, nickname, title, content });
+    if (user_id) {
+      const nickname = allUsers.find((user) => user.id === user_id)?.nickname;
+      if (nickname) {
+        const { title, content } = value;
+        const { data: boardData, error } = await createPost({ user_id, nickname, title, content });
 
-    if (error) {
-      console.error(error);
-      alert("게시물 작성을 실패했습니다.");
-      return;
-    }
+        if (error) {
+          console.error(error);
+          alert("게시물 작성을 실패했습니다.");
+          return;
+        }
 
-    if (imageUrl) {
-      const { id: board_id } = boardData[0];
+        if (imageUrl) {
+          const { id: board_id } = boardData[0];
 
-      const { error: imageTableError } = await imagePosting({ user_id, board_id, imageUrl });
+          const { error: imageTableError } = await imagePosting({ user_id, board_id, imageUrl });
 
-      if (imageTableError) {
-        await deletePost(board_id);
-        console.error(imageTableError);
-        alert("이미지 업로드를 실패했습니다.");
+          if (imageTableError) {
+            await deletePost(board_id);
+            console.error(imageTableError);
+            alert("이미지 업로드를 실패했습니다.");
+            return;
+          }
+        }
+
+        alert("게시물을 작성했습니다.");
+        setIsPosting(false);
         return;
       }
     }
-
-    alert("게시물을 작성했습니다.");
-    setIsPosting(false);
-    return;
   };
 
   useEffect(() => {
@@ -59,7 +64,7 @@ const CreatePost = ({ setIsPosting }: Props) => {
         const randomImageName = crypto.randomUUID();
         const { data: bucketData, error: imageError } = await browserClient.storage
           .from("board_img")
-          .upload(`${nickname}/${randomImageName}`, image);
+          .upload(`post_img/${randomImageName}`, image);
 
         if (imageError) {
           console.error(imageError);
