@@ -16,6 +16,7 @@
 
 <details>
 <summary>📦src</summary>
+
 ```
  ┣ app
  ┃ ┣ (auth)
@@ -140,6 +141,7 @@
  ┃ ┃ ┗ user.ts
  ┗ middleware.ts
 ```
+
 </details>
 
 <br/>
