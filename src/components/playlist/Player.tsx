@@ -80,7 +80,7 @@ const Player = () => {
   return (
     <div>
       {myMainPlay && myMainPlay.length > 0 ? (
-        <div className="flex flex-col items-center gap-[10px]">
+        <div className="flex flex-col items-center gap-[20px]">
           <div
             className={`relative rounded-full bg-center bg-no-repeat ${playState ? "play" : "pause"}`}
             style={{ backgroundSize: "65%", backgroundImage: `url(${myMainPlay[0].album_image})` }}>
@@ -100,7 +100,7 @@ const Player = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-[10px]">
+        <div className="flex flex-col items-center gap-[20px]">
           <div className={`relative rounded-full bg-[#F4F4F4] bg-center bg-no-repeat`}>
             <Image src="/images/recordImg.png" alt="record" width={500} height={500} objectFit="cover" />
           </div>

@@ -38,13 +38,13 @@ const SettingShowList = ({ setting }: Props) => {
         <h2 className="text-[20px] font-semibold">미리보기 목록</h2>
         {isButtonEnabled && (
           <button
-            className="bg-[#F4F4F4] px-[10px] py-[5px]"
+            className="bg-[#F4F4F4] px-[10px] py-[5px] hover:bg-[#e4e3e3]"
             onClick={() => showListMutate({ userId: hostUserId, showList: showListCheckList })}>
             저장
           </button>
         )}
         {!isButtonEnabled && (
-          <button className="cursor-pointer bg-[#F4F4F4] px-[10px] py-[5px] hover:bg-[#e4e3e3]">저장</button>
+          <button className="cursor-auto bg-[#d3d3d3] px-[10px] py-[5px] text-[#9a9a9a]">저장</button>
         )}
       </div>
       <div className="items-top flex items-center gap-[42px] space-x-2">
