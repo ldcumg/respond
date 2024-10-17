@@ -5,17 +5,19 @@ import ThemeModal from "./ThemeModal";
 import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
+import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 
 const ThemeBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [theme, setTheme] = useState("default");
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
+  const loginUser = useGetUserInfo();
+  const loginUserId: string = loginUser?.id ?? "";
 
   const openTheme = () => setIsModalOpen(true);
 
   const fetchMainTheme = async () => {
     const { data, error } = await browserClient.from("setting").select("theme_name").eq("user_id", userId).single();
-    console.log(data);
     return data;
   };
 
@@ -26,7 +28,8 @@ const ThemeBtn = () => {
     error
   } = useQuery({
     queryKey: ["myTheme"],
-    queryFn: fetchMainTheme
+    queryFn: fetchMainTheme,
+    staleTime: 0 //값 매번 가져오기 or queryKey ["myTheme"],+userId를 줘서 각각 패치되도록?
   });
 
   useEffect(() => {
@@ -42,15 +45,16 @@ const ThemeBtn = () => {
   if (error) return <div>데이터 가져오기 오류...</div>;
   if (isLoading) return <div>Loading...</div>;
 
-  console.log("myTheme", myTheme);
-  console.log("theme", theme);
-
   return (
     <div>
-      <button onClick={openTheme} className="cursor-pointer bg-[#F4F4F4] px-[15px] py-[10px] hover:bg-[#e1e1e1]">
-        내 홈피 꾸미기
-      </button>
-      {isModalOpen && <ThemeModal setIsModalOpen={setIsModalOpen} theme={theme} setTheme={setTheme} />}
+      {loginUserId === userId && (
+        <>
+          <button onClick={openTheme} className="cursor-pointer bg-[#F4F4F4] px-[15px] py-[10px] hover:bg-[#e1e1e1]">
+            내 홈피 꾸미기
+          </button>
+          {isModalOpen && <ThemeModal setIsModalOpen={setIsModalOpen} theme={theme} setTheme={setTheme} />}
+        </>
+      )}
     </div>
   );
 };

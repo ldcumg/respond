@@ -5,6 +5,7 @@ import { useState } from "react";
 import browserClient from "../../../utils/supabase/client";
 import React from "react";
 import { generateDefaultSetting } from "@/app/[userId]/setting/server-action/settingAction";
+import Link from "next/link";
 
 const NAME_REGEX = /^[가-힣a-zA-Z]{2,20}$/;
 const EMAIL_REGEX = /\S+@\S+\.\S+/;
@@ -18,7 +19,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-const SignUp: React.FC = () => {
+const SignUpPage: React.FC = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
@@ -81,8 +82,6 @@ const SignUp: React.FC = () => {
             }
           }
         });
-
-        console.log("signUp Data => ", data);
 
         if (error) {
           setErrors({ email: "회원가입 오류: " + error.message });
@@ -165,6 +164,14 @@ const SignUp: React.FC = () => {
             <button type="submit" className="w-full rounded border-4 border-black bg-black p-2 text-white hover:invert">
               회원가입
             </button>
+            <div>이미 계정이 있으신가요? {''}
+            <Link 
+                href={`/login`}
+                className="text-gray-500 underline underline-offset-[4px] hover:bg-gray-200"> 
+            로그인 바로가기
+            </Link>
+            </div>
+            
           </div>
         </form>
       </div>
@@ -172,4 +179,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;

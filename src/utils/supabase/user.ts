@@ -8,8 +8,6 @@ const getLoginUserId = async () => {
   const { data: loginUserId } = await supabase.auth.getUser();
   const userId = loginUserId?.user?.id;
 
-  console.log("getLoginUserId userId", userId);
-
   return userId;
 };
 

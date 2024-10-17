@@ -184,10 +184,10 @@ const ChatRoom = () => {
   }
 
   return (
-    <div className="flex h-screen flex-col">
-      <div className="flex h-[80px] items-center border-b-[10px] border-black bg-white p-9">
+    <div className="flex h-full flex-col">
+      <div className="flex h-[60px] items-center border-b-[4px] border-black bg-white p-4">
         <div className="cursor-pointer" onClick={handleGoBack}>
-          <ChevronLeft size={40} strokeWidth={3} />
+          <ChevronLeft size={40} strokeWidth={2} />
         </div>
         <h2 className="grow text-center text-xl font-black text-gray-800">{selectedRoomName}</h2>
       </div>
@@ -205,7 +205,7 @@ const ChatRoom = () => {
                   {isFirstMessageFromUser && <h3 className="mb-1 font-bold">- {message.user_nickname}</h3>}
                   <div
                     className={`flex max-w-md items-center rounded-md px-4 py-2 shadow-md ${
-                      message.user_id === user?.id ? "border-4 border-black bg-white text-black" : "bg-white text-black"
+                      message.user_id === user?.id ? "border-[4px] border-black bg-white text-black" : "bg-white text-black"
                     }`}>
                     <p className="flex-1">{message.content}</p>
                   </div>
@@ -219,20 +219,20 @@ const ChatRoom = () => {
         })}
       </div>
 
-      <div className="flex h-[80px] items-center bg-white p-9">
+      <div className="h-[80px] items-center justify-center bg-white border-t-[4px] border-black p-4">
         <form
           onSubmit={handleSubmit}
-          className="fixed bottom-0 left-0 right-0 mb-2 flex flex-row items-center gap-4 bg-white p-4">
+          className="flex-row flex items-center justify-center gap-4 bg-white">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="메시지를 입력하세요"
-            className="ml-4 h-[54px] flex-1 rounded-full border-[6px] border-black px-6 focus:shadow-xl focus:outline-none"
+            className="flex-auto h-[48px] rounded-full border-[4px] border-black px-6 focus:shadow-xl focus:outline-none"
           />
           <button
             type="submit"
-            className="mr-4 flex h-[54px] w-[54px] items-center justify-center rounded-full border-[6px] border-black hover:bg-gray-200">
+            className="flex-none flex h-[48px] w-[48px] items-center justify-center rounded-full border-[4px] border-black hover:bg-gray-200">
             <ArrowUpRight size={32} strokeWidth={3} />
           </button>
         </form>

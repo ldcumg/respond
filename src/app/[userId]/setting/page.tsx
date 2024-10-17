@@ -8,7 +8,6 @@ import { Setting } from "@/types/setting";
 import queryKey from "@/queries/queryKey";
 import SettingShowList from "./components/SettingShowList";
 import SettingTabList from "./components/SettingTabList";
-import { getLoginUserId } from "@/utils/supabase/user";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
@@ -53,10 +52,15 @@ const page = () => {
   }
 
   return (
-    <div>
-      <SettingPrivacy setting={setting}></SettingPrivacy>
-      <SettingShowList setting={setting}></SettingShowList>
-      <SettingTabList setting={setting}></SettingTabList>
+    <div className="flex h-full flex-col p-[30px]">
+      <div className="mb-[40px] flex">
+        <h1 className="pageTitle">내 설정</h1>
+      </div>
+      <div className="flex flex-col gap-[30px]">
+        <SettingPrivacy setting={setting}></SettingPrivacy>
+        <SettingShowList setting={setting}></SettingShowList>
+        <SettingTabList setting={setting}></SettingTabList>
+      </div>
     </div>
   );
 };
