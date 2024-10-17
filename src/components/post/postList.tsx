@@ -28,6 +28,10 @@ const PostList = ({ userId }: Props) => {
 
   const posts = data.pages.flat();
 
+  if (!posts.length) {
+    return <p>작성한 게시물이 없습니다.</p>;
+  }
+
   return (
     <ol className="m-14 flex h-[550px] flex-col overflow-auto">
       {posts.map((post) => {

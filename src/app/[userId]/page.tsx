@@ -44,8 +44,6 @@ const tabListExtends = {
 const HomePage = () => {
   const { hostUserId, loginUserId } = useGetUserIds();
 
-  console.log('"HomePage"', "HomePage");
-
   const { data: setting } = useQuery<Setting>({
     queryKey: queryKey.setting.setting,
     queryFn: () => getSetting(hostUserId),
