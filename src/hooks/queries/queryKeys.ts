@@ -1,5 +1,5 @@
 const queryKey = {
-  posts: ["posts"]
+  posts:  ["posts"]
 };
 
 export default queryKey;

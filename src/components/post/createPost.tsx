@@ -8,12 +8,15 @@ import browserClient from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { queryClient } from "../providers/RQProvider";
+import queryKey from "@/hooks/queries/queryKeys";
 
 type Props = {
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>;
+  hostId: string;
 };
 
-const CreatePost = ({ setIsPosting }: Props) => {
+const CreatePost = ({ setIsPosting, hostId }: Props) => {
   const { loginUserId: user_id } = useGetUserIds();
   const { allUsers } = useAllUsersStore((state) => state);
   const [image, setImage] = useState<File | null>(null);
@@ -51,6 +54,7 @@ const CreatePost = ({ setIsPosting }: Props) => {
           }
         }
 
+        queryClient.invalidateQueries({ queryKey: [...queryKey.posts, hostId] });
         alert("게시물을 작성했습니다.");
         setIsPosting(false);
         return;

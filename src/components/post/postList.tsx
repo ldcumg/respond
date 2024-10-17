@@ -4,11 +4,11 @@ import { postQuery } from "@/hooks/queries/post/usePostQuery";
 import Link from "next/link";
 
 type Props = {
-  userId: string;
+  hostId: string;
 };
 
-const PostList = ({ userId }: Props) => {
-  const { data, error, fetchNextPage, isPending, isError } = postQuery({ userId });
+const PostList = ({ hostId }: Props) => {
+  const { data, error, fetchNextPage, isPending, isError } = postQuery({ hostId });
   if (isPending) {
     return <div>로딩 중...</div>;
   }
@@ -38,7 +38,7 @@ const PostList = ({ userId }: Props) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link
-            href={`/${userId}/board/${post.id}`}
+            href={`/${hostId}/board/${post.id}`}
             key={post.id}
             className="flex flex-row items-center justify-between border-b-2 py-3 hover:bg-gray-100">
             <h6 className="h-full text-xl">{post.title}</h6>
