@@ -80,7 +80,7 @@ export default function Schedule() {
       created_at: new Date().toISOString()
     };
 
-    const { data, error } = await .from("schedule").insert([newTodo]).select();
+    const { data, error } = await browserClient.from("schedule").insert([newTodo]).select();
     if (error) return console.error("투두 추가 중 오류 발생:", error);
 
     const insertedTodo = {
