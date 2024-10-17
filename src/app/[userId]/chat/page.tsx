@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, MessageCirclePlus } from "lucide-react";
+import { ChevronLeft, MessageCirclePlus, Trash2 } from "lucide-react"; // 삭제 아이콘 추가
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -52,7 +52,7 @@ const ChatPage = () => {
   // 방 목록 가져오기
   const fetchRooms = async () => {
     const user = await browserClient.auth.getUser();
-    const id = user.data.user?.id; // userId를 변수에 저장
+    const id = user.data.user?.id;
     setUserId(id);
     if (id) {
       const { data, error } = await browserClient.from("rooms").select("*").contains("participants", [id]); // 참가자인 방만 조회 필터링
@@ -78,7 +78,7 @@ const ChatPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   // 참가자 닉네임 가져오기
   const fetchParticipantNicknames = async (rooms: Room[]) => {
@@ -119,6 +119,20 @@ const ChatPage = () => {
     }
   };
 
+  // 방 삭제
+  const handleDeleteRoom = async (roomId: number) => {
+    try {
+      const { error } = await browserClient.from("rooms").delete().eq("id", roomId);
+      if (error) {
+        setError(new Error("채팅방 삭제 중 오류 발생"));
+      } else {
+        fetchRooms(); // 방 목록 갱신
+      }
+    } catch (error) {
+      setError(new Error("채팅방 삭제 중 오류 발생"));
+    }
+  };
+
   // 선택된 참가자 목록에 추가하거나 제거하는 역할
   const handleSelectParticipant = (userId: string): void => {
     setSelectedParticipants((prevSelected) => {
@@ -151,8 +165,8 @@ const ChatPage = () => {
           <ChevronLeft size={40} strokeWidth={2} />
         </div>
         <h2 className="grow text-center text-xl font-black text-gray-800">내 채팅</h2>
-        <button onClick={() => setShowForm(!showForm)} className="flex">
-          <MessageCirclePlus size={36} strokeWidth={2} />
+        <button onClick={() => setShowForm(!showForm)} className="flex hover:text-gray-500">
+          <MessageCirclePlus size={36} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -171,12 +185,12 @@ const ChatPage = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="내 이웃 검색"
+              placeholder="닉네임으로 검색"
               className="mb-2 w-full border p-2 px-4"
             />
             <ul className="mb-4 max-h-40 overflow-y-auto rounded border">
               {users
-                .filter((user) => user.nickname.toLowerCase().includes(searchTerm.toLowerCase()))
+                .filter((user) => user.nickname.toLowerCase().includes(searchTerm.toLowerCase()) && user.id !== userId)
                 .map((user) => (
                   <li key={user.id} className="flex items-center border-b border-gray-200 px-6 py-2">
                     <p className="grow">{user.nickname}</p>
@@ -203,19 +217,26 @@ const ChatPage = () => {
       )}
 
       <div className="flex h-full flex-col p-6">
-        <h1 className="mt-4 text-xl font-bold text-black">채팅방 목록</h1>
+        <h1 className="mt-4 text-2xl font-bold text-black">채팅방 목록</h1>
         <div className="mt-4 space-y-4">
           {rooms.map((room) => (
-            <Link key={room.id} href={`/${userId}/chat/${room.id}`}>
-              <div className="mb-2 w-full rounded-lg border-[4px] border-black bg-white px-6 py-4 shadow-lg transition duration-200 ease-in-out hover:bg-gray-300">
+            <div
+              key={room.id}
+              className="mb-2 w-full rounded-lg border-[4px] border-black bg-white px-6 py-4 shadow-lg hover:bg-white hover:shadow-xl">
+              <Link href={`/${userId}/chat/${room.id}`}>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-semibold">{room.name}</span>
-                  <span className="text-sm text-gray-600">
-                    {room.participants.map((id) => participantNicknames[id]).join(", ")}
-                  </span>
+                  <div className="flex items-center">
+                    <span className="font-sm mx-4 font-normal text-gray-600">
+                      {room.participants
+                        .filter((id) => participantNicknames[id])
+                        .map((id) => participantNicknames[id])
+                        .join(", ")}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       </div>
