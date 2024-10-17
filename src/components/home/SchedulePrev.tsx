@@ -146,9 +146,9 @@ export default function Schedule() {
   };
 
   return (
-    <div className="h-[80vh] overflow-y-auto bg-gray-100 p-8">
+    <div className="h-[80vh] overflow-y-auto">
     
-      <div className="flex justify-between mt-5 gap-4">
+      <div className="flex justify-between gap-4">
         <div
           className={`h-[120px] w-3/6 rounded-xl border-4 border-solid border-black p-5 shadow-lg transition-all duration-300 ease-in-out ${
             hoveredStatus === "완료" ? "bg-green-200" : "bg-white"
