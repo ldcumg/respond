@@ -45,13 +45,10 @@ const PostDetailPage = ({ params }: Props) => {
     const createdDay = created_at.substring(0, 10);
     const imgUrl = post.board_img?.[0]?.img_url;
     return (
-      <div className="relative h-full w-full">
-        <div className="page-title-container">
+      <div className="relative h-full w-full p-10">
+        <div className="page-title-container bg-[#f8f8f8]">
           <h1 className="page-title">{title}</h1>
-          <div className="flex gap-6">
-            <button>수정</button>
-            <button onClick={handleDelete}>삭제</button>
-          </div>
+          <button onClick={handleDelete}>삭제</button>
         </div>
         <p>
           <small>{createdDay}</small>
@@ -62,7 +59,7 @@ const PostDetailPage = ({ params }: Props) => {
         </div>
         <Link
           href={`/${userId}/board`}
-          className="absolute bottom-1 right-1/2 translate-x-1/2 rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white">
+          className="absolute bottom-1 right-1/2 translate-x-1/2 rounded-full border-4 border-black px-6 py-3 font-bold hover:bg-black hover:text-white mb-10">
           목록으로 가기
         </Link>
       </div>
