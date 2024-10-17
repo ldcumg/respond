@@ -185,7 +185,7 @@ export default function Schedule() {
           <div className="flex items-start justify-start">
             <XCircle className="text-4xl text-red-600" />
           </div>
-          <h2 className="mt-4 flex justify-end text-xl font-semibold text-gray-800" onClick={() => showTodos("취소")}>
+          <h2 className="mt-4 flex justify-end text-l font-semibold text-gray-800" onClick={() => showTodos("취소")}>
             취소됨 <span className="ml-2">({todos.취소.length})</span>
           </h2>
         </div>
