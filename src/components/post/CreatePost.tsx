@@ -27,8 +27,9 @@ const CreatePost = ({ setIsPosting, hostId }: Props) => {
   });
   const { title: titleValidateError, content: contentValidateError } = formState.errors;
 
-  // TODO 커스텀 훅으로 빼기
+  /** 게시물 작성 함수 */
   const onSubmit = async (value: FieldValues) => {
+    // NOTE 인가 받아야 들어올 수 있는데 string | null 타입 오류가 남
     if (user_id) {
       const nickname = allUsers.find((user) => user.id === user_id)?.nickname;
       if (nickname) {
@@ -62,6 +63,7 @@ const CreatePost = ({ setIsPosting, hostId }: Props) => {
     }
   };
 
+  // 이미지 supabase storage에 올리고 url 받아오기
   useEffect(() => {
     if (image) {
       (async function () {
@@ -84,6 +86,7 @@ const CreatePost = ({ setIsPosting, hostId }: Props) => {
     }
   }, [image]);
 
+  /** 선택한 이미지 제거 함수 */
   const handleRemoveImage = () => {
     if (confirm("이미지를 제거하시겠습니까?")) {
       setImage(null);
