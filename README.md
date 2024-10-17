@@ -85,7 +85,7 @@
  ┃ ┃ ┣ createPost.tsx
  ┃ ┃ ┗ postList.tsx
  ┃ ┣ providers
- ┃ ┃ ┗ RQProvider.tsx
+ ┃ ┃ ┗ TQProvider.tsx
  ┃ ┣ searchBar
  ┃ ┃ ┣ RelatedSearchTerms.tsx
  ┃ ┃ ┗ UserSearchBar.tsx
@@ -300,7 +300,7 @@ id와 일치하는 participant
 
 <br/>
 
-### 4. 유저 정보 가져오는 커스텀 훅 (RQ사용)
+### 4. 유저 정보 가져오는 커스텀 훅 (TQ사용)
 
 ![이준열](https://github.com/user-attachments/assets/87f45bbd-d4c2-4044-a32f-2926a3e9e206)
 
@@ -308,7 +308,7 @@ id와 일치하는 participant
 특정 상황에서 유저 데이터가 다르게 들어옴. 어쩔땐 ID만, 어쩔땐 객체로
 
 • 해결\_
-유저 정보를 가져오는 RQ가 두 개 있었는데 같은 queryKey[“loginUser”] 를 공유했음. 따라서 다른 함수에서 다른 데이터를 요청하지만 같은 캐싱을 사용하기 때문에 발생했고, que 경하고 문제 해결
+유저 정보를 가져오는 TQ가 두 개 있었는데 같은 queryKey[“loginUser”] 를 공유했음. 따라서 다른 함수에서 다른 데이터를 요청하지만 같은 캐싱을 사용하기 때문에 발생했고, que 경하고 문제 해결
 
 <br/>
 

@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 import useOnAuthStateChange from "@/hooks/useOnAuthStateChange";
+import ModifyNicknameBtn from "../auth/ModifyNicknameBtn";
 
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
@@ -55,6 +56,7 @@ const GlobalsUserInfo = () => {
           )}
         </div>
         <div className="flex justify-between gap-[10px] pb-[50px]">
+          <ModifyNicknameBtn />
           <ThemeBtn />
         </div>
       </div>

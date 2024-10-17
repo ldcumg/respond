@@ -15,7 +15,7 @@ const makeQueryClient = () => {
   });
 };
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browseTQueryClient: QueryClient | undefined = undefined;
 
 const getQueryClient = () => {
   if (isServer) {
@@ -26,18 +26,14 @@ const getQueryClient = () => {
     // This is very important, so we don't re-make a new client if React
     // suspends during the initial render. This may not be needed if we
     // have a suspense boundary BELOW the creation of the query client
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
+    if (!browseTQueryClient) browseTQueryClient = makeQueryClient();
+    return browseTQueryClient;
   }
 };
 
 export const queryClient = getQueryClient();
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
 export default Providers;
