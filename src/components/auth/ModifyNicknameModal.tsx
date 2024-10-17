@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { modifyNickname } from "@/services/auth/serverAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -7,17 +8,15 @@ import { useForm, type FieldValues } from "react-hook-form";
 import { z } from "zod";
 
 type Props = {
-  setIsModalOpen: (isOpen: boolean) => void;
-  setTheme: (theme: string) => void;
-  theme: string;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const POST_SCHEMA = z.object({
   newNickname: z.string().trim().min(1, { message: "닉네임을 입력해주세요." })
 });
 
-const ModifyNicknameModal = ({ setIsModalOpen, setTheme, theme }: Props) => {
-  const closeTheme = () => setIsModalOpen(false);
+const ModifyNicknameModal = ({ setIsModalOpen }: Props) => {
+  const { loginUserId: userId } = useGetUserIds();
 
   const { register, handleSubmit, formState } = useForm({
     mode: "onSubmit",
@@ -26,8 +25,23 @@ const ModifyNicknameModal = ({ setIsModalOpen, setTheme, theme }: Props) => {
   const { newNickname: newNicknameValidate } = formState.errors;
 
   const onSubmit = async (value: FieldValues) => {
-    console.log("value", value);
-    const { error } = await modifyNickname();
+    if (!userId) {
+      alert("로그인하지 않은 유저입니다.");
+      return;
+    }
+
+    const { newNickname } = value;
+
+    const { data, error } = await modifyNickname({ userId, newNickname });
+    console.log("error", error);
+    console.log("data", data);
+
+    if (error) {
+      alert("닉네임 변경에 실패했습니다.");
+      return;
+    }
+
+    alert("닉네임이 변경되었습니다.");
   };
 
   return (
@@ -38,13 +52,12 @@ const ModifyNicknameModal = ({ setIsModalOpen, setTheme, theme }: Props) => {
         </h2>
         <button
           className="absolute right-[-25px] top-[-45px] rounded-full border-[4px] border-black bg-white p-1"
-          onClick={closeTheme}>
+          onClick={() => setIsModalOpen(false)}>
           <X />
         </button>
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-2 rounded-[22px] border-[4px] border-black p-[20px]">
-            <input {...register("nickname")} />
+            <input placeholder="원하는 닉네임을 입력해주세요." {...register("newNickname")} />
           </div>
           <p>{newNicknameValidate && (newNicknameValidate.message as string)}</p>
           <button>닉네임 변경하기</button>
