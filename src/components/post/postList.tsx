@@ -33,7 +33,7 @@ const PostList = ({ userId }: Props) => {
   }
 
   return (
-    <ol className="m-14 flex h-[550px] flex-col overflow-auto">
+    <ol className="m-14 flex h-4/5 flex-col overflow-auto">
       {posts.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
