@@ -14,8 +14,9 @@
 
 ## 📦폴더 구조
 
+<details>
+<summary>📦src</summary>
 ```
-src
  ┣ app
  ┃ ┣ (auth)
  ┃ ┃ ┣ login
@@ -139,6 +140,7 @@ src
  ┃ ┃ ┗ user.ts
  ┗ middleware.ts
 ```
+</details>
 
 <br/>
 
