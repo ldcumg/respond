@@ -35,6 +35,7 @@ const tabListExtends = {
 } as const;
 
 function getTabList(tabList: TabList[], hostUserId: string, attendeeUserId: string) {
+  // 만약 페이지 주인도 탭 설정에 따른 탭만 노출되게하려면 이 조건 지우면 됨
   if (hostUserId === attendeeUserId) {
     return Object.keys(tabListExtends) as TabList[];
   }
@@ -66,10 +67,6 @@ const GlobalsNav = () => {
   if (!loginUserId) {
     return <></>;
   }
-
-  // console.log("loginUserId", loginUserId);
-  // console.log("hostUserId === loginUserId", hostUserId === loginUserId);
-
   const tabList = getTabList(setting.tab_list, hostUserId, loginUserId);
   const NAV_BASE_URL = `/${hostUserId}`;
 
@@ -79,7 +76,7 @@ const GlobalsNav = () => {
         <Link href={NAV_BASE_URL}>
           <li className="navBtn">홈</li>
         </Link>
-        {privacyState && (
+        {privacyState && hostUserId !== loginUserId && (
           <>
             {tabList.map((tab) => (
               <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
@@ -88,11 +85,17 @@ const GlobalsNav = () => {
             ))}
           </>
         )}
-        {/* TODO: host userId와 접속자 userId가 같을 경우 만 내 설정 보여야함 일단 주석처리*/}
         {hostUserId === loginUserId && (
-          <Link href={`${NAV_BASE_URL}/setting`}>
-            <li className="navBtn">내 설정</li>
-          </Link>
+          <>
+            {tabList.map((tab) => (
+              <Link key={tab} href={`${NAV_BASE_URL}${tabListExtends[tab].href}`}>
+                <li className="navBtn">{tabListExtends[tab].name}</li>
+              </Link>
+            ))}
+            <Link href={`${NAV_BASE_URL}/setting`}>
+              <li className="navBtn">내 설정</li>
+            </Link>
+          </>
         )}
       </ul>
     </nav>
