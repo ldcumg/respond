@@ -21,22 +21,22 @@ const PostList = ({ userId }: Props) => {
   const posts = data.pages.flat();
 
   return (
-    <ol className="flex h-5/6 flex-col scroll-auto">
+    <ol className="flex h-4/5 flex-col overflow-auto">
       {posts.map((post) => {
         const createdDay = post.created_at.substring(0, 10);
         return (
           <Link
             href={`/${userId}/board/${post.id}`}
             key={post.id}
-            className="flex h-11 flex-row items-center justify-between border-b-2">
-            <h6 className="text-xl">{post.title}</h6>
+            className="flex flex-row items-center justify-between border-b-2 py-3 hover:bg-gray-50">
+            <h6 className="h-full text-xl">{post.title}</h6>
             <p>
               <small>{createdDay}</small>
             </p>
           </Link>
         );
       })}
-      <button className="mt-1" onClick={() => fetchNextPage()}>
+      <button className="mt-4 hover:bg-gray-50" onClick={() => fetchNextPage()}>
         더 보기
       </button>
     </ol>

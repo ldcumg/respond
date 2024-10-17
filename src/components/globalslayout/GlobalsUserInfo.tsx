@@ -8,6 +8,7 @@ import { getAllUsers } from "@/services/auth/serverAction";
 import ThemeBtn from "../theme/ThemeBtn";
 import { useParams } from "next/navigation";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
+import useOnAuthStateChange from "@/hooks/useOnAuthStateChange";
 
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
@@ -18,6 +19,8 @@ const GlobalsUserInfo = () => {
       getAllUsers().then(({ data }) => setAllUsers(data));
     })();
   }, []);
+  useOnAuthStateChange();
+
   return (
     <div>
       <Player />
