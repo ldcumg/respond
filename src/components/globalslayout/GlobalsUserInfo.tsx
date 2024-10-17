@@ -12,7 +12,6 @@ import browserClient from "@/utils/supabase/client";
 import { useGetUserInfo } from "@/hooks/useGetUserInfo";
 import useOnAuthStateChange from "@/hooks/useOnAuthStateChange";
 
-
 const GlobalsUserInfo = () => {
   const { setAllUsers } = useAllUsersStore((state) => state);
   const { userId } = useParams<{ userId: string }>(); //유저아이디 가져오기
@@ -56,7 +55,6 @@ const GlobalsUserInfo = () => {
           )}
         </div>
         <div className="flex justify-between gap-[10px] pb-[50px]">
-          <ThemeBtn /> {/* <- 내 정보수정 컴포넌트로 바꿔주세요 */}
           <ThemeBtn />
         </div>
       </div>
