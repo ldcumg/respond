@@ -51,9 +51,9 @@ const PlayTrackPreview = ({ accessToken, trackId, playState, setPlayState }: Pre
   return (
     <div>
       <button
-        className={`flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black text-[14px]`}
+        className={`flex h-[50px] w-[50px] transform items-center justify-center rounded-full border-[4px] border-black bg-black text-[14px]`}
         onClick={handlePlayPreview}>
-        {playState ? <Pause strokeWidth={3} /> : <Play strokeWidth={3} />}
+        {playState ? <Pause strokeWidth={3} color="#ffffff" /> : <Play strokeWidth={3} color="#ffffff" />}
       </button>
     </div>
   );

@@ -19,7 +19,7 @@ const layout = ({ children }: Props) => {
       <div
         className="mx-auto flex h-[90vh] w-[90%] max-w-[1920px] gap-[20px]"
         style={{ height: "calc(100vh - 150px)" }}>
-        <aside className="borderline w-[20%] !bg-[#f8f8f8] p-[20px]">
+        <aside className="borderline w-[20%] !bg-[#f8f8f8] px-[20px] py-[40px]">
           <GlobalsUserInfo />
         </aside>
         <section className="flex w-[80%]">
