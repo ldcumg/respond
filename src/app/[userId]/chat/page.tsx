@@ -233,6 +233,7 @@ const ChatPage = () => {
                         .map((id) => participantNicknames[id])
                         .join(", ")}
                     </span>
+                    <Trash2 onClick={() => handleDeleteRoom(room.id)} />
                   </div>
                 </div>
               </Link>
