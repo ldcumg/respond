@@ -18,129 +18,130 @@
 
 <details>
 <summary>폴더구조</summary>
-📦src
- ┣ 📂app
- ┃ ┣ 📂(auth)
- ┃ ┃ ┣ 📂login
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┗ 📂signup
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂[userId]
- ┃ ┃ ┣ 📂board
- ┃ ┃ ┃ ┣ 📂[postId]
- ┃ ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📂chat
- ┃ ┃ ┃ ┣ 📂[roomId]
- ┃ ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📂playlist
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📂schedule
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📂setting
- ┃ ┃ ┃ ┣ 📂components
- ┃ ┃ ┃ ┃ ┣ 📜HomeSkelton.tsx
- ┃ ┃ ┃ ┃ ┣ 📜SettingPrivacy.tsx
- ┃ ┃ ┃ ┃ ┣ 📜SettingShowList.tsx
- ┃ ┃ ┃ ┃ ┗ 📜SettingTabList.tsx
- ┃ ┃ ┃ ┣ 📂hooks
- ┃ ┃ ┃ ┃ ┣ 📜useGetUserIds.ts
- ┃ ┃ ┃ ┃ ┣ 📜usePrivacyState.ts
- ┃ ┃ ┃ ┃ ┣ 📜useSettingPrivacy.ts
- ┃ ┃ ┃ ┃ ┣ 📜useSettingShowList.ts
- ┃ ┃ ┃ ┃ ┗ 📜useSettingTabList.ts
- ┃ ┃ ┃ ┣ 📂server-action
- ┃ ┃ ┃ ┃ ┣ 📜playlistAction.ts
- ┃ ┃ ┃ ┃ ┗ 📜settingAction.ts
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📜layout.tsx
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📜GlobalError.tsx
- ┃ ┣ 📜favicon.ico
- ┃ ┣ 📜globals.css
- ┃ ┣ 📜layout.tsx
- ┃ ┗ 📜page.tsx
- ┣ 📂chatStyle
- ┃ ┗ 📜styles.css
- ┣ 📂components
- ┃ ┣ 📂globalslayout
- ┃ ┃ ┣ 📜GlobalsNav.tsx
- ┃ ┃ ┗ 📜GlobalsUserInfo.tsx
- ┃ ┣ 📂home
- ┃ ┃ ┣ 📜BoardPrev.tsx
- ┃ ┃ ┣ 📜ChatPrev.tsx
- ┃ ┃ ┣ 📜Follow.tsx
- ┃ ┃ ┣ 📜FollowComponent.tsx
- ┃ ┃ ┣ 📜PlaylistPrev.tsx
- ┃ ┃ ┗ 📜SchedulePrev.tsx
- ┃ ┣ 📂playlist
- ┃ ┃ ┣ 📜MyPlayList.tsx
- ┃ ┃ ┣ 📜MyPlayListEdit.tsx
- ┃ ┃ ┣ 📜PlayListModalBtn.tsx
- ┃ ┃ ┣ 📜PlayTrackPreview.tsx
- ┃ ┃ ┣ 📜Player.tsx
- ┃ ┃ ┣ 📜PlaylistAll.tsx
- ┃ ┃ ┗ 📜PlaylistSearch.tsx
- ┃ ┣ 📂post
- ┃ ┃ ┣ 📜createPost.tsx
- ┃ ┃ ┗ 📜postList.tsx
- ┃ ┣ 📂providers
- ┃ ┃ ┗ 📜RQProvider.tsx
- ┃ ┣ 📂searchBar
- ┃ ┃ ┣ 📜RelatedSearchTerms.tsx
- ┃ ┃ ┗ 📜UserSearchBar.tsx
- ┃ ┣ 📂theme
- ┃ ┃ ┣ 📜ThemeBtn.tsx
- ┃ ┃ ┗ 📜ThemeModal.tsx
- ┃ ┣ 📂ui
- ┃ ┃ ┣ 📜LoadingSpinner.tsx
- ┃ ┃ ┣ 📜checkbox.tsx
- ┃ ┃ ┣ 📜label.tsx
- ┃ ┃ ┗ 📜radio-group.tsx
- ┃ ┗ 📜LogOutButton.tsx
- ┣ 📂constants
- ┃ ┗ 📜postSchema.ts
- ┣ 📂hooks
- ┃ ┣ 📂queries
- ┃ ┃ ┣ 📂post
- ┃ ┃ ┃ ┗ 📜usePostQuery.ts
- ┃ ┃ ┗ 📜queryKeys.ts
- ┃ ┣ 📜useFollow.ts
- ┃ ┣ 📜useGetUserInfo.ts
- ┃ ┣ 📜useLoggedIn.ts
- ┃ ┗ 📜useOnAuthStateChange.ts
- ┣ 📂lib
- ┃ ┗ 📜utils.ts
- ┣ 📂queries
- ┃ ┗ 📜queryKey.ts
- ┣ 📂server-action
- ┃ ┗ 📜followAction.ts
- ┣ 📂services
- ┃ ┣ 📂auth
- ┃ ┃ ┗ 📜serverAction.ts
- ┃ ┗ 📂post
- ┃ ┃ ┣ 📜postsPaginate.ts
- ┃ ┃ ┗ 📜serverAction.ts
- ┣ 📂store
- ┃ ┗ 📜useUserInfoStore.ts
- ┣ 📂styles
- ┃ ┗ 📜styles.css
- ┣ 📂types
- ┃ ┣ 📂playlist
- ┃ ┃ ┣ 📜Spotify.ts
- ┃ ┃ ┗ 📜playlist.ts
- ┃ ┣ 📜follow.ts
- ┃ ┣ 📜post.ts
- ┃ ┣ 📜setting.ts
- ┃ ┗ 📜userInfo.ts
- ┣ 📂utils
- ┃ ┗ 📂supabase
- ┃ ┃ ┣ 📜client.ts
- ┃ ┃ ┣ 📜middleware.ts
- ┃ ┃ ┣ 📜server.ts
- ┃ ┃ ┗ 📜user.ts
- ┗ 📜middleware.ts
+src
+ ┣ app
+ ┃ ┣ (auth)
+ ┃ ┃ ┣ login
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┗ signup
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┣ [userId]
+ ┃ ┃ ┣ board
+ ┃ ┃ ┃ ┣ [postId]
+ ┃ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┣ chat
+ ┃ ┃ ┃ ┣ [roomId]
+ ┃ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┣ playlist
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┣ schedule
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┣ setting
+ ┃ ┃ ┃ ┣ components
+ ┃ ┃ ┃ ┃ ┣ HomeSkelton.tsx
+ ┃ ┃ ┃ ┃ ┣ SettingPrivacy.tsx
+ ┃ ┃ ┃ ┃ ┣ SettingShowList.tsx
+ ┃ ┃ ┃ ┃ ┗ SettingTabList.tsx
+ ┃ ┃ ┃ ┣ hooks
+ ┃ ┃ ┃ ┃ ┣ useGetUserIds.ts
+ ┃ ┃ ┃ ┃ ┣ usePrivacyState.ts
+ ┃ ┃ ┃ ┃ ┣ useSettingPrivacy.ts
+ ┃ ┃ ┃ ┃ ┣ useSettingShowList.ts
+ ┃ ┃ ┃ ┃ ┗ useSettingTabList.ts
+ ┃ ┃ ┃ ┣ server-action
+ ┃ ┃ ┃ ┃ ┣ playlistAction.ts
+ ┃ ┃ ┃ ┃ ┗ settingAction.ts
+ ┃ ┃ ┃ ┗ page.tsx
+ ┃ ┃ ┣ layout.tsx
+ ┃ ┃ ┗ page.tsx
+ ┃ ┣ GlobalError.tsx
+ ┃ ┣ favicon.ico
+ ┃ ┣ globals.css
+ ┃ ┣ layout.tsx
+ ┃ ┗ page.tsx
+ ┣ chatStyle
+ ┃ ┗ styles.css
+ ┣ components
+ ┃ ┣ globalslayout
+ ┃ ┃ ┣ GlobalsNav.tsx
+ ┃ ┃ ┗ GlobalsUserInfo.tsx
+ ┃ ┣ home
+ ┃ ┃ ┣ BoardPrev.tsx
+ ┃ ┃ ┣ ChatPrev.tsx
+ ┃ ┃ ┣ Follow.tsx
+ ┃ ┃ ┣ FollowComponent.tsx
+ ┃ ┃ ┣ PlaylistPrev.tsx
+ ┃ ┃ ┗ SchedulePrev.tsx
+ ┃ ┣ playlist
+ ┃ ┃ ┣ MyPlayList.tsx
+ ┃ ┃ ┣ MyPlayListEdit.tsx
+ ┃ ┃ ┣ PlayListModalBtn.tsx
+ ┃ ┃ ┣ PlayTrackPreview.tsx
+ ┃ ┃ ┣ Player.tsx
+ ┃ ┃ ┣ PlaylistAll.tsx
+ ┃ ┃ ┗ PlaylistSearch.tsx
+ ┃ ┣ post
+ ┃ ┃ ┣ createPost.tsx
+ ┃ ┃ ┗ postList.tsx
+ ┃ ┣ providers
+ ┃ ┃ ┗ RQProvider.tsx
+ ┃ ┣ searchBar
+ ┃ ┃ ┣ RelatedSearchTerms.tsx
+ ┃ ┃ ┗ UserSearchBar.tsx
+ ┃ ┣ theme
+ ┃ ┃ ┣ ThemeBtn.tsx
+ ┃ ┃ ┗ ThemeModal.tsx
+ ┃ ┣ ui
+ ┃ ┃ ┣ LoadingSpinner.tsx
+ ┃ ┃ ┣ checkbox.tsx
+ ┃ ┃ ┣ label.tsx
+ ┃ ┃ ┗ radio-group.tsx
+ ┃ ┗ LogOutButton.tsx
+ ┣ constants
+ ┃ ┗ postSchema.ts
+ ┣ hooks
+ ┃ ┣ queries
+ ┃ ┃ ┣ post
+ ┃ ┃ ┃ ┗ usePostQuery.ts
+ ┃ ┃ ┗ queryKeys.ts
+ ┃ ┣ useFollow.ts
+ ┃ ┣ useGetUserInfo.ts
+ ┃ ┣ useLoggedIn.ts
+ ┃ ┗ useOnAuthStateChange.ts
+ ┣ lib
+ ┃ ┗ utils.ts
+ ┣ queries
+ ┃ ┗ queryKey.ts
+ ┣ server-action
+ ┃ ┗ followAction.ts
+ ┣ services
+ ┃ ┣ auth
+ ┃ ┃ ┗ serverAction.ts
+ ┃ ┗ post
+ ┃ ┃ ┣ postsPaginate.ts
+ ┃ ┃ ┗ serverAction.ts
+ ┣ store
+ ┃ ┗ useUserInfoStore.ts
+ ┣ styles
+ ┃ ┗ styles.css
+ ┣ types
+ ┃ ┣ playlist
+ ┃ ┃ ┣ Spotify.ts
+ ┃ ┃ ┗ playlist.ts
+ ┃ ┣ follow.ts
+ ┃ ┣ post.ts
+ ┃ ┣ setting.ts
+ ┃ ┗ userInfo.ts
+ ┣ utils
+ ┃ ┗ supabase
+ ┃ ┃ ┣ client.ts
+ ┃ ┃ ┣ middleware.ts
+ ┃ ┃ ┣ server.ts
+ ┃ ┃ ┗ user.ts
+ ┗ middleware.ts
+
  </details>
 
 <br/>
