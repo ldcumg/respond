@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -16,7 +15,7 @@ const makeQueryClient = () => {
   });
 };
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browseTQueryClient: QueryClient | undefined = undefined;
 
 const getQueryClient = () => {
   if (isServer) {
@@ -27,23 +26,14 @@ const getQueryClient = () => {
     // This is very important, so we don't re-make a new client if React
     // suspends during the initial render. This may not be needed if we
     // have a suspense boundary BELOW the creation of the query client
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
+    if (!browseTQueryClient) browseTQueryClient = makeQueryClient();
+    return browseTQueryClient;
   }
 };
 
+export const queryClient = getQueryClient();
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  // NOTE: Avoid useState when initializing the query client if you don't
-  //       have a suspense boundary between this and the code that may
-  //       suspend because React will throw away the client on the initial
-  //       render if it suspends and there is no boundary
-  const queryClient = getQueryClient();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
 export default Providers;
