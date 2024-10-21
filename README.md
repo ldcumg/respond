@@ -8,7 +8,7 @@
 
 ## 🔥배포 링크
 
-[Respond - 내일배움캠프 6기 4조](respond-woad.vercel.app/)
+[Respond - 내일배움캠프 6기 4조](https://respond-woad.vercel.app/)
 
 <br/>
 
