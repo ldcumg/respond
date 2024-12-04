@@ -1,6 +1,6 @@
 "use client";
 
-import CreatePost from "@/components/post/CreatePost";
+import CreatePost from "@/components/post/createPost";
 import PostList from "@/components/post/PostList";
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
