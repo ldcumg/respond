@@ -40,7 +40,7 @@ const Playlist = () => {
     const { access_token } = await tokenRes.json();
 
     // Spotify API에 데이터 요청
-    const spotifyRes = await fetch("https://api.spotify.com/v1/playlists/37i9dQZEVXbNxXF4SkHj9F", {
+    const spotifyRes = await fetch("https://api.spotify.com/v1/playlists/2XVpoaB85868b7ZEllUMbx", {
       headers: {
         Authorization: `Bearer ${access_token}`
       }
@@ -73,7 +73,8 @@ const Playlist = () => {
     error: playListIsError
   } = useQuery({
     queryKey: ["myPlayList", clientId, clientSecret],
-    queryFn: fetchPlayList
+    queryFn: fetchPlayList,
+    staleTime: 0
   });
 
   if (spotifyIsError || playListIsError) return <div>데이터 가져오기 오류...</div>;
