@@ -50,8 +50,7 @@ const GlobalsUserInfo = () => {
             </>
           )}
         </div>
-        <div className="flex justify-between gap-[10px] pb-[50px]">
-          <ThemeBtn /> {/* <- 내 정보수정 컴포넌트로 바꿔주세요 */}
+        <div className="pb-[50px]">
           <ThemeBtn />
         </div>
       </div>
