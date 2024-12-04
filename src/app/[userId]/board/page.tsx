@@ -42,7 +42,7 @@ const PostsPage = ({ params }: Props) => {
               <Plus />
             </button>
           </div>
-          <PostList hostId={userId} />
+          <PostList hostId={userId}/>
         </div>
       )}
     </>
