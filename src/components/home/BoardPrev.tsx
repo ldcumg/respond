@@ -1,9 +1,9 @@
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
-import PostList from "../post/PostList";
+import PostList from "../post/postList";
 
 const BoardPrev = () => {
   const { hostUserId } = useGetUserIds();
-  return <PostList userId={hostUserId} />;
+  return <PostList hostId={hostUserId} />;
 };
 
 export default BoardPrev;
