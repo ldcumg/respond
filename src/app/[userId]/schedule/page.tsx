@@ -1,9 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import browserClient from "@/utils/supabase/client";
-
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+import { Loader2, CheckCircle, XCircle } from "lucide-react";
 
 type TodoState = {
   진행중: { id: string; todo: string; date: string; status: string; created_at: string }[];
@@ -83,7 +81,7 @@ export default function Schedule() {
       created_at: new Date().toISOString()
     };
 
-    const { data, error } = await supabase.from("schedule").insert([newTodo]).select();
+    const { data, error } = await browserClient.from("schedule").insert([newTodo]).select();
     if (error) return console.error("투두 추가 중 오류 발생:", error);
 
     const insertedTodo = {
@@ -148,70 +146,88 @@ export default function Schedule() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">스케줄 관리</h1>
+    <div className="h-[80vh] overflow-y-auto bg-gray-100 p-8">
+      <h1 className="page-title">📝 스케줄 관리</h1>
 
-      <div className="flex justify-between gap-5">
+      <div className="flex justify-between mt-5 gap-4">
         <div
-          className={`mb-4 h-32 w-1/3 rounded-[15px] border-4 border-solid border-black p-4 ${hoveredStatus === "완료" ? "bg-[#DFDFDF]" : ""}`}
+          className={`h-[120px] w-3/6 rounded-xl border-4 border-solid border-black p-5 shadow-lg transition-all duration-300 ease-in-out ${
+            hoveredStatus === "완료" ? "bg-green-200" : "bg-white"
+          }`}
           onMouseEnter={() => handleMouseEnter("완료")}
           onMouseLeave={handleMouseLeave}>
-          <h2
-            className="flex cursor-pointer items-center justify-between text-xl font-semibold"
-            onClick={() => showTodos("완료")}>
-            완료됨 <span>{todos.완료.length}</span>
+          <div className="flex items-start justify-start">
+            <CheckCircle className="text-4xl text-green-600" />
+          </div>
+          <h2 className="mt-4 flex justify-end text-l font-semibold text-gray-800" onClick={() => showTodos("완료")}>
+            완료됨 <span className="ml-2">({todos.완료.length})</span>
           </h2>
         </div>
         <div
-          className={`mb-4 h-32 w-1/3 rounded-[15px] border-4 border-solid border-black p-4 ${hoveredStatus === "진행중" ? "bg-[#DFDFDF]" : ""}`}
+          className={`h-[120px] w-3/6 rounded-xl border-4 border-solid border-black p-5 shadow-lg transition-all duration-300 ease-in-out ${
+            hoveredStatus === "진행중" ? "bg-blue-200" : "bg-white"
+          }`}
           onMouseEnter={() => handleMouseEnter("진행중")}
           onMouseLeave={handleMouseLeave}>
-          <h2
-            className="flex cursor-pointer items-center justify-between text-xl font-semibold"
-            onClick={() => showTodos("진행중")}>
-            진행중 <span>{todos.진행중.length}</span>
+          <div className="flex items-start justify-start">
+            <Loader2 className="animate-spin text-4xl text-blue-600" />
+          </div>
+          <h2 className="mt-4 flex justify-end text-l font-semibold text-gray-800" onClick={() => showTodos("진행중")}>
+            진행중 <span className="ml-2">({todos.진행중.length})</span>
           </h2>
         </div>
         <div
-          className={`mb-4 h-32 w-1/3 rounded-[15px] border-4 border-solid border-black p-4 ${hoveredStatus === "취소" ? "bg-[#DFDFDF]" : ""}`}
+          className={`h-[120px] w-2/6 rounded-xl border-4 border-solid border-black p-5 shadow-lg transition-all duration-300 ease-in-out ${
+            hoveredStatus === "취소" ? "bg-red-200" : "bg-white"
+          }`}
           onMouseEnter={() => handleMouseEnter("취소")}
           onMouseLeave={handleMouseLeave}>
-          <h2
-            className="flex cursor-pointer items-center justify-between text-xl font-semibold"
-            onClick={() => showTodos("취소")}>
-            취소됨 <span>{todos.취소.length}</span>
+          <div className="flex items-start justify-start">
+            <XCircle className="text-4xl text-red-600" />
+          </div>
+          <h2 className="mt-4 flex justify-end text-l font-semibold text-gray-800" onClick={() => showTodos("취소")}>
+            취소됨 <span className="ml-2">({todos.취소.length})</span>
           </h2>
         </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-center">
+      <div className="mt-8 flex items-center justify-center">
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          className="border-3 h-10 w-2/5 border-black"
+          className="h-10 w-4/5 rounded-lg border-2 border-gray-200 px-4 text-md focus:border-gray-400 focus:outline-none"
+          placeholder="할 일을 입력하세요"
           maxLength={15}
         />
-        <button onClick={handleAddTodo} className="ml-2 rounded">
+        <button
+          onClick={handleAddTodo}
+          className="ml-4 h-10 rounded-lg bg-black px-4 py-2 text-md font-semibold text-white shadow-lg transition-all hover:bg-gray-800">
           추가하기
         </button>
       </div>
 
-      <div className="mt-4">
-        <h3 className="text-center text-xl font-semibold">{currentStatus} 리스트</h3>
-        <ul className="mt-2 max-w-md justify-between">
+      <div className="mt-6">
+        <h3 className="text-left text-md font-bold text-gray-800"> ✔︎ {currentStatus} 리스트</h3>
+        <ul className="mx-auto mt-2 max-w-full space-y-4">
           {currentTodos.map((todo, index) => (
-            <li key={index} className="flex items-center justify-center divide-y divide-dashed p-2">
-              {todo.todo} - {formatDate(todo.date)}
-              <div className="gap-5">
+            <li
+              key={index}
+              className="flex items-center justify-between rounded-lg border border-gray-200 bg-white py-2 px-4 shadow">
+              <span className="text-sm text-gray-500 font-bold">
+                {todo.todo} - {formatDate(todo.date)}
+              </span>
+              <div className="flex space-x-4">
                 {currentStatus === "진행중" && (
                   <>
                     <button
                       onClick={() => handleCompleteTodo(index)}
-                      className="mr-2 rounded bg-black px-2 py-1 text-white">
+                      className="rounded-full bg-gray-500 px-4 py-[6px] text-white text-sm transition hover:bg-gray-200">
                       완료
                     </button>
-                    <button onClick={() => handleCancelTodo(index)} className="rounded px-2 py-1">
+                    <button
+                      onClick={() => handleCancelTodo(index)}
+                      className="rounded-full bg-red-500 px-4 py-[6px] text-white text-sm transition hover:bg-red-600">
                       취소
                     </button>
                   </>
@@ -221,12 +237,14 @@ export default function Schedule() {
           ))}
         </ul>
 
-        <div className="mt-4 flex justify-center">
+        <div className="mt-6 mb-4 flex justify-center">
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
               onClick={() => handlePageChange(index + 1)}
-              className={`mr-2 rounded bg-black px-2 py-1 text-white ${currentPage === index + 1 ? "bg-black text-white" : "bg-black text-white"}`}>
+              className={`mr-2 h-6 w-6 rounded-full text-sm text-black font-bold transition hover:bg-gray-300 ${
+                currentPage === index + 1 ? "ring-4 ring-gray-200" : ""
+              }`}>
               {index + 1}
             </button>
           ))}

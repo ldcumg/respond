@@ -8,3 +8,8 @@ export type AllUsersInfoStore = {
   allUsers: UserInfo[];
   setAllUsers: (userInfo: UserInfo[]) => void;
 };
+
+export type NewNickname = {
+  userId: string;
+  newNickname: string;
+};

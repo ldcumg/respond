@@ -1,7 +1,6 @@
 import { useGetUserIds } from "@/app/[userId]/setting/hooks/useGetUserIds";
 import { getPlaylist } from "@/app/[userId]/setting/server-action/playlistAction";
 import queryKey from "@/queries/queryKey";
-import { useUserInfoStore } from "@/store/useUserInfoStore";
 import { PlayList } from "@/types/playlist/playlist";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
@@ -9,7 +8,7 @@ import Image from "next/image";
 import { Circle, CircleCheckBig } from "lucide-react";
 
 const PlaylistPrev = () => {
-  const { hostUserId, loginUserId } = useGetUserIds();
+  const { hostUserId } = useGetUserIds();
 
   const { data: playlist } = useQuery<PlayList[]>({
     queryKey: queryKey.playlist(hostUserId),
